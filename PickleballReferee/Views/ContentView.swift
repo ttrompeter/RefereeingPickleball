@@ -5,11 +5,12 @@
 //  Created by Tom Trompeter on 7/28/22.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
+        Text("Gaday, Realm!")
             .padding()
     }
 }
