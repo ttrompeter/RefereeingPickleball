@@ -18,8 +18,12 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var player2Team2Points = 0
     @Persisted var refereeName = ""
     @Persisted var asstRefereeName = ""
-    @Persisted var traineeRefereeName = ""
-    @Persisted var courtNumber = ""
+    @Persisted var traineeName = ""
+    @Persisted var lineJudge1Name = ""
+    @Persisted var lineJudge2Name = ""
+    @Persisted var lineJudge3Name = ""
+    @Persisted var lineJudge4Name = ""
+    @Persisted var courtNumber = "99"
     @Persisted var selectedFirstServeTeam = ""
     @Persisted var timeOutsTeam1 = 0
     @Persisted var timeOutsTeam2 = 0
@@ -31,7 +35,7 @@ class Game: Object, ObjectKeyIdentifiable {
 
     //@Persisted var gameScoreImages: GameScoreImagesRealm?
 
-    //var games = LinkingObjects(fromType: MatchRealm.self, property: "gamesList")
+    var games = LinkingObjects(fromType: Match.self, property: "games")
 
     var gameScoreTeam1: Int {
         player1Team1Points + player2Team1Points

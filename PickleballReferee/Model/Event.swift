@@ -10,4 +10,13 @@ import SwiftUI
 
 class Event: Object, ObjectKeyIdentifiable {
     
+//    @Persisted(primaryKey: true) var id: ObjectId
+//    @Persisted var eventTitle = ""
+//    @Persisted var eventHost = ""
+//    @Persisted var eventDirector = ""
+//
+//    override class func primaryKey() -> String? {
+//      return "id"
+//    }
+    
 }

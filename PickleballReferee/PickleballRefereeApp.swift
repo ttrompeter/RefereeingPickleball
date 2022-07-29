@@ -11,7 +11,7 @@ import SwiftUI
 struct PickleballRefereeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView(match: Match())
         }
     }
 }
