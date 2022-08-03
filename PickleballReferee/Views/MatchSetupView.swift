@@ -13,6 +13,7 @@ struct MatchSetupView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
     
+    
     // Closed range for DatePicker for Match Date
     var closedRange: ClosedRange<Date> {
         let today = Calendar.current.date(byAdding: .day, value: 0, to: Date())!
@@ -20,7 +21,6 @@ struct MatchSetupView: View {
         return today...thirtyDaysAhead
     }
     
-    @State private var tempText = "TBD"
     
     var body: some View {
         
@@ -106,15 +106,15 @@ struct MatchSetupView: View {
                                     HStack {
                                         Text("Court Number: ")
                                             .foregroundColor(Constants.DARK_SLATE)
-                                        TextField("Court Number", text: $tempText)   //  $match.games[0].courtNumber
+                                        TextField("Court Number", text: $match.games[match.currentGameNumber - 1].courtNumber)
                                     }
                                     HStack {
                                         Text("Play Type: ")
                                         Picker(selection: $match.selectedDoublesPlay,
                                                label: Text("Type of Play"),
                                                content:  {
-                                            Text("Doubles").tag("Doubles")
-                                            Text("Singles").tag("Singles")
+                                            Text("Doubles").tag(2)
+                                            Text("Singles").tag(1)
                                         })
                                         .pickerStyle(SegmentedPickerStyle())
                                         .fixedSize()
@@ -127,15 +127,16 @@ struct MatchSetupView: View {
                                     }
                                     HStack {
                                         
-                                        
                                         Text("Starting Server: ")
                                         Picker(selection: $match.selectedFirstServeTeam,
                                                label: Text("Starting Server"),
                                                content:  {
-                                            Text("Team 1").tag("Team 1")
-                                            Text("Team 2").tag("Team 2")
+                                            Text("Player1Team1").tag(1)
+                                            Text("Player2Team1").tag(2)
+                                            Text("Player1Team2").tag(3)
+                                            Text("Player2Team2").tag(4)
                                         })
-                                        .pickerStyle(SegmentedPickerStyle())
+                                        .pickerStyle(MenuPickerStyle())
                                         .fixedSize()
                                         .onAppear {
                                             UISegmentedControl.appearance().selectedSegmentTintColor = .cyan
@@ -175,7 +176,6 @@ struct MatchSetupView: View {
                                         Text("Player1 Identifiers")
                                         TextField("Player1 Team1 Identifiers:", text: $match.player1Team1Identifiers)
                                     }
-                                    
                                 }
                                 .padding()
                                 .background(Constants.CLOUDS)
@@ -208,7 +208,6 @@ struct MatchSetupView: View {
                                         Text("Player1 Identifiers")
                                         TextField("Player1 Team2 Identifiers:", text: $match.player1Team2Identifiers)
                                     }
-                                    
                                 }
                                 .padding()
                                 .background(Constants.CLOUDS)
@@ -223,7 +222,6 @@ struct MatchSetupView: View {
                                         Text("Player2 Identifiers")
                                         TextField("Player2 Team2 Identifiers:", text: $match.player2Team2Identifiers)
                                     }
-                                    
                                 }
                                 .padding()
                                 .background(Constants.CLOUDS)
@@ -265,17 +263,17 @@ struct MatchSetupView: View {
             VStack {
                 HStack (spacing: 40) {
                     Button("Delete") {
-                        //model.delete()
+                     
+                        dismiss()
                     }
                     .buttonStyle(SheetButton())
                     
-                    Button("Save") {
-
-                        dismiss()
-                    }
-                    .buttonStyle(SheetButton())
                     Button("Close") {
-                        dismiss()
+                        match.isMatchSetup = true
+                        if validateMatchSetup() {
+                            dismiss()
+                        }
+                       
                     }
                     .buttonStyle(SheetButton())
                 }
@@ -286,7 +284,17 @@ struct MatchSetupView: View {
             Spacer()
         }
     }
-
+    
+    func validateMatchSetup() -> Bool{
+        
+        if match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty {
+            
+            // Add alert
+            return false
+        }
+        return true
+    }
+    
 }
 
 struct MatchSetupView_Previews: PreviewProvider {
@@ -295,6 +303,14 @@ struct MatchSetupView_Previews: PreviewProvider {
         MatchSetupView(match: Match())
     }
 }
+
+
+
+
+
+
+
+
 
 
 //                        model.match.games![model.gameNumber - 1].gameNumber = model.gameNumber

@@ -5,9 +5,13 @@
 //  Created by Tom Trompeter on 7/28/22.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct ScoringSectionTeam1View: View {
+    
+    @ObservedRealmObject var match: Match
+    
     var body: some View {
         
         HStack (alignment: .top, spacing: 0) {
@@ -20,6 +24,7 @@ struct ScoringSectionTeam1View: View {
                     PointsFirstRowTeam1View()
                     PointsSecondRowTeam1View()
                     PointsThirdRowTeam1View()
+                    ChangeMarkSideView(match: match)
                 }
             }
         }
@@ -28,6 +33,6 @@ struct ScoringSectionTeam1View: View {
 
 struct ScoringSectionTeam1View_Previews: PreviewProvider {
     static var previews: some View {
-        ScoringSectionTeam1View()
+        ScoringSectionTeam1View(match: Match())
     }
 }

@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct PickleballRefereeApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            HomeView(match: Match())
+            WelcomeView(match: Match())
+                .onAppear {
+                    // Get path to Realm database in SwiftUI
+                    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
+                     // Stop layout conflict messages
+                      UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+                }
         }
     }
 }

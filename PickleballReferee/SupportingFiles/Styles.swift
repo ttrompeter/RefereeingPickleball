@@ -21,7 +21,7 @@ struct PointSideoutButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .frame(width: 200, height: 60)
+            .frame(width: 170, height: 50)
             .background(Constants.SILVER)
             .font(.title)
             .foregroundColor(Constants.DARK_SLATE)
