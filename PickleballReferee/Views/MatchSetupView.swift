@@ -38,7 +38,7 @@ struct MatchSetupView: View {
                 Form {
                     
                     Section(header: Text("Match Information").bold().font(.headline)) {
-                        VStack {
+                        VStack (alignment: .leading) {
                             HStack {
                                 Text("Event Title: ")
                                     .foregroundColor(Constants.DARK_SLATE)
@@ -58,47 +58,6 @@ struct MatchSetupView: View {
                                             .foregroundColor(Constants.DARK_SLATE)
                                         TextField("Match Number", text: $match.matchNumber)
                                     }
-                                    
-                                    HStack {
-                                        Text("Match Format:")
-
-                                        Picker(selection: $match.selectedMatchFormat,
-                                               label: Text("Match Format"),
-                                               content:  {
-                                            Text("Best 2 out of 3 Games")
-                                                .tag(2)
-                                                .foregroundColor(Constants.DARK_SLATE)
-                                            Text("Best 3 out of 5 Games")
-                                                .tag(3)
-                                                .foregroundColor(Constants.DARK_SLATE)
-                                            Text("Single Game")
-                                                .tag(1)
-                                                .foregroundColor(Constants.DARK_SLATE)
-                                        })
-                                        .pickerStyle(MenuPickerStyle())
-
-                                    }
-                                    
-                                    HStack {
-                                        Text("Points to Win: ")
-                                        Picker(selection: $match.selectedGameFormat,
-                                               label: Text("Points to Win"),
-                                               content:  {
-                                            Text("7 points, win by 2 points")
-                                                .tag(7)
-                                                .foregroundColor(Constants.DARK_SLATE)
-                                            Text("11 points, win by 2 points")
-                                                .tag(11)
-                                            Text("15 points, win by 2 points")
-                                                .tag(15)
-                                            Text("21 points, win by 2 points")
-                                                .tag(21)
-                                        })
-                                        .pickerStyle(MenuPickerStyle())
-
-                                    }
-                                        
-                                        
                                 }
                                 
                                 VStack (alignment: .leading) {
@@ -107,41 +66,83 @@ struct MatchSetupView: View {
                                             .foregroundColor(Constants.DARK_SLATE)
                                         TextField("Court Number", text: $match.courtNumber)
                                     }
-                                    
-                                    HStack {
-                                        Text("Play Type: ")
-                                        Picker(selection: $match.selectedDoublesPlay,
-                                               label: Text("Type of Play"),
-                                               content:  {
-                                            Text("Doubles").tag(2)
-                                            Text("Singles").tag(1)
-                                        })
-                                        .pickerStyle(SegmentedPickerStyle())
-                                        //.fixedSize()
-                                        .onAppear {
-                                            // Background color for selected segment
-                                            UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
-                                            // Backgound color for entire segment control
-                                            UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
-                                            // Text Color for selected segment
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .selected) // Dark Slate
-                                            // Text Color for unselected segments
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 112/255, green: 128/255, blue: 144/255, alpha: 1.0)], for: .normal) // Slate Gray
-                                            
-                                            
-                                            // SILVER = Color(red: 189/255, green: 195/255, blue: 199/255)
-                                            // DARK_SLATE = Color(red: 47/255, green: 79/255, blue: 79/255)
-                                            // CLOUDS = Color(red: 236/255, green: 240/255, blue: 241/255)
-                                            // WHITE = Color(red: 255/255, green: 255/255, blue: 255/255)
-                                            // SLATE_GRAY = Color(red: 112/255, green: 128/255, blue: 144/255)
-                                            // City Lights  223, 230, 233
-                                        
-                                        }
-                                    }
-                                    
                                 }
-                                
                             }
+    
+                            HStack {
+                                Text("Play Type: ")
+                                Picker(selection: $match.selectedDoublesPlay,
+                                       label: Text(" "),
+                                       content:  {
+                                    Text("Doubles").tag(2)
+                                    Text("Singles").tag(1)
+                                })
+                                .pickerStyle(SegmentedPickerStyle())
+                                .fixedSize()
+                                .onAppear {
+                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                    UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 45/255, green: 52/255, blue: 54/255, alpha: 1.0)], for: .selected) // Dracula Orchid
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .normal) // Dark Slate
+
+                                    // SILVER = Color(red: 189/255, green: 195/255, blue: 199/255)
+                                    // DARK_SLATE = Color(red: 47/255, green: 79/255, blue: 79/255)
+                                    // CLOUDS = Color(red: 236/255, green: 240/255, blue: 241/255)
+                                    // SLATE_GRAY = Color(red: 112/255, green: 128/255, blue: 144/255)
+                                    // ASBESTOS         rgba(127, 140, 141,1.0)
+                                    // DRACULA ORCHID   rgba(45, 52, 54,1.0)
+
+                                }
+                            }
+                            
+                            HStack {
+                                Text("Match Format: ")
+                                Picker(selection: $match.selectedMatchFormat,
+                                       label: Text(" "),
+                                       content:  {
+                                    Text("2 out of 3 Games").tag(2)
+                                    Text("3 out of 5 Games").tag(3)
+                                    Text("Single Game").tag(1)
+                                })
+                                .pickerStyle(SegmentedPickerStyle())
+                                .fixedSize()
+                                .onAppear {
+                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                    UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 45/255, green: 52/255, blue: 54/255, alpha: 1.0)], for: .selected) // Dracula Orchid
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .normal) // Dark Slate
+                                }
+                            }
+                            
+                            HStack {
+                                Text("Points To Win: ")
+                                Picker(selection: $match.selectedGameFormat,
+                                       label: Text(" "),
+                                       content:  {
+                                    Text("7 Points").tag(7)
+                                    Text("11 Points").tag(11)
+                                    Text("15 Points").tag(15)
+                                    Text("21 Points").tag(21)
+                                })
+                                .pickerStyle(SegmentedPickerStyle())
+                                .fixedSize()
+                                .onAppear {
+                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                    UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 45/255, green: 52/255, blue: 54/255, alpha: 1.0)], for: .selected) // Dracula Orchid
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .normal) // Dark Slate
+                                }
+                                Text("Win By 2 Points")
+                                    .font(.caption).italic()
+                            }
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             
                             HStack {
                                 
@@ -234,25 +235,30 @@ struct MatchSetupView: View {
                             }
                             
                         }
-                        VStack {
-                            Text("Game Starting Server Can Be Entered later If Not Known")
-                                .font(.title3)
-                                .foregroundColor(Constants.MINT_LEAF)
-                            HStack {
-                                Spacer()
-                                Text("Game Starting Server: ")
-                                Picker(selection: $match.selectedGameStartingServer,
-                                       label: Text("Starting Server"),
-                                       content:  {
-                                    Text("Select Starting Server").tag(0)
-                                    Text(match.namePlayer1Team1).tag(1)
-                                    Text(match.namePlayer1Team2).tag(3)
-                                })
-                                .pickerStyle(MenuPickerStyle())
-                                .fixedSize()
-                                Spacer()
-                            }
-                        }
+                        
+//                        // Removed since usually don't know starting server until after setup is done
+//                        // Also don't want to have this same functionality in 2 places
+//                        // It is available on the MatchView page after setup is completed
+//
+//                        VStack {
+//                            Text("Game Starting Server Can Be Entered later If Not Known")
+//                                .font(.title3)
+//                                .foregroundColor(Constants.MINT_LEAF)
+//                            HStack {
+//                                Spacer()
+//                                Text("Game Starting Server: ")
+//                                Picker(selection: $match.selectedGameStartingServer,
+//                                       label: Text("Starting Server"),
+//                                       content:  {
+//                                    Text("Select Starting Server").tag(0)
+//                                    Text(match.namePlayer1Team1).tag(1)
+//                                    Text(match.namePlayer1Team2).tag(3)
+//                                })
+//                                .pickerStyle(MenuPickerStyle())
+//                                .fixedSize()
+//                                Spacer()
+//                            }
+//                        }
                             
                         
                     } // Section - Player Information

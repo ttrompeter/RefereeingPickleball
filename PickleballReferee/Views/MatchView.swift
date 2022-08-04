@@ -119,16 +119,16 @@ struct MatchView: View {
                                             Text(match.namePlayer1Team2).tag(3)
                                         })
                                         .pickerStyle(SegmentedPickerStyle())
-                                        //.fixedSize()
+                                        .fixedSize()
                                         .onAppear {
                                             // Background color for selected segment
                                             UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
                                             // Backgound color for entire segment control
                                             UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
                                             // Text Color for selected segment
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .selected) // Dark Slate
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 45/255, green: 52/255, blue: 54/255, alpha: 1.0)], for: .selected) // Dracula Orchid
                                             // Text Color for unselected segments
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 112/255, green: 128/255, blue: 144/255, alpha: 1.0)], for: .normal) // Slate Gray
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .normal) // Dark Slate
                                             
                                         }
                                         .frame(width: 200)
@@ -147,13 +147,9 @@ struct MatchView: View {
                                         .pickerStyle(SegmentedPickerStyle())
                                         .fixedSize()
                                         .onAppear {
-                                            // Background color for selected segment
                                             UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
-                                            // Backgound color for entire segment control
                                             UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
-                                            // Text Color for selected segment
                                             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .selected) // Crimson
-                                            // Text Color for unselected segments
                                             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .normal) // Crimson
                                         }
                                         .frame(width: 200)
