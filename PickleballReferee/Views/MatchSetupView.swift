@@ -12,6 +12,7 @@ struct MatchSetupView: View {
     @Environment(\.realm) var realm
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
+    @State private var isShowingPlayerNamesAlert = false
     
     
     // Closed range for DatePicker for Match Date
@@ -35,6 +36,7 @@ struct MatchSetupView: View {
             VStack {
                 
                 Form {
+                    
                     Section(header: Text("Match Information").bold().font(.headline)) {
                         VStack {
                             HStack {
@@ -48,7 +50,7 @@ struct MatchSetupView: View {
                                 TextField("Match Location", text: $match.matchLocation)
                             }
                             
-                            HStack {
+                            HStack (alignment: .top) {
                                 
                                 VStack (alignment: .leading) {
                                     HStack {
@@ -56,9 +58,10 @@ struct MatchSetupView: View {
                                             .foregroundColor(Constants.DARK_SLATE)
                                         TextField("Match Number", text: $match.matchNumber)
                                     }
+                                    
                                     HStack {
                                         Text("Match Format:")
-                                        
+
                                         Picker(selection: $match.selectedMatchFormat,
                                                label: Text("Match Format"),
                                                content:  {
@@ -73,8 +76,9 @@ struct MatchSetupView: View {
                                                 .foregroundColor(Constants.DARK_SLATE)
                                         })
                                         .pickerStyle(MenuPickerStyle())
-                                        
+
                                     }
+                                    
                                     HStack {
                                         Text("Points to Win: ")
                                         Picker(selection: $match.selectedGameFormat,
@@ -91,23 +95,19 @@ struct MatchSetupView: View {
                                                 .tag(21)
                                         })
                                         .pickerStyle(MenuPickerStyle())
-                                        
+
                                     }
+                                        
+                                        
                                 }
                                 
                                 VStack (alignment: .leading) {
-                                    
-                                    HStack {
-                                        DatePicker(selection: $match.matchDate, in: closedRange, displayedComponents: .date) {
-                                            Text("Match Date: ")
-                                                .foregroundColor(Constants.DARK_SLATE)
-                                        }
-                                    }
                                     HStack {
                                         Text("Court Number: ")
                                             .foregroundColor(Constants.DARK_SLATE)
                                         TextField("Court Number", text: $match.games[match.currentGameNumber - 1].courtNumber)
                                     }
+                                    
                                     HStack {
                                         Text("Play Type: ")
                                         Picker(selection: $match.selectedDoublesPlay,
@@ -125,26 +125,9 @@ struct MatchSetupView: View {
                                             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 112/255, green: 128/255, blue: 144/255, alpha: 1.0)], for: .normal) // Slate Gray
                                         }
                                     }
-                                    HStack {
-                                        
-                                        Text("Starting Server: ")
-                                        Picker(selection: $match.selectedFirstServeTeam,
-                                               label: Text("Starting Server"),
-                                               content:  {
-                                            Text("Player1Team1").tag(1)
-                                            Text("Player2Team1").tag(2)
-                                            Text("Player1Team2").tag(3)
-                                            Text("Player2Team2").tag(4)
-                                        })
-                                        .pickerStyle(MenuPickerStyle())
-                                        .fixedSize()
-                                        .onAppear {
-                                            UISegmentedControl.appearance().selectedSegmentTintColor = .cyan
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.green], for: .selected)
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.darkGray], for: .normal)
-                                        }
-                                    }
+                                    
                                 }
+                                
                             }
                             
                             HStack {
@@ -156,9 +139,10 @@ struct MatchSetupView: View {
                                         .foregroundColor(Constants.DARK_SLATE)
                                 }
                             }
-                        }
-                    }
-                    //.padding()
+                            
+                        }  // Top VStack in Section
+                    } // Section - Match Information
+                    
                     
                     Section (header: Text("Player Information").bold().font(.headline)) {
                         
@@ -167,9 +151,13 @@ struct MatchSetupView: View {
                             VStack {
                                 Text("Team 1")
                                     .font(.headline)
-                                VStack {
+                                VStack (alignment: .leading) {
+                                    Text("This is startiing server for Team 1")
+                                        .font(.caption).italic()
+                                        .foregroundColor(Constants.CRIMSON)
                                     HStack {
                                         Text("Player1 Name")
+                                            .foregroundColor(Constants.CRIMSON)
                                         TextField("Player1 Team1 Name:", text: $match.namePlayer1Team1)
                                     }
                                     HStack {
@@ -199,9 +187,13 @@ struct MatchSetupView: View {
                             VStack {
                                 Text("Team 2")
                                     .font(.headline)
-                                VStack {
+                                VStack (alignment: .leading) {
+                                    Text("This is startiing server for Team 2")
+                                        .font(.caption).italic()
+                                        .foregroundColor(Constants.CRIMSON)
                                     HStack {
                                         Text("Player1 Name")
+                                            .foregroundColor(Constants.CRIMSON)
                                         TextField("Player1 Team2 Name:", text: $match.namePlayer1Team2)
                                     }
                                     HStack {
@@ -227,8 +219,30 @@ struct MatchSetupView: View {
                                 .background(Constants.CLOUDS)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
+                            
                         }
-                    }
+                        VStack {
+                            Text("Game Starting Server Can Be Entered later If Not Known")
+                                .font(.title3)
+                                .foregroundColor(Constants.MINT_LEAF)
+                            HStack {
+                                Spacer()
+                                Text("Game Starting Server: ")
+                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
+                                       label: Text("Starting Server"),
+                                       content:  {
+                                    Text("Select Starting Server").tag(0)
+                                    Text(match.namePlayer1Team1).tag(1)
+                                    Text(match.namePlayer1Team2).tag(3)
+                                })
+                                .pickerStyle(MenuPickerStyle())
+                                .fixedSize()
+                                Spacer()
+                            }
+                        }
+                            
+                        
+                    } // Section - Player Information
                     
                     Section (header: Text("Referee Information").bold().font(.headline)) {
                         HStack {
@@ -262,20 +276,21 @@ struct MatchSetupView: View {
             
             VStack {
                 HStack (spacing: 40) {
-                    Button("Delete") {
-                     
+                    Button("Cancel") {
+                        // Reset to default or existing values
                         dismiss()
                     }
                     .buttonStyle(SheetButton())
                     
-                    Button("Close") {
-                        match.isMatchSetup = true
-                        if validateMatchSetup() {
-                            dismiss()
-                        }
-                       
+                    Button("Save") {
+                        print("")
+                        print("Inside Save Button of MatchSetupView")
+                        $match.isMatchSetup.wrappedValue = true
+                        print("")
+                        dismiss()
                     }
                     .buttonStyle(SheetButton())
+                    .disabled(match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty)
                 }
             }
             // Empaty Text view to add space below buttons
@@ -283,17 +298,20 @@ struct MatchSetupView: View {
             
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
     }
     
-    func validateMatchSetup() -> Bool{
-        
-        if match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty {
-            
-            // Add alert
-            return false
-        }
-        return true
-    }
+    //    func validateMatchSetup() -> Bool{
+    //
+    //        if match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty {
+    //
+    //
+    //
+    //            print("One or more player names are empty")
+    //            return false
+    //        }
+    //        return true
+    //    }
     
 }
 

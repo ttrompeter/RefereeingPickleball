@@ -22,7 +22,7 @@ struct PointSideoutButton: ButtonStyle {
         configuration.label
             .padding()
             .frame(width: 170, height: 50)
-            .background(Constants.SILVER)
+            .background(Constants.MINT_LEAF)
             .font(.title)
             .foregroundColor(Constants.DARK_SLATE)
             .clipShape(Capsule())

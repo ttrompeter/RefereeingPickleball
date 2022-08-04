@@ -11,7 +11,6 @@ import SwiftUI
 struct WelcomeView: View {
     
     @Environment(\.realm) var realm
-    //@ObservedResults(Match.self) var matches
     @ObservedRealmObject var match: Match
     
     
@@ -36,7 +35,7 @@ struct WelcomeView: View {
                             .foregroundColor(.indigo)
                         
                         
-                        NavigationLink (destination: HomeView(match: match)) {      // matches[0]
+                        NavigationLink (destination: HomeView(match: match)) {
                             Text("\nStart Match")
                                 .font(.largeTitle)
                                 .foregroundColor(.red)
@@ -63,7 +62,6 @@ struct WelcomeView: View {
             }
             .padding()
             .onAppear {
-                //$matches.append(Match())
                 addGames()
                 if match.isMatchSetup {
                     print("Match is already set up")

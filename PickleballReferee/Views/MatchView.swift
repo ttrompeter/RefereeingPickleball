@@ -11,8 +11,9 @@ import SwiftUI
 struct MatchView: View {
     
     @ObservedRealmObject var match: Match
-    @State private var presentAlert = false
-    @State private var isShowingAlert = false
+    @State private var presentMatchSetupAlert = false
+    @State private var presentFirstServerAlert = false
+    @State private var showingGameFirstServer = false
     
     var currentScoreDisplay: String {
         let servingTeamPoints = match.isTeam1Serving == true ? match.games[match.currentGameNumber - 1].gameScoreTeam1 : match.games[match.currentGameNumber - 1].gameScoreTeam2
@@ -33,6 +34,20 @@ struct MatchView: View {
         default:
             print("Error selecting matchFormatDescription.")
             return "Unknown Match Format"
+        }
+    }
+    
+    var gameStartingServerDescription: String {
+        switch match.games[match.currentGameNumber - 1].selectedGameStartingServer {
+        case 0:
+            return "Undetermined"
+        case 1:
+            return match.namePlayer1Team1
+        case 3:
+            return match.namePlayer1Team2
+        default:
+            print("Error in setting gameStartingServerDescription")
+            return "Error"
         }
     }
     
@@ -79,7 +94,43 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("\(match.currentGameNumber)")
                                     .foregroundColor(Constants.DARK_SLATE)
-                                
+                            }
+                        }
+                        
+                        if match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0 {
+                            HStack {
+                                Text("Starting Server: ")
+                                    .foregroundColor(Constants.DARK_SLATE)
+                               
+                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
+                                       label: Text("Starting Server"),
+                                       content:  {
+                                    Text("Select Starting Server").tag(0)
+                                        .foregroundColor(Constants.CRIMSON)
+                                    Text(match.namePlayer1Team1).tag(1)
+                                    Text(match.namePlayer1Team2).tag(3)
+                                })
+                                .pickerStyle(MenuPickerStyle())
+                                .fixedSize()
+                            }
+                            
+                        } else {
+                            HStack {
+                                Text("Starting Server: ")
+                                    .foregroundColor(Constants.CRIMSON)
+                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
+                                       label: Text("Starting Server"),
+                                       content:  {
+                                    Text("Select Starting Server").tag(0)
+                                        .foregroundColor(Constants.CRIMSON)
+                                    Text(match.namePlayer1Team1).tag(1)
+                                    Text(match.namePlayer1Team2).tag(3)
+                                })
+                                .pickerStyle(MenuPickerStyle())
+                                .fixedSize()
+//                                .onReceive([self.match.games[match.currentGameNumber - 1].selectedGameStartingServer].publisher.first()) { value in
+//                                    self.setGameStartingServer(valueParam: value)
+//                                }
                             }
                         }
                     }
@@ -96,9 +147,11 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Format: ")
                                     .foregroundColor(Constants.DARK_SLATE)
-                                Text("First Serve Team: ")
+                                Text("Match Style: ")
                                     .foregroundColor(Constants.DARK_SLATE)
+
                             }
+                            
                             VStack (alignment: .leading) {
                                 Text(match.matchNumber)
                                     .foregroundColor(Constants.DARK_SLATE)
@@ -108,8 +161,10 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchFormatDescription)
                                     .foregroundColor(Constants.DARK_SLATE)
-                                Text(match.selectedFirstServeTeam)
+                                Text(match.matchStyleDescription)
                                     .foregroundColor(Constants.DARK_SLATE)
+                        
+                                
                             }
                         }
                     }
@@ -141,29 +196,13 @@ struct MatchView: View {
             // Scoring Section
             Section {
                 HStack (alignment: .top, spacing: 80) {
-                    
-                    VStack (spacing: 10) {
-                        HStack {
-                            Text("Score: ")
-                                .font(.title)
-                                .foregroundColor(Constants.DARK_SLATE)
-                            Text(currentScoreDisplay)
-                                .font(.largeTitle)
-                                .foregroundColor(Constants.CRIMSON)
-                        }
-                        .padding(20)
-                    }
-                    .background(Constants.CLOUDS)
-                    
                     // Point Button
                     VStack {
                         Button {
                             
                             pointScored()
                             //match.save()
-                            if !match.games[match.currentGameNumber - 1].isGameStartingServer {
-                                match.games[match.currentGameNumber - 1].isGameStartingServer = false
-                            }
+
                         } label: {
                             Text("Point")
                                 .foregroundColor(Constants.DARK_SLATE)
@@ -176,30 +215,52 @@ struct MatchView: View {
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
                     }
                     
-                    // Start Match Button
-                    if match.isMatchStarted == false {
-                        Button {
-                            $match.isMatchStarted.wrappedValue.toggle()
-                        } label: {
-                            Text("Start")
-                                .foregroundColor(Constants.DARK_SLATE)
+                    // Match Setup Warning
+                    if !match.isMatchSetup {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: CGFloat(120), height: CGFloat(80))
+                                .foregroundColor(Constants.CRIMSON)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                            Text("Complete\nMatch Setup")
+                                .padding(5)
+                                .font(.body)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
                         }
-                        .padding()
-                        .frame(width: 110, height: 50)
-                        .background(Constants.MINT_LEAF)
-                        .font(.body)
-                        .foregroundColor(Constants.WHITE)
-                        .clipShape(Capsule())
-                        //.disabled(!match.isMatchSetup)
+                    } else if match.isMatchSetup {
+                        if !(match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0) {
+                            VStack {
+                                Text("Must Set Game Starting Server")
+                                    .font(.headline)
+                                    .foregroundColor(Constants.CRIMSON.opacity(0.6))
+                                Text("\(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
+                            }
+                        }
+                        
                     }
-                    
+                    if match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0 {
+                    VStack (spacing: 10) {
+                        HStack {
+                            Text("Score: ")
+                                .font(.title)
+                                .foregroundColor(Constants.DARK_SLATE)
+                            Text(currentScoreDisplay)
+                                .font(.largeTitle)
+                                .foregroundColor(Constants.CRIMSON)
+                        }
+                        .padding(20)
+                    }
+                    .background(Constants.CLOUDS)
+                    }
                     VStack {
                         
                         // 2nd Server / Side Out Button
                         Button {
                             
                             if match.isSecondServer {
-                                // Already Second Server & Side Out label is showing
+                                // Side Out Button label is showing and second server is serving
                                 // Button pushed when Side Out label showing
                                 // Set isSecondServer value to false
                                 match.isSecondServer = false
@@ -208,17 +269,15 @@ struct MatchView: View {
                                 
                                 // Team Service game is over so change value for isTeam1Serving
                                 match.isTeam1Serving.toggle()
-                                if match.isTeam1Serving {
-                                    //match.servingTeam = 1
-                                } else {
-                                    //match.servingTeam = 2
-                                }
+                                // Set server to the next server
+                                setWhoIsServing()
                             } else {
-                                // It is First Server & 2nd Server label is showing
+                                // 2nd Server Button label is showing and 1st server is serving
                                 // Button is pushed when 2nd Server label is showing
                                 match.isSecondServer = true
                                 match.whoIsServingText = "2nd Server"
-                                //match.serverNumber = 2
+                                // Set server to the next server
+                                setWhoIsServing()
                             }
                             
                         } label: {
@@ -319,20 +378,31 @@ struct MatchView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            if !match.isMatchSetup {
-                presentAlert.toggle()
-            }
-            //isShowingAlert.toggle()
-        }
-        .alert("Please set up Match in order to proceed", isPresented: $presentAlert, actions: {})
-        .alert("Select server starting Match", isPresented: $isShowingAlert) {
-            Button(match.namePlayer1Team1) { match.matchStartingServer = 1 }
-            Button(match.namePlayer2Team1) { match.matchStartingServer = 2 }
-            Button(match.namePlayer1Team2) { match.matchStartingServer = 3 }
-            Button(match.namePlayer2Team2) { match.matchStartingServer = 4 }
-        }
+//        .onAppear {
+//            if !match.isMatchSetup {
+//                presentMatchSetupAlert.toggle()
+//            }
+////            else {
+////                presentFirstServerAlert.toggle()
+////            }
+//        }
+        .alert("Please set up Match before trying to start Match. The application will not run unless the Match has been set up first.", isPresented: $presentMatchSetupAlert, actions: {})
+//        .alert("Select server starting Game", isPresented: $presentFirstServerAlert) {
+//            Button(match.namePlayer1Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 1 }
+//            Button(match.namePlayer2Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 2 }
+//            Button(match.namePlayer1Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 3 }
+//            Button(match.namePlayer2Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 4 }
+//        }
         
+    }
+    
+    func setGameStartingServer(valueParam: Int) {
+        print("")
+        print("Starting setGameStartingServer()")
+        print("selectedGameStartingServer value Before: \(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
+        $match.games[match.currentGameNumber - 1].selectedGameStartingServer.wrappedValue = valueParam
+        print("selectedGameStartingServer value Afer: \(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
+        print("")
     }
     
     func setWhoIsServing() {
@@ -342,30 +412,53 @@ struct MatchView: View {
             if match.isSecondServer {
                 if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
                     match.servingPlayerNumber = 3
+                    print("Player1Team1 was serving, server is set to Player1Team2")
                 } else {
                     match.servingPlayerNumber = 4
+                    print("Player1Team1 was serving, server is set to Player2Team2")
                 }
             } else {
                 match.servingPlayerNumber = 2
+                print("Player1Team1 was serving, server is set to Player2Team1")
             }
-            
         case 2:
-            if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
-                match.servingPlayerNumber = 3
+            if match.isSecondServer {
+                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
+                    match.servingPlayerNumber = 3
+                    print("Player2Team1 was serving, server is set to Player1Team1")
+                } else {
+                    match.servingPlayerNumber = 4
+                    print("Player2Team1 was serving, server is set to Player2Team1")
+                }
             } else {
-                match.servingPlayerNumber = 4
+                match.servingPlayerNumber = 1
+                print("Player2Team1 was serving, server is set to Player1Team1")
             }
         case 3:
-            if ((match.games[match.currentGameNumber - 1].gameScoreTeam1) % 2) == 0 {
-                match.servingPlayerNumber = 1
+            if match.isSecondServer {
+                if ((match.games[match.currentGameNumber - 1].gameScoreTeam1) % 2) == 0 {
+                    match.servingPlayerNumber = 1
+                    print("Player1Team2 was serving, server is set to Player1Team1")
+                } else {
+                    match.servingPlayerNumber = 2
+                    print("Player1Team2 was serving, server is set to Player2Team1")
+                }
             } else {
-                match.servingPlayerNumber = 2
+                match.servingPlayerNumber = 4
+                print("Player1Team2 was serving, server is set to Player2Team2")
             }
         case 4:
-            if ((match.games[match.currentGameNumber - 1].gameScoreTeam1) % 2) == 0 {
-                match.servingPlayerNumber = 1
+            if match.isSecondServer {
+                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
+                    match.servingPlayerNumber = 1
+                    print("Player2Team2 was serving, server is set to Player1Team1")
+                } else {
+                    match.servingPlayerNumber = 2
+                    print("Player2Team2 was serving, server is set to Player2Team1")
+                }
             } else {
-                match.servingPlayerNumber = 2
+                match.servingPlayerNumber = 3
+                print("Player2Team2 was serving, server is set to Player1Team2")
             }
         default:
             print("Error in function setWhoIsServing()")

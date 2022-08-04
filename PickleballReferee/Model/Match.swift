@@ -16,8 +16,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var matchDate = Date()
     @Persisted var matchLocation = ""
     @Persisted var selectedMatchFormat = 2
-    @Persisted var selectedDoublesPlay = 2
-    @Persisted var selectedFirstServeTeam = "Team 1"
+    @Persisted var selectedDoublesPlay = 1
     @Persisted var selectedGameFormat = 11
     @Persisted var matchNotes = ""
     @Persisted var matchRefereeRemarks = ""
@@ -30,19 +29,19 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var player1Team2Identifiers = ""
     @Persisted var player2Team2Identifiers = ""
     @Persisted var matchWinner = ""
-    @Persisted var matchStartingServer = 1
     @Persisted var isSecondServer = true
     @Persisted var isTeam1Serving = true
     @Persisted var isMatchSetup = false
-    @Persisted var isStaringServer = true
     @Persisted var whoIsServingText = "1st Server"
     @Persisted var servingPlayerNumber = 1
     @Persisted var currentGameNumber = 1
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchStarted = false
+    @Persisted var selectedTestValue = ""
 
-    //@Persisted var games: RealmSwift.List<Game> = RealmSwift.List<Game>()
     @Persisted var games = RealmSwift.List<Game>()
+    
+    
     
     var matchFormatDescription: String {
         switch selectedMatchFormat {
@@ -73,6 +72,19 @@ class Match: Object, ObjectKeyIdentifiable {
             return "Unknown Game Format"
         }
     }
+    
+    var matchStyleDescription: String {
+        switch selectedDoublesPlay {
+        case 1:
+            return "Doubles"
+        case 2:
+            return "Singles"
+        default:
+            print("Error selecting gameFormatDescription.")
+            return "Unknown Match Style"
+        }
+    }
+    
     
     
     override class func primaryKey() -> String? {

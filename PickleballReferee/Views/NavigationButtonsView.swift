@@ -10,11 +10,12 @@ import SwiftUI
 struct NavigationButtonsView: View {
     
     @ObservedRealmObject var match: Match
-    //@State private var isTeam1Serving = true
     
     var body: some View {
         
         VStack  {
+            //Text("HELP")
+            //Text("HELP")
             Spacer()
             
             TopButtonsView(match: match)
@@ -37,6 +38,8 @@ struct NavigationButtonsView: View {
             BottomButtonsView()
             
             Spacer()
+            //Text("HELP")
+            //Text("HELP")
         }
     }
 }

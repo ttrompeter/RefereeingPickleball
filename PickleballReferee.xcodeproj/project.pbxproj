@@ -46,6 +46,7 @@
 		E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */; };
 		E3632FC32893A32100F29D83 /* NavigationButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC22893A32100F29D83 /* NavigationButtonsView.swift */; };
 		E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3912AD428985B1200D0DA38 /* WelcomeView.swift */; };
+		E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +88,7 @@
 		E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC22893A32100F29D83 /* NavigationButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtonsView.swift; sourceTree = "<group>"; };
 		E3912AD428985B1200D0DA38 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGameStartingServerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				E34932762893B6580087ABB1 /* ReferenceView.swift */,
 				E3632FB22893920D00F29D83 /* ScoringSectionTeam1View.swift */,
 				E3632FB42893922200F29D83 /* ScoringSectionTeam2View.swift */,
+				E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */,
 				E34932802893B8A70087ABB1 /* SettingsView.swift */,
 				E349327E2893B86F0087ABB1 /* StatisticsView.swift */,
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
@@ -285,6 +288,7 @@
 				E34932772893B6580087ABB1 /* ReferenceView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* NavigationButtonsView.swift in Sources */,
 				E33D1D002899D9DD00B68F61 /* ChangeMarkSideView.swift in Sources */,
+				E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */,
 				E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */,
 				E3632FB728939DD500F29D83 /* Stopwatch.swift in Sources */,
 				E349327B2893B7FC0087ABB1 /* HelpView.swift in Sources */,
