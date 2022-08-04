@@ -15,8 +15,9 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var matchNumber = ""
     @Persisted var matchDate = Date()
     @Persisted var matchLocation = ""
+    @Persisted var courtNumber = ""
     @Persisted var selectedMatchFormat = 2
-    @Persisted var selectedDoublesPlay = 1
+    @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 11
     @Persisted var matchNotes = ""
     @Persisted var matchRefereeRemarks = ""
@@ -38,6 +39,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchStarted = false
     @Persisted var selectedTestValue = ""
+    @Persisted var selectedGameStartingServer = 0
 
     @Persisted var games = RealmSwift.List<Game>()
     

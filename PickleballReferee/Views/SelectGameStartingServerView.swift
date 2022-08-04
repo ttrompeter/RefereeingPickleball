@@ -27,21 +27,64 @@ struct SelectGameStartingServerView: View {
                     .foregroundColor(Constants.CLOUDS)
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                
+                Form {
                 VStack {
                     
-                    Text("Game Starting Server: ")
-                    Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
-                           label: Text("Starting Server"),
-                           content:  {
-                        Text("Select Starting Server").tag(0)
-                        Text(match.namePlayer1Team1).tag(1)
-                        Text(match.namePlayer1Team2).tag(3)
-                    })
-                    .pickerStyle(MenuPickerStyle())
-                    .fixedSize()
+                    HStack {
+                        Text("Match Location: ")
+                            .foregroundColor(Constants.DARK_SLATE)
+                        TextField("Match Location", text: $match.matchLocation)
+                    }
+                    HStack {
+                        Text("Game Starting Server: ")
+                        Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameFirstServer,
+                        //Picker(selection: $match.selectedGameFirstServer,
+                               label: Text("Starting Server"),
+                               content:  {
+                            Text("Select Starting Server").tag(0)
+                            Text(match.namePlayer1Team1).tag(1)
+                            Text(match.namePlayer1Team2).tag(3)
+                        })
+                        .pickerStyle(MenuPickerStyle())
+                        //.fixedSize()
+                    }
+                    
+                    HStack {
+                        Text("Match Format:")
+
+                        Picker(selection: $match.selectedMatchFormat,
+                               label: Text("Match Format"),
+                               content:  {
+                            Text("Best 2 out of 3 Games")
+                                .tag(2)
+                                .foregroundColor(Constants.DARK_SLATE)
+                            Text("Best 3 out of 5 Games")
+                                .tag(3)
+                                .foregroundColor(Constants.DARK_SLATE)
+                            Text("Single Game")
+                                .tag(1)
+                                .foregroundColor(Constants.DARK_SLATE)
+                        })
+                        .pickerStyle(MenuPickerStyle())
+
+                    }
+                    
+                    HStack {
+                        Text("Game First Server:")
+
+                        Picker(selection: $match.selectedGameStartingServer,
+                               label: Text("Server"),
+                               content:  {
+                            Text("Select Starting Server").tag(0)
+                            Text(match.namePlayer1Team1).tag(1)
+                            Text(match.namePlayer1Team2).tag(3)
+                        })
+                        .pickerStyle(MenuPickerStyle())
+
+                    }
+                    
                 }
-                
+                }
             }
             
             VStack {
@@ -55,11 +98,9 @@ struct SelectGameStartingServerView: View {
                     Button("Save") {
                         print("")
                         print("Inside Save Button of SelectGameFirstServerView")
-                        //print("Game Starting Server Set (Before): \(match.games[match.currentGameNumber - 1].isGameStartingServerSet)")
-                        //$match.games[match.currentGameNumber - 1].isGameStartingServerSet.wrappedValue = true
                         print("Saving SelectGameFirstServer")
-                        print("First Server Set: \(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
-                        //print("Game Starting Server Set (After): \(match.games[match.currentGameNumber - 1].isGameStartingServerSet)")
+                        print("Starting Server in Game is: \(match.games[match.currentGameNumber - 1].selectedGameFirstServer)")
+                        print("Starting Server in Match is: \(match.selectedGameStartingServer)")
                         print("")
                         
                         dismiss()

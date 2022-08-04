@@ -10,10 +10,11 @@ import SwiftUI
 
 struct MatchView: View {
     
+    @Environment(\.realm) var realm
     @ObservedRealmObject var match: Match
     @State private var presentMatchSetupAlert = false
     @State private var presentFirstServerAlert = false
-    @State private var showingGameFirstServer = false
+    @State private var showingGameStartingServer = false
     
     var currentScoreDisplay: String {
         let servingTeamPoints = match.isTeam1Serving == true ? match.games[match.currentGameNumber - 1].gameScoreTeam1 : match.games[match.currentGameNumber - 1].gameScoreTeam2
@@ -38,7 +39,7 @@ struct MatchView: View {
     }
     
     var gameStartingServerDescription: String {
-        switch match.games[match.currentGameNumber - 1].selectedGameStartingServer {
+        switch match.selectedGameStartingServer {
         case 0:
             return "Undetermined"
         case 1:
@@ -69,7 +70,6 @@ struct MatchView: View {
                     VStack (alignment: .leading) {
                         
                         HStack {
-                            
                             VStack (alignment: .leading) {
                                 Text("Event:")
                                     .foregroundColor(Constants.DARK_SLATE)
@@ -97,42 +97,72 @@ struct MatchView: View {
                             }
                         }
                         
-                        if match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0 {
-                            HStack {
-                                Text("Starting Server: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
-                               
-                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
-                                       label: Text("Starting Server"),
-                                       content:  {
-                                    Text("Select Starting Server").tag(0)
-                                        .foregroundColor(Constants.CRIMSON)
-                                    Text(match.namePlayer1Team1).tag(1)
-                                    Text(match.namePlayer1Team2).tag(3)
-                                })
-                                .pickerStyle(MenuPickerStyle())
-                                .fixedSize()
+                        //Form {
+                            if match.selectedGameStartingServer > 0 {
+                                HStack {
+                                    Text("Starting Server: ")
+                                        .foregroundColor(Constants.DARK_SLATE)
+                                    Text(gameStartingServerDescription)
+                                        .foregroundColor(Constants.DARK_SLATE)
+                                }
+                                
+                            } else {
+                                if match.isMatchSetup {
+                                    HStack {
+                                        Text("Starting Server: ")
+                                            .foregroundColor(Constants.CRIMSON)
+                                        
+                                        Picker(selection: $match.selectedGameStartingServer,
+                                               label: Text(" "),
+                                               content:  {
+                                            Text(match.namePlayer1Team1).tag(1)
+                                            Text(match.namePlayer1Team2).tag(3)
+                                        })
+                                        .pickerStyle(SegmentedPickerStyle())
+                                        //.fixedSize()
+                                        .onAppear {
+                                            // Background color for selected segment
+                                            UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                            // Backgound color for entire segment control
+                                            UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
+                                            // Text Color for selected segment
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .selected) // Dark Slate
+                                            // Text Color for unselected segments
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 112/255, green: 128/255, blue: 144/255, alpha: 1.0)], for: .normal) // Slate Gray
+                                            
+                                        }
+                                        .frame(width: 200)
+                                    }
+                                } else {
+                                    HStack {
+                                        Text("Starting Server: ")
+                                            .foregroundColor(Constants.CRIMSON)
+                                        
+                                        Picker(selection: $match.selectedGameStartingServer,
+                                               label: Text(" "),
+                                               content:  {
+                                            Text("Not Set").tag(-1)
+                                            Text("Not Set").tag(-2)
+                                        })
+                                        .pickerStyle(SegmentedPickerStyle())
+                                        .fixedSize()
+                                        .onAppear {
+                                            // Background color for selected segment
+                                            UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                            // Backgound color for entire segment control
+                                            UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
+                                            // Text Color for selected segment
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .selected) // Crimson
+                                            // Text Color for unselected segments
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .normal) // Crimson
+                                        }
+                                        .frame(width: 200)
+                                        //.disabled(match.isMatchSetup)
+                                    }
+                                }
+                                
                             }
-                            
-                        } else {
-                            HStack {
-                                Text("Starting Server: ")
-                                    .foregroundColor(Constants.CRIMSON)
-                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
-                                       label: Text("Starting Server"),
-                                       content:  {
-                                    Text("Select Starting Server").tag(0)
-                                        .foregroundColor(Constants.CRIMSON)
-                                    Text(match.namePlayer1Team1).tag(1)
-                                    Text(match.namePlayer1Team2).tag(3)
-                                })
-                                .pickerStyle(MenuPickerStyle())
-                                .fixedSize()
-//                                .onReceive([self.match.games[match.currentGameNumber - 1].selectedGameStartingServer].publisher.first()) { value in
-//                                    self.setGameStartingServer(valueParam: value)
-//                                }
-                            }
-                        }
+                        //}  // Form
                     }
                     Spacer()
                     VStack (alignment: .leading) {
@@ -149,13 +179,13 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Style: ")
                                     .foregroundColor(Constants.DARK_SLATE)
-
+                                
                             }
                             
                             VStack (alignment: .leading) {
                                 Text(match.matchNumber)
                                     .foregroundColor(Constants.DARK_SLATE)
-                                Text(match.games[match.currentGameNumber - 1].courtNumber)
+                                Text(match.courtNumber)
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text(match.games[match.currentGameNumber - 1].refereeName)
                                     .foregroundColor(Constants.DARK_SLATE)
@@ -163,7 +193,7 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchStyleDescription)
                                     .foregroundColor(Constants.DARK_SLATE)
-                        
+                                
                                 
                             }
                         }
@@ -202,7 +232,7 @@ struct MatchView: View {
                             
                             pointScored()
                             //match.save()
-
+                            
                         } label: {
                             Text("Point")
                                 .foregroundColor(Constants.DARK_SLATE)
@@ -230,30 +260,36 @@ struct MatchView: View {
                                 .multilineTextAlignment(.center)
                         }
                     } else if match.isMatchSetup {
-                        if !(match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0) {
-                            VStack {
-                                Text("Must Set Game Starting Server")
-                                    .font(.headline)
-                                    .foregroundColor(Constants.CRIMSON.opacity(0.6))
-                                Text("\(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
+                        if !(match.selectedGameStartingServer > 0) {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: CGFloat(120), height: CGFloat(80))
+                                    .foregroundColor(Constants.BRIGHT_YARROW)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+                                Text("Must Set\nStarting Server")
+                                    .padding(5)
+                                    .font(.body)
+                                    .foregroundColor(Constants.DARK_SLATE)
+                                    .multilineTextAlignment(.center)
                             }
+                        } else {
+                            VStack (spacing: 10) {
+                                HStack {
+                                    Text("Score: ")
+                                        .font(.title)
+                                        .foregroundColor(Constants.DARK_SLATE)
+                                    Text(currentScoreDisplay)
+                                        .font(.largeTitle)
+                                        .foregroundColor(Constants.CRIMSON)
+                                }
+                                .padding(20)
+                            }
+                            .background(Constants.CLOUDS)
                         }
                         
                     }
-                    if match.games[match.currentGameNumber - 1].selectedGameStartingServer > 0 {
-                    VStack (spacing: 10) {
-                        HStack {
-                            Text("Score: ")
-                                .font(.title)
-                                .foregroundColor(Constants.DARK_SLATE)
-                            Text(currentScoreDisplay)
-                                .font(.largeTitle)
-                                .foregroundColor(Constants.CRIMSON)
-                        }
-                        .padding(20)
-                    }
-                    .background(Constants.CLOUDS)
-                    }
+                    
                     VStack {
                         
                         // 2nd Server / Side Out Button
@@ -378,31 +414,43 @@ struct MatchView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-//        .onAppear {
-//            if !match.isMatchSetup {
-//                presentMatchSetupAlert.toggle()
-//            }
-////            else {
-////                presentFirstServerAlert.toggle()
-////            }
-//        }
+        //        .onAppear {
+        //            if !match.isMatchSetup {
+        //                presentMatchSetupAlert.toggle()
+        //            }
+        ////            else {
+        ////                presentFirstServerAlert.toggle()
+        ////            }
+        //        }
         .alert("Please set up Match before trying to start Match. The application will not run unless the Match has been set up first.", isPresented: $presentMatchSetupAlert, actions: {})
-//        .alert("Select server starting Game", isPresented: $presentFirstServerAlert) {
-//            Button(match.namePlayer1Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 1 }
-//            Button(match.namePlayer2Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 2 }
-//            Button(match.namePlayer1Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 3 }
-//            Button(match.namePlayer2Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 4 }
-//        }
+        //        .alert("Select server starting Game", isPresented: $presentFirstServerAlert) {
+        //            Button(match.namePlayer1Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 1 }
+        //            Button(match.namePlayer2Team1) { match.games[match.currentGameNumber - 1].gameStartingServer = 2 }
+        //            Button(match.namePlayer1Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 3 }
+        //            Button(match.namePlayer2Team2) { match.games[match.currentGameNumber - 1].gameStartingServer = 4 }
+        //        }
         
     }
     
     func setGameStartingServer(valueParam: Int) {
         print("")
         print("Starting setGameStartingServer()")
-        print("selectedGameStartingServer value Before: \(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
-        $match.games[match.currentGameNumber - 1].selectedGameStartingServer.wrappedValue = valueParam
-        print("selectedGameStartingServer value Afer: \(match.games[match.currentGameNumber - 1].selectedGameStartingServer)")
+        print("selectedGameStartingServer value Before: \(match.selectedGameStartingServer)")
+        $match.selectedGameStartingServer.wrappedValue = valueParam
+        print("selectedGameStartingServer value Afer: \(match.selectedGameStartingServer)")
         print("")
+    }
+    
+    func saveGameStartingServer() {
+        
+        
+        do {
+            try realm.write {
+                realm.add(match)
+            }
+        } catch {
+            print("Error saving games to match: \(error.localizedDescription)")
+        }
     }
     
     func setWhoIsServing() {
@@ -464,7 +512,7 @@ struct MatchView: View {
             print("Error in function setWhoIsServing()")
         }
     }
-        
+    
     
     func pointScored() {
         

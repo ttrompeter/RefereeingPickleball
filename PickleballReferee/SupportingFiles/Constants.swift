@@ -29,10 +29,10 @@ struct Constants {
     static var LIGHT_GRAY = Color(red: 211/255, green: 211/255, blue: 211/255)
     // Medium Green
     static var MINT_LEAF = Color(red: 0/255, green: 184/255, blue: 148/255)
-    // Midium Gray
+    // Medium Gray
     static var SILVER = Color(red: 189/255, green: 195/255, blue: 199/255)
     static var SLATE_GRAY = Color(red: 112/255, green: 128/255, blue: 144/255)
-    // Midium Gray
+    // Medium Gray
     static var SOOTHING_BREEZE = Color(red: 178/255, green: 211901/255, blue: 195/255)
     // Light Yellow
     static var SOUR_LEMON = Color(red: 255/255, green: 234/255, blue: 167/255)

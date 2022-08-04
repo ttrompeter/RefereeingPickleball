@@ -23,14 +23,13 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var lineJudge2Name = ""
     @Persisted var lineJudge3Name = ""
     @Persisted var lineJudge4Name = ""
-    @Persisted var courtNumber = ""
     @Persisted var selectedFirstServeTeam = ""
     @Persisted var timeOutsTeam1 = 0
     @Persisted var timeOutsTeam2 = 0
     @Persisted var isGameCompleted = false
     //@Persisted var isGameStartingServerSet = false
     //@Persisted var gameStartingServer = 0
-    @Persisted var selectedGameStartingServer = 0
+    @Persisted var selectedGameFirstServer = 0
     
     @Persisted var gameScoreImages: GameScoreImages?
     

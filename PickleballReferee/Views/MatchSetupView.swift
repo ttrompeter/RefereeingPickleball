@@ -105,7 +105,7 @@ struct MatchSetupView: View {
                                     HStack {
                                         Text("Court Number: ")
                                             .foregroundColor(Constants.DARK_SLATE)
-                                        TextField("Court Number", text: $match.games[match.currentGameNumber - 1].courtNumber)
+                                        TextField("Court Number", text: $match.courtNumber)
                                     }
                                     
                                     HStack {
@@ -117,12 +117,25 @@ struct MatchSetupView: View {
                                             Text("Singles").tag(1)
                                         })
                                         .pickerStyle(SegmentedPickerStyle())
-                                        .fixedSize()
+                                        //.fixedSize()
                                         .onAppear {
+                                            // Background color for selected segment
                                             UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
+                                            // Backgound color for entire segment control
                                             UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
-                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 189, green: 195, blue: 199, alpha: 1.0)], for: .selected) // Silver
+                                            // Text Color for selected segment
+                                            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 47/255, green: 79/255, blue: 79/255, alpha: 1.0)], for: .selected) // Dark Slate
+                                            // Text Color for unselected segments
                                             UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 112/255, green: 128/255, blue: 144/255, alpha: 1.0)], for: .normal) // Slate Gray
+                                            
+                                            
+                                            // SILVER = Color(red: 189/255, green: 195/255, blue: 199/255)
+                                            // DARK_SLATE = Color(red: 47/255, green: 79/255, blue: 79/255)
+                                            // CLOUDS = Color(red: 236/255, green: 240/255, blue: 241/255)
+                                            // WHITE = Color(red: 255/255, green: 255/255, blue: 255/255)
+                                            // SLATE_GRAY = Color(red: 112/255, green: 128/255, blue: 144/255)
+                                            // City Lights  223, 230, 233
+                                        
                                         }
                                     }
                                     
@@ -228,7 +241,7 @@ struct MatchSetupView: View {
                             HStack {
                                 Spacer()
                                 Text("Game Starting Server: ")
-                                Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameStartingServer,
+                                Picker(selection: $match.selectedGameStartingServer,
                                        label: Text("Starting Server"),
                                        content:  {
                                     Text("Select Starting Server").tag(0)
