@@ -40,6 +40,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchStarted = false
     @Persisted var selectedTestValue = ""
     @Persisted var selectedGameStartingServer = 0
+    @Persisted var gameStartingServerName = "Undetermined"
 
     @Persisted var games = RealmSwift.List<Game>()
     

@@ -26,7 +26,7 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var timeOutsTeam1 = 0
     @Persisted var timeOutsTeam2 = 0
     @Persisted var isGameCompleted = false
-    @Persisted var selectedGameFirstServer = 0
+    //@Persisted var selectedGameFirstServer = 0
     
     @Persisted var gameScoreImages: GameScoreImages?
     
@@ -75,4 +75,52 @@ class Game: Object, ObjectKeyIdentifiable {
     override class func primaryKey() -> String? {
         return "id"
     }
+    
+    
+    // Images for game 1 Team 1 points boxes - default values
+    @Persisted var point1Game1ImageTm1 = "squareleft"
+    @Persisted var point2Game1ImageTm1 = "squareleft"
+    @Persisted var point3Game1ImageTm1 = "squareleft"
+    @Persisted var point4Game1ImageTm1 = "squareleft"
+    @Persisted var point5Game1ImageTm1 = "squareleft"
+    @Persisted var point6Game1ImageTm1 = "squareleft"
+    @Persisted var point7Game1ImageTm1 = "squareleft"
+    @Persisted var point8Game1ImageTm1 = "squareleft"
+    @Persisted var point9Game1ImageTm1 = "squareleft"
+    @Persisted var point10Game1ImageTm1 = "squareleft"
+    @Persisted var point11Game1ImageTm1 = "squareleft"
+    @Persisted var point12Game1ImageTm1 = "squareleft"
+    @Persisted var point13Game1ImageTm1 = "squareleft"
+    @Persisted var point14Game1ImageTm1 = "squareleft"
+    @Persisted var point15Game1ImageTm1 = "squareleft"
+    @Persisted var point16Game1ImageTm1 = "squareleft"
+    @Persisted var point17Game1ImageTm1 = "squareleft"
+    @Persisted var point18Game1ImageTm1 = "squareleft"
+    @Persisted var point19Game1ImageTm1 = "squareleft"
+    @Persisted var point20Game1ImageTm1 = "squareleft"
+    @Persisted var point21Game1ImageTm1 = "square"
+    
+    // Images for game 1 Team 2 points boxes - default values
+    @Persisted var point1Game1ImageTm2 = "squareleft"
+    @Persisted var point2Game1ImageTm2 = "squareleft"
+    @Persisted var point3Game1ImageTm2 = "squareleft"
+    @Persisted var point4Game1ImageTm2 = "squareleft"
+    @Persisted var point5Game1ImageTm2 = "squareleft"
+    @Persisted var point6Game1ImageTm2 = "squareleft"
+    @Persisted var point7Game1ImageTm2 = "squareleft"
+    @Persisted var point8Game1ImageTm2 = "squareleft"
+    @Persisted var point9Game1ImageTm2 = "squareleft"
+    @Persisted var point10Game1ImageTm2 = "squareleft"
+    @Persisted var point11Game1ImageTm2 = "squareleft"
+    @Persisted var point12Game1ImageTm2 = "squareleft"
+    @Persisted var point13Game1ImageTm2 = "squareleft"
+    @Persisted var point14Game1ImageTm2 = "squareleft"
+    @Persisted var point15Game1ImageTm2 = "squareleft"
+    @Persisted var point16Game1ImageTm2 = "squareleft"
+    @Persisted var point17Game1ImageTm2 = "squareleft"
+    @Persisted var point18Game1ImageTm2 = "squareleft"
+    @Persisted var point19Game1ImageTm2 = "squareleft"
+    @Persisted var point20Game1ImageTm2 = "squareleft"
+    @Persisted var point21Game1ImageTm2 = "square"
+    
 }

@@ -11,8 +11,11 @@ import SwiftUI
 struct MatchView: View {
     
     @Environment(\.realm) var realm
+    @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
     @State private var presentMatchSetupAlert = false
+    @State private var presentMatchSetupButtonAlert = false
+    @State private var presentStartingServerSetupAlert = false
     @State private var presentFirstServerAlert = false
     @State private var showingGameStartingServer = false
     
@@ -37,20 +40,7 @@ struct MatchView: View {
             return "Unknown Match Format"
         }
     }
-    
-    var gameStartingServerDescription: String {
-        switch match.servingPlayerNumber {
-        case 0:
-            return "Undetermined"
-        case 1:
-            return match.namePlayer1Team1
-        case 3:
-            return match.namePlayer1Team2
-        default:
-            print("Error in setting gameStartingServerDescription")
-            return "Error"
-        }
-    }
+
     
     var body: some View {
         
@@ -81,6 +71,8 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("Game Number: ")
                                     .foregroundColor(Constants.DARK_SLATE)
+                                Text("Starting Server: ")
+                                    .foregroundColor(Constants.DARK_SLATE)
                             }
                             
                             VStack (alignment: .leading) {
@@ -93,6 +85,9 @@ struct MatchView: View {
                                 Text(match.gameFormatDescription)
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("\(match.currentGameNumber)")
+                                    .foregroundColor(Constants.DARK_SLATE)
+                                // TODO: - Fix this so only updates once when starting server is first set
+                                Text(match.gameStartingServerName)
                                     .foregroundColor(Constants.DARK_SLATE)
                             }
                         }
@@ -131,77 +126,6 @@ struct MatchView: View {
                     }
                     Spacer()
                 }
-                
-                
-                //Starting Server Information
-                VStack (alignment: .leading) {
-                    //Form {
-                    if match.servingPlayerNumber > 0 {
-                        HStack {
-                            Text("Starting Server: ")
-                                .foregroundColor(Constants.DARK_SLATE)
-                            Text(gameStartingServerDescription)
-                                .foregroundColor(Constants.DARK_SLATE)
-                        }
-                        
-                    } else {
-                        if match.isMatchSetup {
-                            HStack {
-                                Text("Starting Server: ")
-                                    .foregroundColor(Constants.CRIMSON)
-                                Text("     ")
-                                Picker(selection: $match.servingPlayerNumber,
-                                       label: Text(" "),
-                                       content:  {
-                                    Text(match.namePlayer1Team1).tag(1)
-                                    Text(match.namePlayer1Team2).tag(3)
-                                })
-                                .pickerStyle(SegmentedPickerStyle())
-                                .fixedSize()
-                                .onAppear {
-                                    // Background color for selected segment
-                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
-                                    // Backgound color for entire segment control
-                                    UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
-                                    // Text Color for selected segment
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 45/255, green: 52/255, blue: 54/255, alpha: 1.0)], for: .selected) // Dracula Orchid
-                                    // Text Color for unselected segments
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .normal) // Crimson
-                                    
-                                }
-                                .frame(width: 300)
-                                .onReceive([self.match.servingPlayerNumber].publisher.first()) { selectedValue in
-                                    // Method to take action based on Picker selection
-                                    print("picker value before passing from picker: \(selectedValue)")
-                                    self.setStartingScreenOrientation(valueParam: selectedValue)
-                                }
-                            }
-                        } else {
-                            HStack {
-                                Text("Starting Server: ")
-                                    .foregroundColor(Constants.CRIMSON)
-                                Text("     ")
-                                Picker(selection: $match.servingPlayerNumber,
-                                       label: Text(" "),
-                                       content:  {
-                                    Text("Not Set").tag(-1)
-                                    Text("Not Set").tag(-2)
-                                })
-                                .pickerStyle(SegmentedPickerStyle())
-                                .fixedSize()
-                                .onAppear {
-                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1.0) // Silver
-                                    UISegmentedControl.appearance().backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1.0) // Clouds
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .selected) // Crimson
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(red: 220/255, green: 20/255, blue: 60/255, alpha: 1.0)], for: .normal) // Crimson
-                                }
-                                .frame(width: 200)
-                            }
-                        }
-                        
-                    }
-                    //}  // Form
-                }
             }
             
             // Team Information Section
@@ -231,9 +155,7 @@ struct MatchView: View {
                     // Point Button
                     VStack {
                         Button {
-                            
                             pointScored()
-                            
                         } label: {
                             Text("Point")
                                 .foregroundColor(Constants.DARK_SLATE)
@@ -254,25 +176,41 @@ struct MatchView: View {
                                 .foregroundColor(Constants.CRIMSON)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
-                            Text("Complete\nMatch Setup")
-                                .padding(5)
-                                .font(.body)
-                                .foregroundColor(.white)
-                                .multilineTextAlignment(.center)
+
+                            Button {
+                                presentMatchSetupButtonAlert.toggle()
+                            } label: {
+                                Text("Complete\nMatch Setup")
+                                    .foregroundColor(.white)
+                            }
+                            //.buttonStyle(OptionsButton())
+                            .sheet(isPresented: $presentMatchSetupButtonAlert) { MatchSetupView(match:match) }
                         }
                     } else if match.isMatchSetup {
-                        if !(match.servingPlayerNumber > 0) {
+                        if (match.servingPlayerNumber == 0) {
                             ZStack {
                                 Rectangle()
                                     .frame(width: CGFloat(120), height: CGFloat(80))
                                     .foregroundColor(Constants.BRIGHT_YARROW)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
-                                Text("Must Set\nStarting Server")
-                                    .padding(5)
-                                    .font(.body)
-                                    .foregroundColor(Constants.DARK_SLATE)
-                                    .multilineTextAlignment(.center)
+                                
+                                Button("Must Set\nStarting Server") {
+                                    presentStartingServerSetupAlert = true
+                                }
+                                .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
+                                    Button(match.namePlayer1Team1) {
+                                        $match.servingPlayerNumber.wrappedValue = 1
+                                        $match.gameStartingServerName.wrappedValue = setStartingServerName()
+                                        presentStartingServerSetupAlert.toggle()
+                                    }
+                                    Button(match.namePlayer1Team2) {
+                                        $match.servingPlayerNumber.wrappedValue = 3
+                                        $match.gameStartingServerName.wrappedValue = setStartingServerName()
+                                        $match.isTeam1Serving.wrappedValue = false
+                                        presentStartingServerSetupAlert.toggle()
+                                    }
+                                }
                             }
                         } else {
                             VStack (spacing: 10) {
@@ -434,37 +372,18 @@ struct MatchView: View {
     
     // MARK: - Funtions
     
-    
-    func setGameStartingServer(valueParam: Int) {
-        
-        // Setting starting server number from Picker using onResponse
-        print("")
-        print("Starting setGameStartingServer()")
-        print("servingPlayerNumber value Before: \(match.servingPlayerNumber)")
-        $match.servingPlayerNumber.wrappedValue = valueParam
-        print("srevingPlayerNumber value Afer: \(match.servingPlayerNumber)")
-        print("")
-    }
-    
-    func saveGameStartingServer() {
-        
-        
-        do {
-            try realm.write {
-                realm.add(match)
-            }
-        } catch {
-            print("Error saving games to match: \(error.localizedDescription)")
-        }
-    }
-    
-    func setStartingScreenOrientation(valueParam: Int) {
-        
-        // If Team 2 is serving first in the game, set the screen "orientation" for Team 2 serving
-        print("Passed in value from picker: \(valueParam)")
-        if match.servingPlayerNumber == 3 {
-            $match.isTeam1Serving.wrappedValue = false
-            $match.servingPlayerNumber.wrappedValue = valueParam
+    func setStartingServerName() -> String{
+        print("Starting setStartingServerName()")
+        switch match.servingPlayerNumber {
+        case 0:
+            return "Undetermined"
+        case 1:
+            return match.namePlayer1Team1
+        case 3:
+            return match.namePlayer1Team2
+        default:
+            print("Error in setting gameStartingServerDescription")
+            return "Error"
         }
     }
     
@@ -489,10 +408,10 @@ struct MatchView: View {
             if match.isSecondServer {
                 if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
                     $match.servingPlayerNumber.wrappedValue = 3
-                    print("Player2Team1 was serving, server is set to Player1Team1")
+                    print("Player2Team1 was serving, server is set to Player1Team2")
                 } else {
                     $match.servingPlayerNumber.wrappedValue = 4
-                    print("Player2Team1 was serving, server is set to Player2Team1")
+                    print("Player2Team1 was serving, server is set to Player2Team2")
                 }
             } else {
                 $match.servingPlayerNumber.wrappedValue = 1
@@ -549,7 +468,10 @@ struct MatchView: View {
  */
 
 
+
+
 // MARK: - Extension for Saving Images
+
 extension MatchView {
     
     func pointScored() {
@@ -558,705 +480,48 @@ extension MatchView {
         //print("gameScoreTeam2 in pointScored(): \(model.gameScoreTeam2)")
         
         if match.servingPlayerNumber == 1 {
-            // Player1Team1 is serving as second server on Team 1
+            // Player 1 Team 1 is serving as second server on Team 1
             if match.isSecondServer {
                 // Second server uses backslash to mark points - "squareleftbackslash"
                 
-//                    $match.gameScoreTeam1 += 1
-//                    //print("model.gameScoreTeam1: \(model.gameScoreTeam1)")
-//                    switch match.gameScoreTeam1 {
-//                    case 1:
-//                    model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftbackslash"
-//                    default:
-//                    print("Error setting image in switch statement")
-                
-                
-                
-//                    $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
-//                    //match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftbackslash"
-//                    if match.games[match.currentGameNumber - 1].gameScoreTeam1 < 21 {
-//                        // Not last box in row so user squareleftfwdslash image
-//                        $match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1.wrappedValue = "squareleftbackslash"
-//                    }
-               
+                $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
+                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+                case 1:
+                    $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = "squareleftbackslash"
+                    //$match.games[match.currentGameNumber - 1].gameScoreImages.point1Game1ImageTm1.wrappedValue = "squareleftbackslash"
+                    //model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm1 = "squareleftbackslash"
+//                case 2:
+//                    $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = "squareleftbackslash"
+//                case 3:
+//                    $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = "squareleftbackslash"
+//                case 4:
+//                    $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = "squareleftbackslash"
+                default:
+                    print("Error setting image in switch statement of pointScored()")
+                }
             } else {
+                // Player 1 Team 1 is serving as first server on Team 1
                 // First server uses forwardslash to mark points - "squareleftfwdslash"
                 $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
-                match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftfwdslash"
+                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+                case 1:
+                    $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+//                case 2:
+//                    $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+//                case 3:
+//                    $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+//                case 4:
+//                    $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+                default:
+                    print("Error setting image in switch statement of pointScored()")
+                }
             }
-        } else if match.servingPlayerNumber == 2  {
-            // Player2Team1 is serving
-        } else if match.servingPlayerNumber == 3  {
-            // Player1Team2 is serving
-        } else if match.servingPlayerNumber == 4  {
-            // Player2Team2 is serving
         }
-        
-        
-        
-        
-        
-        
-        if match.isTeam1Serving {
-            // Point scored for Team 1
-            if match.isSecondServer {
-                // Second server scored the point
-                /*
-                 model.match.games![model.gameNumber - 1].player2Team1Points += 1
-                 print("model.player2Team1Points: \(model.player2Team1Points)")
-                 model.gameScoreTeam1 += 1
-                 print("model.gameScoreTeam1: \(model.gameScoreTeam1)")
-                 switch model.gameScoreTeam1 {
-                 case 1:
-                 model.point1Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftbackslash"
-                 case 2:
-                 model.point2Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm1 = "squareleftbackslash"
-                 case 3:
-                 model.point3Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm1 = "squareleftbackslash"
-                 case 4:
-                 model.point4Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm1 = "squareleftbackslash"
-                 case 5:
-                 model.point5Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm1 = "squareleftbackslash"
-                 case 6:
-                 model.point6Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm1 = "squareleftbackslash"
-                 case 7:
-                 model.point7Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm1 = "squareleftbackslash"
-                 case 8:
-                 model.point8Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm1 = "squareleftbackslash"
-                 case 9:
-                 model.point9Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm1 = "squareleftbackslash"
-                 case 10:
-                 model.point10Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm1 = "squareleftbackslash"
-                 case 11:
-                 model.point11Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm1 = "squareleftbackslash"
-                 case 12:
-                 model.point12Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm1 = "squareleftbackslash"
-                 case 13:
-                 model.point13Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm1 = "squareleftbackslash"
-                 case 14:
-                 model.point14Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm1 = "squareleftbackslash"
-                 case 15:
-                 model.point15Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm1 = "squareleftbackslash"
-                 case 16:
-                 model.point16Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm1 = "squareleftbackslash"
-                 case 17:
-                 model.point17Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm1 = "squareleftbackslash"
-                 case 18:
-                 model.point18Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm1 = "squareleftbackslash"
-                 case 19:
-                 model.point19Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm1 = "squareleftbackslash"
-                 case 20:
-                 model.point20Game1ImageTm1 = "squareleftbackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm1 = "squareleftbackslash"
-                 case 21:
-                 model.point21Game1ImageTm1 = "squarebackslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm1 = "squarebackslash"
-                 default:
-                 model.point1Game1ImageTm1 = "square"
-                 print("Error setting image in switch statement")
-                 }
-                 */
-            } else {
-                // First server scored the point
-                /*
-                 model.match.games![model.gameNumber - 1].player1Team1Points += 1
-                 print("model.player1Team1Points: \(model.player1Team1Points)")
-                 model.gameScoreTeam1 += 1
-                 print("model.gameScoreTeam1: \(model.gameScoreTeam1)")
-                 switch model.gameScoreTeam1 {
-                 case 1:
-                 model.point1Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftfwdslash"
-                 case 2:
-                 model.point2Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm1 = "squareleftfwdslash"
-                 case 3:
-                 model.point3Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm1 = "squareleftfwdslash"
-                 case 4:
-                 model.point4Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm1 = "squareleftfwdslash"
-                 case 5:
-                 model.point5Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm1 = "squareleftfwdslash"
-                 case 6:
-                 model.point6Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm1 = "squareleftfwdslash"
-                 case 7:
-                 model.point7Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm1 = "squareleftfwdslash"
-                 case 8:
-                 model.point8Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm1 = "squareleftfwdslash"
-                 case 9:
-                 model.point9Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm1 = "squareleftfwdslash"
-                 case 10:
-                 model.point10Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm1 = "squareleftfwdslash"
-                 case 11:
-                 model.point11Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm1 = "squareleftfwdslash"
-                 case 12:
-                 model.point12Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm1 = "squareleftfwdslash"
-                 case 13:
-                 model.point13Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm1 = "squareleftfwdslash"
-                 case 14:
-                 model.point14Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm1 = "squareleftfwdslash"
-                 case 15:
-                 model.point15Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm1 = "squareleftfwdslash"
-                 case 16:
-                 model.point16Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm1 = "squareleftfwdslash"
-                 case 17:
-                 model.point17Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm1 = "squareleftfwdslash"
-                 case 18:
-                 model.point18Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm1 = "squareleftfwdslash"
-                 case 19:
-                 model.point19Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm1 = "squareleftfwdslash"
-                 case 20:
-                 model.point20Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm1 = "squareleftfwdslash"
-                 case 21:
-                 model.point21Game1ImageTm1 = "squareleftfwdslash"
-                 model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm1 = "squarefwdslash"
-                 default:
-                 model.point1Game1ImageTm1 = "square"
-                 print("Error setting image in switch statement")
-                 }
-                 */
-            }
-        } else if !match.isTeam1Serving {
-            /*
-             // Point scored for Team 2
-             if model.isSecondServer {
-             // Second server scored the point
-             model.match.games![model.gameNumber - 1].player2Team2Points += 1
-             print("model.player2Team2Points: \(model.player2Team2Points)")
-             model.gameScoreTeam2 += 1
-             print("model.gameScoreTeam2: \(model.gameScoreTeam2)")
-             switch model.gameScoreTeam2 {
-             case 1:
-             model.point1Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm2 = "squareleftbackslash"
-             case 2:
-             model.point2Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm2 = "squareleftbackslash"
-             case 3:
-             model.point3Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm2 = "squareleftbackslash"
-             case 4:
-             model.point4Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm2 = "squareleftbackslash"
-             case 5:
-             model.point5Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm2 = "squareleftbackslash"
-             case 6:
-             model.point6Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm2 = "squareleftbackslash"
-             case 7:
-             model.point7Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm2 = "squareleftbackslash"
-             case 8:
-             model.point8Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm2 = "squareleftbackslash"
-             case 9:
-             model.point9Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm2 = "squareleftbackslash"
-             case 10:
-             model.point10Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm2 = "squareleftbackslash"
-             case 11:
-             model.point11Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm2 = "squareleftbackslash"
-             case 12:
-             model.point12Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm2 = "squareleftbackslash"
-             case 13:
-             model.point13Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm2 = "squareleftbackslash"
-             case 14:
-             model.point14Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm2 = "squareleftbackslash"
-             case 15:
-             model.point15Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm2 = "squareleftbackslash"
-             case 16:
-             model.point16Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm2 = "squareleftbackslash"
-             case 17:
-             model.point17Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm2 = "squareleftbackslash"
-             case 18:
-             model.point18Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm2 = "squareleftbackslash"
-             case 19:
-             model.point19Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm2 = "squareleftbackslash"
-             case 20:
-             model.point20Game1ImageTm2 = "squareleftbackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm2 = "squareleftbackslash"
-             case 21:
-             model.point21Game1ImageTm2 = "squarebackslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm2 = "squarebackslash"
-             default:
-             model.point1Game1ImageTm2 = "square"
-             print("Error setting image in switch statement")
-             }
-             */
-        } else {
-            /*
-             // First server scored the point
-             model.match.games![model.gameNumber - 1].player1Team2Points += 1
-             print("model.player1Team2Points: \(model.player1Team2Points)")
-             model.gameScoreTeam2 += 1
-             print("model.gameScoreTeam2: \(model.gameScoreTeam2)")
-             switch model.gameScoreTeam2 {
-             case 1:
-             model.point1Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm2 = "squareleftfwdslash"
-             case 2:
-             model.point2Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm2 = "squareleftfwdslash"
-             case 3:
-             model.point3Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm2 = "squareleftfwdslash"
-             case 4:
-             model.point4Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm2 = "squareleftfwdslash"
-             case 5:
-             model.point5Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm2 = "squareleftfwdslash"
-             case 6:
-             model.point6Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm2 = "squareleftfwdslash"
-             case 7:
-             model.point7Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm2 = "squareleftfwdslash"
-             case 8:
-             model.point8Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm2 = "squareleftfwdslash"
-             case 9:
-             model.point9Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm2 = "squareleftfwdslash"
-             case 10:
-             model.point10Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm2 = "squareleftfwdslash"
-             case 11:
-             model.point11Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm2 = "squareleftfwdslash"
-             case 12:
-             model.point12Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm2 = "squareleftfwdslash"
-             case 13:
-             model.point13Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm2 = "squareleftfwdslash"
-             case 14:
-             model.point14Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm2 = "squareleftfwdslash"
-             case 15:
-             model.point15Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm2 = "squareleftfwdslash"
-             case 16:
-             model.point16Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm2 = "squareleftfwdslash"
-             case 17:
-             model.point17Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm2 = "squareleftfwdslash"
-             case 18:
-             model.point18Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm2 = "squareleftfwdslash"
-             case 19:
-             model.point19Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm2 = "squareleftfwdslash"
-             case 20:
-             model.point20Game1ImageTm2 = "squareleftfwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm2 = "squareleftfwdslash"
-             case 21:
-             model.point21Game1ImageTm2 = "squarefwdslash"
-             model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm2 = "squarefwdslash"
-             default:
-             model.point1Game1ImageTm2 = "square"
-             print("Error setting image in switch statement")
-             }
-             }
-             */
-        }
-        
     }
-    
-    
-//    func pointScored() {
-//
-//        //print("gameScoreTeam1 in pointScored(): \(model.gameScoreTeam1)")
-//        //print("gameScoreTeam2 in pointScored(): \(model.gameScoreTeam2)")
-//
-//        if match.servingPlayerNumber == 1 {
-//            // Player1Team1 is serving
-//            if match.isSecondServer {
-//                // Backslash
-//                $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
-//                //match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftbackslash"
-//                if match.games[match.currentGameNumber - 1].gameScoreTeam1 < 21 {
-//                    // Not last box in row so user squareleftfwdslash image
-//                    $match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1.wrappedValue = "squareleftbackslash"
-//                }
-//
-//            } else {
-//                // Forwardslash
-//                $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
-//                match.games[match.currentGameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftfwdslash"
-//            }
-//        } else if match.servingPlayerNumber == 2  {
-//            // Player2Team1 is serving
-//        } else if match.servingPlayerNumber == 3  {
-//            // Player1Team2 is serving
-//        } else if match.servingPlayerNumber == 4  {
-//            // Player2Team2 is serving
-//        }
-//
-//
-//
-//
-//
-//
-//        if match.isTeam1Serving {
-//            // Point scored for Team 1
-//            if match.isSecondServer {
-//                // Second server scored the point
-//                /*
-//                 model.match.games![model.gameNumber - 1].player2Team1Points += 1
-//                 print("model.player2Team1Points: \(model.player2Team1Points)")
-//                 model.gameScoreTeam1 += 1
-//                 print("model.gameScoreTeam1: \(model.gameScoreTeam1)")
-//                 switch model.gameScoreTeam1 {
-//                 case 1:
-//                 model.point1Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftbackslash"
-//                 case 2:
-//                 model.point2Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm1 = "squareleftbackslash"
-//                 case 3:
-//                 model.point3Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm1 = "squareleftbackslash"
-//                 case 4:
-//                 model.point4Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm1 = "squareleftbackslash"
-//                 case 5:
-//                 model.point5Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm1 = "squareleftbackslash"
-//                 case 6:
-//                 model.point6Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm1 = "squareleftbackslash"
-//                 case 7:
-//                 model.point7Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm1 = "squareleftbackslash"
-//                 case 8:
-//                 model.point8Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm1 = "squareleftbackslash"
-//                 case 9:
-//                 model.point9Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm1 = "squareleftbackslash"
-//                 case 10:
-//                 model.point10Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm1 = "squareleftbackslash"
-//                 case 11:
-//                 model.point11Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm1 = "squareleftbackslash"
-//                 case 12:
-//                 model.point12Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm1 = "squareleftbackslash"
-//                 case 13:
-//                 model.point13Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm1 = "squareleftbackslash"
-//                 case 14:
-//                 model.point14Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm1 = "squareleftbackslash"
-//                 case 15:
-//                 model.point15Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm1 = "squareleftbackslash"
-//                 case 16:
-//                 model.point16Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm1 = "squareleftbackslash"
-//                 case 17:
-//                 model.point17Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm1 = "squareleftbackslash"
-//                 case 18:
-//                 model.point18Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm1 = "squareleftbackslash"
-//                 case 19:
-//                 model.point19Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm1 = "squareleftbackslash"
-//                 case 20:
-//                 model.point20Game1ImageTm1 = "squareleftbackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm1 = "squareleftbackslash"
-//                 case 21:
-//                 model.point21Game1ImageTm1 = "squarebackslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm1 = "squarebackslash"
-//                 default:
-//                 model.point1Game1ImageTm1 = "square"
-//                 print("Error setting image in switch statement")
-//                 }
-//                 */
-//            } else {
-//                // First server scored the point
-//                /*
-//                 model.match.games![model.gameNumber - 1].player1Team1Points += 1
-//                 print("model.player1Team1Points: \(model.player1Team1Points)")
-//                 model.gameScoreTeam1 += 1
-//                 print("model.gameScoreTeam1: \(model.gameScoreTeam1)")
-//                 switch model.gameScoreTeam1 {
-//                 case 1:
-//                 model.point1Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm1 = "squareleftfwdslash"
-//                 case 2:
-//                 model.point2Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm1 = "squareleftfwdslash"
-//                 case 3:
-//                 model.point3Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm1 = "squareleftfwdslash"
-//                 case 4:
-//                 model.point4Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm1 = "squareleftfwdslash"
-//                 case 5:
-//                 model.point5Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm1 = "squareleftfwdslash"
-//                 case 6:
-//                 model.point6Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm1 = "squareleftfwdslash"
-//                 case 7:
-//                 model.point7Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm1 = "squareleftfwdslash"
-//                 case 8:
-//                 model.point8Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm1 = "squareleftfwdslash"
-//                 case 9:
-//                 model.point9Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm1 = "squareleftfwdslash"
-//                 case 10:
-//                 model.point10Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm1 = "squareleftfwdslash"
-//                 case 11:
-//                 model.point11Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm1 = "squareleftfwdslash"
-//                 case 12:
-//                 model.point12Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm1 = "squareleftfwdslash"
-//                 case 13:
-//                 model.point13Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm1 = "squareleftfwdslash"
-//                 case 14:
-//                 model.point14Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm1 = "squareleftfwdslash"
-//                 case 15:
-//                 model.point15Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm1 = "squareleftfwdslash"
-//                 case 16:
-//                 model.point16Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm1 = "squareleftfwdslash"
-//                 case 17:
-//                 model.point17Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm1 = "squareleftfwdslash"
-//                 case 18:
-//                 model.point18Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm1 = "squareleftfwdslash"
-//                 case 19:
-//                 model.point19Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm1 = "squareleftfwdslash"
-//                 case 20:
-//                 model.point20Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm1 = "squareleftfwdslash"
-//                 case 21:
-//                 model.point21Game1ImageTm1 = "squareleftfwdslash"
-//                 model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm1 = "squarefwdslash"
-//                 default:
-//                 model.point1Game1ImageTm1 = "square"
-//                 print("Error setting image in switch statement")
-//                 }
-//                 */
-//            }
-//        } else if !match.isTeam1Serving {
-//            /*
-//             // Point scored for Team 2
-//             if model.isSecondServer {
-//             // Second server scored the point
-//             model.match.games![model.gameNumber - 1].player2Team2Points += 1
-//             print("model.player2Team2Points: \(model.player2Team2Points)")
-//             model.gameScoreTeam2 += 1
-//             print("model.gameScoreTeam2: \(model.gameScoreTeam2)")
-//             switch model.gameScoreTeam2 {
-//             case 1:
-//             model.point1Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm2 = "squareleftbackslash"
-//             case 2:
-//             model.point2Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm2 = "squareleftbackslash"
-//             case 3:
-//             model.point3Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm2 = "squareleftbackslash"
-//             case 4:
-//             model.point4Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm2 = "squareleftbackslash"
-//             case 5:
-//             model.point5Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm2 = "squareleftbackslash"
-//             case 6:
-//             model.point6Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm2 = "squareleftbackslash"
-//             case 7:
-//             model.point7Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm2 = "squareleftbackslash"
-//             case 8:
-//             model.point8Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm2 = "squareleftbackslash"
-//             case 9:
-//             model.point9Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm2 = "squareleftbackslash"
-//             case 10:
-//             model.point10Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm2 = "squareleftbackslash"
-//             case 11:
-//             model.point11Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm2 = "squareleftbackslash"
-//             case 12:
-//             model.point12Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm2 = "squareleftbackslash"
-//             case 13:
-//             model.point13Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm2 = "squareleftbackslash"
-//             case 14:
-//             model.point14Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm2 = "squareleftbackslash"
-//             case 15:
-//             model.point15Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm2 = "squareleftbackslash"
-//             case 16:
-//             model.point16Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm2 = "squareleftbackslash"
-//             case 17:
-//             model.point17Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm2 = "squareleftbackslash"
-//             case 18:
-//             model.point18Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm2 = "squareleftbackslash"
-//             case 19:
-//             model.point19Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm2 = "squareleftbackslash"
-//             case 20:
-//             model.point20Game1ImageTm2 = "squareleftbackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm2 = "squareleftbackslash"
-//             case 21:
-//             model.point21Game1ImageTm2 = "squarebackslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm2 = "squarebackslash"
-//             default:
-//             model.point1Game1ImageTm2 = "square"
-//             print("Error setting image in switch statement")
-//             }
-//             */
-//        } else {
-//            /*
-//             // First server scored the point
-//             model.match.games![model.gameNumber - 1].player1Team2Points += 1
-//             print("model.player1Team2Points: \(model.player1Team2Points)")
-//             model.gameScoreTeam2 += 1
-//             print("model.gameScoreTeam2: \(model.gameScoreTeam2)")
-//             switch model.gameScoreTeam2 {
-//             case 1:
-//             model.point1Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point1Game1ImageTm2 = "squareleftfwdslash"
-//             case 2:
-//             model.point2Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point2Game1ImageTm2 = "squareleftfwdslash"
-//             case 3:
-//             model.point3Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point3Game1ImageTm2 = "squareleftfwdslash"
-//             case 4:
-//             model.point4Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point4Game1ImageTm2 = "squareleftfwdslash"
-//             case 5:
-//             model.point5Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point5Game1ImageTm2 = "squareleftfwdslash"
-//             case 6:
-//             model.point6Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point6Game1ImageTm2 = "squareleftfwdslash"
-//             case 7:
-//             model.point7Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point7Game1ImageTm2 = "squareleftfwdslash"
-//             case 8:
-//             model.point8Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point8Game1ImageTm2 = "squareleftfwdslash"
-//             case 9:
-//             model.point9Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point9Game1ImageTm2 = "squareleftfwdslash"
-//             case 10:
-//             model.point10Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point10Game1ImageTm2 = "squareleftfwdslash"
-//             case 11:
-//             model.point11Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point11Game1ImageTm2 = "squareleftfwdslash"
-//             case 12:
-//             model.point12Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point12Game1ImageTm2 = "squareleftfwdslash"
-//             case 13:
-//             model.point13Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point13Game1ImageTm2 = "squareleftfwdslash"
-//             case 14:
-//             model.point14Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point14Game1ImageTm2 = "squareleftfwdslash"
-//             case 15:
-//             model.point15Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point15Game1ImageTm2 = "squareleftfwdslash"
-//             case 16:
-//             model.point16Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point16Game1ImageTm2 = "squareleftfwdslash"
-//             case 17:
-//             model.point17Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point17Game1ImageTm2 = "squareleftfwdslash"
-//             case 18:
-//             model.point18Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point18Game1ImageTm2 = "squareleftfwdslash"
-//             case 19:
-//             model.point19Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point19Game1ImageTm2 = "squareleftfwdslash"
-//             case 20:
-//             model.point20Game1ImageTm2 = "squareleftfwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point20Game1ImageTm2 = "squareleftfwdslash"
-//             case 21:
-//             model.point21Game1ImageTm2 = "squarefwdslash"
-//             model.match.games![model.gameNumber - 1].gameScoreImages!.point21Game1ImageTm2 = "squarefwdslash"
-//             default:
-//             model.point1Game1ImageTm2 = "square"
-//             print("Error setting image in switch statement")
-//             }
-//             }
-//             */
-//        }
-//
-//    }
 }
+
+
+
+
+
+

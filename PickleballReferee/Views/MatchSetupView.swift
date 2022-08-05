@@ -294,10 +294,10 @@ struct MatchSetupView: View {
                     .buttonStyle(SheetButton())
                     
                     Button("Save") {
-                        print("")
-                        print("Inside Save Button of MatchSetupView")
+                        //print("")
+                        //print("Inside Save Button of MatchSetupView")
                         $match.isMatchSetup.wrappedValue = true
-                        print("")
+                        //print("")
                         dismiss()
                     }
                     .buttonStyle(SheetButton())
@@ -312,18 +312,6 @@ struct MatchSetupView: View {
         .navigationBarBackButtonHidden(true)
     }
     
-    //    func validateMatchSetup() -> Bool{
-    //
-    //        if match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty {
-    //
-    //
-    //
-    //            print("One or more player names are empty")
-    //            return false
-    //        }
-    //        return true
-    //    }
-    
 }
 
 struct MatchSetupView_Previews: PreviewProvider {
@@ -333,70 +321,3 @@ struct MatchSetupView_Previews: PreviewProvider {
     }
 }
 
-
-
-
-
-
-
-
-
-
-//                        model.match.games![model.gameNumber - 1].gameNumber = model.gameNumber
-//                        model.match.games![model.gameNumber - 1].isGameCompleted = model.isGameCompleted
-//                        model.match.games![model.gameNumber - 1].courtNumber = model.courtNumber
-//                        model.match.games![model.gameNumber - 1].serverNumber = model.serverNumber
-//                        model.match.games![model.gameNumber - 1].servingTeam = model.servingTeam
-//                        model.match.games![model.gameNumber - 1].selectedFirstServeTeam = model.selectedFirstServeTeam
-//                        model.match.games![model.gameNumber - 1].refereeName = model.refereeName
-//                        model.match.games![model.gameNumber - 1].asstRefereeName = model.asstRefereeName
-//                        model.match.games![model.gameNumber - 1].traineeRefereeName = model.traineeRefereeName
-//                        model.match.games![model.gameNumber - 1].gameNumber = model.gameNumber
-//                        model.match.games![model.gameNumber - 1].player1Team1Points = model.player1Team1Points
-//                        model.match.games![model.gameNumber - 1].player2Team1Points = model.player2Team1Points
-//                        model.match.games![model.gameNumber - 1].player1Team2Points = model.player1Team2Points
-//                        model.match.games![model.gameNumber - 1].player2Team2Points = model.player2Team2Points
-//                        model.match.games![model.gameNumber - 1].whoIsServingText = model.whoIsServingText
-//                        model.match.games![model.gameNumber - 1].timeOutsTeam1 = model.timeOutsTeam1
-//                        model.match.games![model.gameNumber - 1].timeOutsTeam2 = model.timeOutsTeam2
-//
-//                        model.match.event?.eventTitle = model.eventTitle
-//                        model.match.event?.eventDirector = model.eventDirector
-//                        model.match.event?.eventHost = model.eventHost
-//
-//                        model.match.isSecondServer = model.isSecondServer
-//                        model.match.isTeam1Serving = model.isTeam1Serving
-//                        model.match.matchDate = model.matchDate
-//                        model.match.matchLocation = model.matchLocation
-//                        model.match.matchNumber = model.matchNumber
-//                        model.match.matchNotes = model.matchNotes
-//                        model.match.matchWinner = model.matchWinner
-//                        model.match.matchStartingServer = model.match.matchStartingServer
-//                        model.match.namePlayer1Team1 = model.namePlayer1Team1
-//                        model.match.namePlayer2Team1 = model.namePlayer2Team1
-//                        model.match.namePlayer1Team2 = model.namePlayer1Team2
-//                        model.match.namePlayer2Team2 = model.namePlayer2Team2
-//                        model.match.player1Team1Identifiers = model.player1Team1Identifiers
-//                        model.match.player2Team1Identifiers = model.player2Team1Identifiers
-//                        model.match.player1Team2Identifiers = model.player1Team2Identifiers
-//                        model.match.player2Team2Identifiers = model.player2Team2Identifiers
-//
-//                        model.match.selectedFirstServeTeam = model.selectedFirstServeTeam
-//                        model.match.selectedGameFormat = model.selectedGameFormat
-//                        model.match.selectedMatchFormat = model.selectedMatchFormat
-//                        model.match.selectedDoublesPlay = model.selectedDoublesPlay
-//                        model.match.whoIsServingText = model.whoIsServingText
-//
-//
-//                        let existingMatch = model.match
-//                        print("existingMatch: \(existingMatch)")
-//                        let existingGames = model.match.games
-//                        print("existingGames: \(String(describing: existingGames))")
-//                        let existingEvent = model.match.event
-//                        print("existingEvent: \(String(describing: existingEvent))")
-//                        let existingGameScoreImages = model.match.games![0].gameScoreImages
-//                        print("existingGameScoreImages: \(String(describing: existingGameScoreImages))")
-//
-//                        model.save()
-//                        print("Match after save: \(model.match)")
-//                        print("gamesAfterSave: \(String(describing: model.match.games))")

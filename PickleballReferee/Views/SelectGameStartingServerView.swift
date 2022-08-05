@@ -39,7 +39,7 @@ struct SelectGameStartingServerView: View {
                     }
                     HStack {
                         Text("Game Starting Server: ")
-                        Picker(selection: $match.games[match.currentGameNumber - 1].selectedGameFirstServer,
+                        Picker(selection: $match.selectedGameStartingServer,
                         //Picker(selection: $match.selectedGameFirstServer,
                                label: Text("Starting Server"),
                                content:  {
@@ -101,7 +101,6 @@ struct SelectGameStartingServerView: View {
                         print("")
                         print("Inside Save Button of SelectGameFirstServerView")
                         print("Saving SelectGameFirstServer")
-                        print("Starting Server in Game is: \(match.games[match.currentGameNumber - 1].selectedGameFirstServer)")
                         print("Starting Server in Match is: \(match.servingPlayerNumber)")
                         print("")
                         
