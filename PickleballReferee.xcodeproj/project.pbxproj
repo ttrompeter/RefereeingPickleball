@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330F671289C7ACE004B50BF /* ScoringManager.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeMarkSideView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* TimeOutView.swift */; };
@@ -17,6 +18,8 @@
 		E349327F2893B86F0087ABB1 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327E2893B86F0087ABB1 /* StatisticsView.swift */; };
 		E34932812893B8A70087ABB1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932802893B8A70087ABB1 /* SettingsView.swift */; };
 		E34932832893B8CF0087ABB1 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932822893B8CF0087ABB1 /* MapView.swift */; };
+		E34D25DA289C9023006AAC51 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = E34D25D9289C9023006AAC51 /* Realm */; };
+		E34D25DC289C9023006AAC51 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E34D25DB289C9023006AAC51 /* RealmSwift */; };
 		E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632F7E2893775600F29D83 /* PickleballRefereeApp.swift */; };
 		E3632F832893775700F29D83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3632F822893775700F29D83 /* Assets.xcassets */; };
 		E3632F862893775700F29D83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3632F852893775700F29D83 /* Preview Assets.xcassets */; };
@@ -50,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E330F671289C7ACE004B50BF /* ScoringManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringManager.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeMarkSideView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E34D25DC289C9023006AAC51 /* RealmSwift in Frameworks */,
+				E34D25DA289C9023006AAC51 /* Realm in Frameworks */,
 				E3632F9528937A7D00F29D83 /* RealmSwift in Frameworks */,
 				E3632F9328937A7D00F29D83 /* Realm in Frameworks */,
 			);
@@ -191,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				E3632FA22893871900F29D83 /* Constants.swift */,
+				E330F671289C7ACE004B50BF /* ScoringManager.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 			);
@@ -216,6 +223,8 @@
 			packageProductDependencies = (
 				E3632F9228937A7D00F29D83 /* Realm */,
 				E3632F9428937A7D00F29D83 /* RealmSwift */,
+				E34D25D9289C9023006AAC51 /* Realm */,
+				E34D25DB289C9023006AAC51 /* RealmSwift */,
 			);
 			productName = PickleballReferee;
 			productReference = E3632F7B2893775600F29D83 /* PickleballReferee.app */;
@@ -247,6 +256,7 @@
 			mainGroup = E3632F722893775600F29D83;
 			packageReferences = (
 				E3632F9128937A7D00F29D83 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				E34D25D8289C9023006AAC51 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = E3632F7C2893775600F29D83 /* Products */;
 			projectDirPath = "";
@@ -277,6 +287,7 @@
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
+				E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */,
 				E3632F9B28937C6F00F29D83 /* GameScoreImages.swift in Sources */,
 				E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */,
 				E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */,
@@ -512,6 +523,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E34D25D8289C9023006AAC51 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.3;
+			};
+		};
 		E3632F9128937A7D00F29D83 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift";
@@ -523,6 +542,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E34D25D9289C9023006AAC51 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3632F9128937A7D00F29D83 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		E34D25DB289C9023006AAC51 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3632F9128937A7D00F29D83 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		E3632F9228937A7D00F29D83 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E3632F9128937A7D00F29D83 /* XCRemoteSwiftPackageReference "realm-swift" */;

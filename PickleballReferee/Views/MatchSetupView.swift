@@ -135,15 +135,7 @@ struct MatchSetupView: View {
                                 Text("Win By 2 Points")
                                     .font(.caption).italic()
                             }
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
                             HStack {
                                 
                                 HStack {
@@ -247,7 +239,7 @@ struct MatchSetupView: View {
 //                            HStack {
 //                                Spacer()
 //                                Text("Game Starting Server: ")
-//                                Picker(selection: $match.selectedGameStartingServer,
+//                                Picker(selection: $match.servingPlayerNumber,
 //                                       label: Text("Starting Server"),
 //                                       content:  {
 //                                    Text("Select Starting Server").tag(0)

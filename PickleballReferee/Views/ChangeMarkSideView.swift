@@ -29,56 +29,62 @@ struct ChangeMarkSideView: View {
                 }
                 
                 Group {
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    if match.selectedGameFormat == 7 {
+                        Image("triangleempty5")
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                    } else {
+                        Image("squareblank")
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                    }
+                    
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 11 {
-                        Image(systemName: "arrowtriangle.up")
+                        Image("triangleempty5")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("")
+                        Image("squareblank")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 15 {
-                        Image(systemName: "arrowtriangle.up")
+                        Image(systemName: "triangleempty5")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("")
+                        Image("squareblank")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 Group {
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
@@ -87,50 +93,50 @@ struct ChangeMarkSideView: View {
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("")
+                        Image("squareblank")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 
                 Group {
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("")
+                    Image("squareblank")
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
@@ -142,15 +148,15 @@ struct ChangeMarkSideView: View {
                 }
                 // Timeouts
                 
-                Image("")
+                Image("squareblank")
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 
-                Image("")
+                Image("squareblank")
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 
-                Image("")
+                Image("squareblank")
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
             }

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SelectGameStartingServerView: View {
     
+    // TODO: - This View is not being used and should be deleted.
+    // This functionality is handled in the MatchView sith the SelectStartingServer
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
     
@@ -72,7 +74,7 @@ struct SelectGameStartingServerView: View {
                     HStack {
                         Text("Game First Server:")
 
-                        Picker(selection: $match.selectedGameStartingServer,
+                        Picker(selection: $match.servingPlayerNumber,
                                label: Text("Server"),
                                content:  {
                             Text("Select Starting Server").tag(0)
@@ -100,7 +102,7 @@ struct SelectGameStartingServerView: View {
                         print("Inside Save Button of SelectGameFirstServerView")
                         print("Saving SelectGameFirstServer")
                         print("Starting Server in Game is: \(match.games[match.currentGameNumber - 1].selectedGameFirstServer)")
-                        print("Starting Server in Match is: \(match.selectedGameStartingServer)")
+                        print("Starting Server in Match is: \(match.servingPlayerNumber)")
                         print("")
                         
                         dismiss()

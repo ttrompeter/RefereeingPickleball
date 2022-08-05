@@ -9,8 +9,15 @@ import SwiftUI
 
 struct Constants {
     
+    
+    //********************************************************************************
+    // MISCELLANEOUS
+    
     static var BOX_DIMENSION = CGFloat(30)
     
+    
+    //********************************************************************************
+    //     COLORS
     // Medium Dark Gray
     static var AMERICAN_RIVER = Color(red: 99/255, green: 110/255, blue: 116/255)
     // Dark Yellow / Gold
@@ -49,4 +56,6 @@ struct Constants {
     // BELIZE HOLE      rgba(41, 128, 185,1.0)
     // POMAGRANATE      rgba(192, 57, 43,1.0)
     // EMERALD          rgba(46, 204, 113,1.0)
+    
+    //********************************************************************************
 }

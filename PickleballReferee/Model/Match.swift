@@ -34,7 +34,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isTeam1Serving = true
     @Persisted var isMatchSetup = false
     @Persisted var whoIsServingText = "1st Server"
-    @Persisted var servingPlayerNumber = 1
+    @Persisted var servingPlayerNumber = 0
     @Persisted var currentGameNumber = 1
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchStarted = false
