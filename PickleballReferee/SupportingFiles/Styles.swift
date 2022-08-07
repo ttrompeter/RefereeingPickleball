@@ -49,6 +49,23 @@ struct OptionsButton: ButtonStyle {
     
 }
 
+struct TimeoutsButton: ButtonStyle {
+    
+    // Options Buttons - Match Setup / Introduction / Reference / Etc.
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .frame(width: 180, height: 40)
+            .background(Constants.SILVER)
+            .font(.body)
+            .foregroundColor(Constants.DARK_SLATE)
+            .clipShape(Capsule())
+            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+    
+}
+
 struct SheetButton: ButtonStyle {
     
     // Options Buttons - Match Setup / Introduction / Reference / Etc.

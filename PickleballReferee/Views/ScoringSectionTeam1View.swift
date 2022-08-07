@@ -21,9 +21,13 @@ struct ScoringSectionTeam1View: View {
 
                 VStack (spacing: 0) {
                     PointsScoringTitlesView()
-                    PointsFirstRowTeam1View()
-                    PointsSecondRowTeam1View()
-                    PointsThirdRowTeam1View()
+                    PointsFirstRowTeam1View(match: match)
+                    PointsSecondRowTeam1View(match: match)
+                    PointsThirdRowTeam1View(match: match)
+                    if match.selectedMatchFormat == 3 {
+                        PointsFourthRowTeam1View(match: match)
+                        PointsFifthRowTeam1View(match: match)
+                    }
                     ChangeMarkSideView(match: match)
                 }
             }

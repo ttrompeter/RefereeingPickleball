@@ -82,22 +82,26 @@ struct WelcomeView: View {
         // TODO: - Should be a better way to set up the default of a match to have 5 games
         let game1 = Game()
         game1.gameNumber = 1
-        game1.gameScoreImages = GameScoreImages()
+        game1.refereeName = "Ellen Delangouria"
+        game1.traineeName = "Billie Wantanabe"
+        game1.gameWinner = "Billy Bob Jones"
         $match.games.append(game1)
         let game2 = Game()
         game2.gameNumber = 2
-        game2.gameScoreImages = GameScoreImages()
+        game2.refereeName = "Roger Malkowitz"
+        game2.traineeName = "Amanda Johansson"
+        game2.gameWinner = "Beverly Rasmussen"
         $match.games.append(game2)
         let game3 = Game()
         game3.gameNumber = 3
-        game3.gameScoreImages = GameScoreImages()
+        game3.refereeName = "Stephanie Puskin"
+        game3.traineeName = "Collin Hutchinson"
+        game3.gameWinner = "Roger Butler"
         $match.games.append(game3)
         let game4 = Game()
         game4.gameNumber = 4
-        game4.gameScoreImages = GameScoreImages()
         $match.games.append(game4)
         let game5 = Game()
-        game5.gameScoreImages = GameScoreImages()
         game5.gameNumber = 5
         $match.games.append(game5)
         

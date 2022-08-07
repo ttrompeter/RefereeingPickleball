@@ -5,10 +5,12 @@
 //  Created by Tom Trompeter on 7/28/22.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct PointsThirdRowTeam2View: View {
     
+    @ObservedRealmObject var match: Match
     @State private var gameScoreImages = GameScoreImages()
     
     var body: some View {
@@ -32,7 +34,7 @@ struct PointsThirdRowTeam2View: View {
                 
                 Group {
                     ZStack {
-                        Image(gameScoreImages.point1Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point1Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -40,21 +42,21 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point2Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point2Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                         Text("2")
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point3Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point3Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                         Text("3")
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point4Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point4Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -62,7 +64,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point5Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point5Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -70,7 +72,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point6Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point6Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -78,7 +80,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point7Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point7Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -86,7 +88,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point8Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point8Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -94,7 +96,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point9Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point9Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -104,7 +106,7 @@ struct PointsThirdRowTeam2View: View {
                 }
                 Group {
                     ZStack {
-                        Image(gameScoreImages.point10Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point10Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -112,7 +114,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point11Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point11Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -120,7 +122,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point12Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point12Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -128,7 +130,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point13Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point13Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -136,7 +138,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point14Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point14Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -144,7 +146,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point15Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point15Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -152,7 +154,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point16Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point16Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -160,7 +162,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point17Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point17Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -168,7 +170,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point18Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point18Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -176,7 +178,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point19Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point19Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -187,7 +189,7 @@ struct PointsThirdRowTeam2View: View {
                 
                 Group {
                     ZStack {
-                        Image(gameScoreImages.point20Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point20Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -195,7 +197,7 @@ struct PointsThirdRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(gameScoreImages.point21Game3ImageTm2)
+                        Image(match.games[match.currentGameNumber - 1].point21Game3ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
 
@@ -212,7 +214,7 @@ struct PointsThirdRowTeam2View: View {
                 // Timeouts
                 ZStack {
                     
-                    Image(gameScoreImages.timeOut1Game3ImageTm2)
+                    Image(match.games[match.currentGameNumber - 1].timeOut1Game3ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("1")
@@ -221,7 +223,7 @@ struct PointsThirdRowTeam2View: View {
                 }
                 ZStack {
                     
-                    Image(gameScoreImages.timeOut2Game3ImageTm2)
+                    Image(match.games[match.currentGameNumber - 1].timeOut2Game3ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("2")
@@ -230,7 +232,7 @@ struct PointsThirdRowTeam2View: View {
                 }
                 ZStack {
                     
-                    Image(gameScoreImages.timeOut3Game3ImageTm2)
+                    Image(match.games[match.currentGameNumber - 1].timeOut3Game3ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("3")
@@ -245,6 +247,6 @@ struct PointsThirdRowTeam2View: View {
 
 struct PointsThirdRowTeam2View_Previews: PreviewProvider {
     static var previews: some View {
-        PointsThirdRowTeam2View()
+        PointsThirdRowTeam2View(match: Match())
     }
 }

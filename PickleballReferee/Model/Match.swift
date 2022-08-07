@@ -11,39 +11,41 @@ import SwiftUI
 class Match: Object, ObjectKeyIdentifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var eventTitle = ""
-    @Persisted var matchNumber = ""
+    @Persisted var eventTitle = "Fun Games At Oceana"
+    @Persisted var matchNumber = "13"
     @Persisted var matchDate = Date()
-    @Persisted var matchLocation = ""
-    @Persisted var courtNumber = ""
+    @Persisted var matchLocation = "Carol's Court"
+    @Persisted var courtNumber = "1"
     @Persisted var selectedMatchFormat = 2
     @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 11
-    @Persisted var matchNotes = ""
+    @Persisted var matchNotes = "Water breaks ever 30 minutes"
     @Persisted var matchRefereeRemarks = ""
-    @Persisted var namePlayer1Team1 = ""
-    @Persisted var namePlayer2Team1 = ""
-    @Persisted var namePlayer1Team2 = ""
-    @Persisted var namePlayer2Team2 = ""
-    @Persisted var player1Team1Identifiers = ""
-    @Persisted var player2Team1Identifiers = ""
-    @Persisted var player1Team2Identifiers = ""
-    @Persisted var player2Team2Identifiers = ""
+    @Persisted var namePlayer1Team1 = "Adam Rocafeller"
+    @Persisted var namePlayer2Team1 = "Judith Van Hammersmith"
+    @Persisted var namePlayer1Team2 = "Alexandra Beckwith"
+    @Persisted var namePlayer2Team2 = "Joseph Morikawa"
+    @Persisted var player1Team1Identifiers = "Red Hat"
+    @Persisted var player2Team1Identifiers = "Blonde"
+    @Persisted var player1Team2Identifiers = "Green Shirt"
+    @Persisted var player2Team2Identifiers = "Yellow Shoes"
     @Persisted var matchWinner = ""
     @Persisted var isSecondServer = true
     @Persisted var isTeam1Serving = true
-    @Persisted var isMatchSetup = false
-    @Persisted var whoIsServingText = "1st Server"
-    @Persisted var servingPlayerNumber = 0
-    @Persisted var currentGameNumber = 1
+    @Persisted var isMatchSetup = true    // Should be false
+    @Persisted var whoIsServingText = "2nd Server"
+    @Persisted var servingPlayerNumber = 1  // Should be 0
+    @Persisted var currentGameNumber = 2
     @Persisted var isMatchCompleted = false
-    @Persisted var isMatchStarted = false
-    @Persisted var selectedTestValue = ""
+    @Persisted var isMatchWinner = false
     @Persisted var selectedGameStartingServer = 0
-    @Persisted var gameStartingServerName = "Undetermined"
+    @Persisted var selectedMatchStartingServer = 0
+    @Persisted var gameStartingServerName = "Adam Rockafeller"      // Should be "Undetermined"
+    @Persisted var scoreDisplay = "0 - 0 - 2"
+    @Persisted var isTimeOutTaken = false
+    @Persisted var teamTakingTimeout = 0
 
     @Persisted var games = RealmSwift.List<Game>()
-    
     
     
     var matchFormatDescription: String {

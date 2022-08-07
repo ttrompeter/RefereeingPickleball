@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MapView: View {
+struct AdminView: View {
     
     @Environment(\.dismiss) var dismiss
     
@@ -51,6 +51,6 @@ struct MapView: View {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView()
+        AdminView()
     }
 }

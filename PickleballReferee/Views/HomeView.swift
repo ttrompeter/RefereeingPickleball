@@ -26,6 +26,7 @@ struct HomeView: View {
     var body: some View {
         
         VStack (alignment: .leading) {
+            
             if match.isTeam1Serving {
                 HStack {
                     MatchView(match: match)

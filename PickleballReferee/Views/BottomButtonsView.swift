@@ -57,7 +57,7 @@ struct BottomButtonsView: View {
                 Text("Map")
             }
             .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingMap) { MapView() }
+            .sheet(isPresented: $showingMap) { AdminView() }
             
         }
         .padding(10)

@@ -11,7 +11,6 @@ import SwiftUI
 struct ChangeMarkSideView: View {
     
     @ObservedRealmObject var match: Match
-    @State private var gameScoreImages = GameScoreImages()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -23,17 +22,17 @@ struct ChangeMarkSideView: View {
                 
                 //Empty space column
                 VStack (spacing: 0) {
-                    Rectangle()
-                        .foregroundColor(.white)
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
                 }
                 
                 Group {
-                    Image("squareblank")
+                    Image("squareblank")  //1
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //2
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
@@ -42,16 +41,16 @@ struct ChangeMarkSideView: View {
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")
+                        Image("squareblank")  //3
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")
+                    Image("squareblank")  //4
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //5
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
@@ -60,83 +59,83 @@ struct ChangeMarkSideView: View {
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")
+                        Image("squareblank")  //6
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")
+                    Image("squareblank")  //7
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 15 {
-                        Image(systemName: "triangleempty5")
+                        Image("triangleempty5")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")
+                        Image("squareblank")  //8
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")
+                    Image("squareblank")  //9
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 Group {
-                    Image("squareblank")
+                    Image("squareblank")  //10
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 21 {
-                        Image(systemName: "arrowtriangle.up")
+                        Image("triangleempty5")
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")
+                        Image("squareblank")  //11
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")
+                    Image("squareblank")  //12
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //13
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //14
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //15
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //16
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //17
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //18
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //19
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 
                 Group {
-                    Image("squareblank")
+                    Image("squareblank")  //20
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")
+                    Image("squareblank")  //21
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
