@@ -7,19 +7,16 @@
 import RealmSwift
 import SwiftUI
 
-struct NavigationButtonsView: View {
+struct FunctionalityButtonsView: View {
     
     @ObservedRealmObject var match: Match
     
     var body: some View {
         
         VStack  {
-            //Text("HELP")
-            //Text("HELP")
             Spacer()
-            
             TopButtonsView(match: match)
-            
+            Spacer()
             VStack (spacing: 1) {
                 if match.isTeam1Serving {
                     Image(systemName: "arrow.right.square")
@@ -34,18 +31,15 @@ struct NavigationButtonsView: View {
                         .font(.system(size: 90))
                 }
             }
-            
-            BottomButtonsView()
-            
             Spacer()
-            //Text("HELP")
-            //Text("HELP")
+            BottomButtonsView()
+            Spacer()
         }
     }
 }
 
-struct NavigationButtonsView_Previews: PreviewProvider {
+struct FunctionalityButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationButtonsView(match: Match())
+        FunctionalityButtonsView(match: Match())
     }
 }

@@ -43,7 +43,7 @@ struct HelpView: View {
                 Button("Close") {
                     dismiss()
                 }
-                .buttonStyle(MediumButton())
+                .buttonStyle(SheetButtonStyle())
             }
             
         }  // Top VStack

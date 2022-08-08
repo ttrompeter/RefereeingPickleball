@@ -8,7 +8,7 @@
 import RealmSwift
 import SwiftUI
 
-struct ChangeMarkSideView: View {
+struct ChangeSidesMarkSideView: View {
     
     @ObservedRealmObject var match: Match
     
@@ -163,8 +163,8 @@ struct ChangeMarkSideView: View {
     }
 }
 
-struct ChangeMarkSideView_Previews: PreviewProvider {
+struct ChangeSidesMarkSideView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeMarkSideView(match: Match())
+        ChangeSidesMarkSideView(match: Match())
     }
 }

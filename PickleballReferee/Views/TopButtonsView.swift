@@ -11,54 +11,45 @@ struct TopButtonsView: View {
     
     @ObservedRealmObject var match: Match
     
+    @State private var showingTimeOut = false
     @State private var showingMatchSetup = false
     @State private var showingPreMatchBriefing = false
-    @State private var showingTimeOut = false
-    @State private var showingReference = false
-    @State private var showingStopwatch = false
+    @State private var showingEdit = false
     
     var body: some View {
         
         VStack (spacing: 20) {
             Button {
-                showingMatchSetup.toggle()
+                showingTimeOut.toggle()
             } label: {
-                Text("Match Setup")
+                Text("Timeout")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingTimeOut) { TimeOutView(match: match) }
             
             Button {
                 showingPreMatchBriefing.toggle()
             } label: {
                 Text("Briefing")
             }
-            .buttonStyle(OptionsButton())
+            .buttonStyle(OptionsButtonStyle())
             .sheet(isPresented: $showingPreMatchBriefing) { PreMatchBriefingView() }
             
             Button {
-                showingTimeOut.toggle()
+                showingMatchSetup.toggle()
             } label: {
-                Text("Timeout")
+                Text("Match Setup")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingTimeOut) { TimeOutView(match: match) }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
             
             Button {
-                showingReference.toggle()
-            }label: {
-                Text("Reference")
-            }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingReference) { ReferenceView() }
-            
-            Button {
-                showingStopwatch.toggle()
+                showingEdit.toggle()
             } label: {
-                Text("Stopwatch")
+                Text("Edit Match")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingStopwatch) { StopwatchView() }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingEdit) { EditView() }
             
         }
         .padding(10)

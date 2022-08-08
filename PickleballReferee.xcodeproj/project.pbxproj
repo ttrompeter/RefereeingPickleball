@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330F671289C7ACE004B50BF /* ScoringManager.swift */; };
-		E33D1D002899D9DD00B68F61 /* ChangeMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeMarkSideView.swift */; };
+		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* TimeOutView.swift */; };
 		E34932772893B6580087ABB1 /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932762893B6580087ABB1 /* ReferenceView.swift */; };
@@ -47,19 +47,27 @@
 		E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */; };
 		E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FBE2893A23800F29D83 /* TopButtonsView.swift */; };
 		E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */; };
-		E3632FC32893A32100F29D83 /* NavigationButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC22893A32100F29D83 /* NavigationButtonsView.swift */; };
+		E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */; };
 		E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3912AD428985B1200D0DA38 /* WelcomeView.swift */; };
 		E3961548289F250B001D3596 /* PointsFourthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */; };
 		E396154A289F2595001D3596 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */; };
 		E396154C289F25EE001D3596 /* PointsFourthRowTeam2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154B289F25EE001D3596 /* PointsFourthRowTeam2View.swift */; };
 		E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */; };
 		E3961550289F6DDE001D3596 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154F289F6DDE001D3596 /* AlertItem.swift */; };
+		E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396156F28A0B8EC001D3596 /* PDFKitView.swift */; };
+		E396157228A0B965001D3596 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157128A0B965001D3596 /* RulesView.swift */; };
+		E396157428A0BA1A001D3596 /* PickleballRulebook2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E396157328A0BA1A001D3596 /* PickleballRulebook2022.pdf */; };
+		E396157628A186F6001D3596 /* ScreenshotMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157528A186F6001D3596 /* ScreenshotMaker.swift */; };
+		E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157728A18771001D3596 /* ScreenshotMakerView.swift */; };
+		E396157A28A187C3001D3596 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157928A187C3001D3596 /* ViewExtension.swift */; };
+		E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157B28A18998001D3596 /* ExtensionUIImage.swift */; };
+		E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157D28A19A29001D3596 /* SnapshotAdminView.swift */; };
 		E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E330F671289C7ACE004B50BF /* ScoringManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringManager.swift; sourceTree = "<group>"; };
-		E33D1CFF2899D9DD00B68F61 /* ChangeMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeMarkSideView.swift; sourceTree = "<group>"; };
+		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
 		E34932762893B6580087ABB1 /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
@@ -95,13 +103,21 @@
 		E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListingTeam2.swift; sourceTree = "<group>"; };
 		E3632FBE2893A23800F29D83 /* TopButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonsView.swift; sourceTree = "<group>"; };
-		E3632FC22893A32100F29D83 /* NavigationButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtonsView.swift; sourceTree = "<group>"; };
+		E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalityButtonsView.swift; sourceTree = "<group>"; };
 		E3912AD428985B1200D0DA38 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFourthRowTeam1View.swift; sourceTree = "<group>"; };
 		E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E396154B289F25EE001D3596 /* PointsFourthRowTeam2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFourthRowTeam2View.swift; sourceTree = "<group>"; };
 		E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam2View.swift; sourceTree = "<group>"; };
 		E396154F289F6DDE001D3596 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
+		E396156F28A0B8EC001D3596 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
+		E396157128A0B965001D3596 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
+		E396157328A0BA1A001D3596 /* PickleballRulebook2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PickleballRulebook2022.pdf; sourceTree = "<group>"; };
+		E396157528A186F6001D3596 /* ScreenshotMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMaker.swift; sourceTree = "<group>"; };
+		E396157728A18771001D3596 /* ScreenshotMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMakerView.swift; sourceTree = "<group>"; };
+		E396157928A187C3001D3596 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		E396157B28A18998001D3596 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
+		E396157D28A19A29001D3596 /* SnapshotAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotAdminView.swift; sourceTree = "<group>"; };
 		E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGameStartingServerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +159,7 @@
 				E3632F8D2893796500F29D83 /* Model */,
 				E3632F8C2893795700F29D83 /* Views */,
 				E3632F8E2893796F00F29D83 /* SupportingFiles */,
+				E396157328A0BA1A001D3596 /* PickleballRulebook2022.pdf */,
 				E3632F822893775700F29D83 /* Assets.xcassets */,
 				E3632F842893775700F29D83 /* Preview Content */,
 			);
@@ -160,15 +177,16 @@
 		E3632F8C2893795700F29D83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E34932822893B8CF0087ABB1 /* AdminView.swift */,
 				E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */,
-				E33D1CFF2899D9DD00B68F61 /* ChangeMarkSideView.swift */,
+				E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */,
 				E349327C2893B8490087ABB1 /* EditView.swift */,
+				E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */,
 				E349327A2893B7FC0087ABB1 /* HelpView.swift */,
 				E3632F9C28937EC900F29D83 /* HomeView.swift */,
-				E34932822893B8CF0087ABB1 /* AdminView.swift */,
 				E3632F9E28937EFF00F29D83 /* MatchView.swift */,
 				E3632FA028937F1E00F29D83 /* MatchSetupView.swift */,
-				E3632FC22893A32100F29D83 /* NavigationButtonsView.swift */,
+				E396156F28A0B8EC001D3596 /* PDFKitView.swift */,
 				E3632FA628938CDB00F29D83 /* PointsFirstRowTeam1View.swift */,
 				E3632FA828938D0600F29D83 /* PointsFirstRowTeam2View.swift */,
 				E3632FAA28938D2100F29D83 /* PointsSecondRowTeam1View.swift */,
@@ -182,10 +200,13 @@
 				E3632FA428938BF000F29D83 /* PointsScoringTitlesView.swift */,
 				E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */,
 				E34932762893B6580087ABB1 /* ReferenceView.swift */,
+				E396157128A0B965001D3596 /* RulesView.swift */,
 				E3632FB22893920D00F29D83 /* ScoringSectionTeam1View.swift */,
 				E3632FB42893922200F29D83 /* ScoringSectionTeam2View.swift */,
+				E396157728A18771001D3596 /* ScreenshotMakerView.swift */,
 				E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */,
 				E34932802893B8A70087ABB1 /* SettingsView.swift */,
+				E396157D28A19A29001D3596 /* SnapshotAdminView.swift */,
 				E349327E2893B86F0087ABB1 /* StatisticsView.swift */,
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
 				E3632FBA2893A1DE00F29D83 /* TeamListingTeam1.swift */,
@@ -212,9 +233,12 @@
 			children = (
 				E396154F289F6DDE001D3596 /* AlertItem.swift */,
 				E3632FA22893871900F29D83 /* Constants.swift */,
+				E396157B28A18998001D3596 /* ExtensionUIImage.swift */,
 				E330F671289C7ACE004B50BF /* ScoringManager.swift */,
+				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
+				E396157928A187C3001D3596 /* ViewExtension.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -287,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E396157428A0BA1A001D3596 /* PickleballRulebook2022.pdf in Resources */,
 				E3632F862893775700F29D83 /* Preview Assets.xcassets in Resources */,
 				E3632F832893775700F29D83 /* Assets.xcassets in Resources */,
 			);
@@ -314,11 +339,13 @@
 				E3961548289F250B001D3596 /* PointsFourthRowTeam1View.swift in Sources */,
 				E3632FAB28938D2100F29D83 /* PointsSecondRowTeam1View.swift in Sources */,
 				E3632FA528938BF000F29D83 /* PointsScoringTitlesView.swift in Sources */,
+				E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
 				E34932772893B6580087ABB1 /* ReferenceView.swift in Sources */,
-				E3632FC32893A32100F29D83 /* NavigationButtonsView.swift in Sources */,
+				E396157228A0B965001D3596 /* RulesView.swift in Sources */,
+				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
-				E33D1D002899D9DD00B68F61 /* ChangeMarkSideView.swift in Sources */,
+				E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */,
 				E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */,
 				E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */,
 				E3632FB728939DD500F29D83 /* Stopwatch.swift in Sources */,
@@ -329,9 +356,13 @@
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */,
 				E3632FA32893871900F29D83 /* Constants.swift in Sources */,
+				E396157628A186F6001D3596 /* ScreenshotMaker.swift in Sources */,
 				E3632FA928938D0600F29D83 /* PointsFirstRowTeam2View.swift in Sources */,
+				E396157A28A187C3001D3596 /* ViewExtension.swift in Sources */,
+				E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */,
 				E34932812893B8A70087ABB1 /* SettingsView.swift in Sources */,
 				E349327F2893B86F0087ABB1 /* StatisticsView.swift in Sources */,
+				E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */,
 				E349327D2893B8490087ABB1 /* EditView.swift in Sources */,
 				E3632FAF2893915C00F29D83 /* PointsThirdRowTeam1View.swift in Sources */,
 				E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */,
@@ -339,6 +370,7 @@
 				E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */,
 				E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */,
 				E3632FB32893920D00F29D83 /* ScoringSectionTeam1View.swift in Sources */,
+				E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */,
 				E3632F9728937C2100F29D83 /* Match.swift in Sources */,
 				E3632FBB2893A1DE00F29D83 /* TeamListingTeam1.swift in Sources */,
 			);

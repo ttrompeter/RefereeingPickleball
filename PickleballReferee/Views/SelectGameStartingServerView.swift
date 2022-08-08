@@ -95,7 +95,7 @@ struct SelectGameStartingServerView: View {
                         // Reset to default or existing values
                         dismiss()
                     }
-                    .buttonStyle(SheetButton())
+                    .buttonStyle(SheetButtonStyle())
                     
                     Button("Save") {
                         print("")
@@ -106,7 +106,7 @@ struct SelectGameStartingServerView: View {
                         
                         dismiss()
                     }
-                    .buttonStyle(SheetButton())
+                    .buttonStyle(SheetButtonStyle())
                     .disabled(match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty)
                 }
             }

@@ -22,7 +22,7 @@ struct PointsSecondRowTeam1View: View {
                     .foregroundColor(.white)
                     .frame(width: 120.0, height: Constants.BOX_DIMENSION, alignment: .leading)
                     .border(.black, width: 1.0)
-                    .overlay(Text("Servers").font(.caption).italic())
+                    .overlay(Text(match.games[1].serverNameGame2Team1).font(.caption).italic())
                     
                 
                 //Empty space column
@@ -218,8 +218,7 @@ struct PointsSecondRowTeam1View: View {
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("1")
-                        .foregroundColor(.black)
-                        .bold()
+                        .foregroundColor(Constants.DARK_SLATE)
                 }
                 ZStack {
                     
@@ -227,8 +226,7 @@ struct PointsSecondRowTeam1View: View {
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("2")
-                        .foregroundColor(.black)
-                        .bold()
+                        .foregroundColor(Constants.DARK_SLATE)
                 }
                 ZStack {
                     
@@ -236,8 +234,7 @@ struct PointsSecondRowTeam1View: View {
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("3")
-                        .foregroundColor(.black)
-                        .bold()
+                        .foregroundColor(Constants.DARK_SLATE)
                 }
 
             }

@@ -30,7 +30,7 @@ struct HomeView: View {
             if match.isTeam1Serving {
                 HStack {
                     MatchView(match: match)
-                    NavigationButtonsView(match: match)
+                    FunctionalityButtonsView(match: match)
                     VStack {
                         // Far right column for spacing
                         Text("     ")
@@ -42,7 +42,7 @@ struct HomeView: View {
                         // Far left column for spacing
                         Text("     ")
                     }
-                    NavigationButtonsView(match: match)
+                    FunctionalityButtonsView(match: match)
                     MatchView(match: match)
                 }
             }

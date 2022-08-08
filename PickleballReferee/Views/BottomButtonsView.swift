@@ -10,10 +10,9 @@ import SwiftUI
 struct BottomButtonsView: View {
     
     @State private var showingHelp = false
-    @State private var showingEdit = false
-    @State private var showingStatistics = false
-    @State private var showingSettings = false
-    @State private var showingMap = false
+    @State private var showingStopwatch = false
+    @State private var showingRules = false
+    @State private var showingAdmin = false
     
     var body: some View {
         
@@ -24,40 +23,32 @@ struct BottomButtonsView: View {
             } label: {
                 Text("Help")
             }
-            .buttonStyle(OptionsButton())
+            .buttonStyle(OptionsButtonStyle())
             .sheet(isPresented: $showingHelp) { HelpView() }
             
             Button {
-                showingEdit.toggle()
+                showingStopwatch.toggle()
             } label: {
-                Text("Edit")
+                Text("Stopwatch")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingEdit) { EditView() }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingStopwatch) { StopwatchView() }
             
             Button {
-                showingStatistics.toggle()
-            } label: {
-                Text("Statistics")
+                showingRules.toggle()
+            }label: {
+                Text("USGA Rules")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingStatistics) { StatisticsView() }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingRules) { RulesView() }
             
             Button {
-                showingSettings.toggle()
+                showingAdmin.toggle()
             } label: {
-                Text("Settings")
+                Text("Admin")
             }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingSettings) { SettingsView() }
-            
-            Button {
-                showingMap.toggle()
-            } label: {
-                Text("Map")
-            }
-            .buttonStyle(OptionsButton())
-            .sheet(isPresented: $showingMap) { AdminView() }
+            .buttonStyle(OptionsButtonStyle())
+            .sheet(isPresented: $showingAdmin) { AdminView() }
             
         }
         .padding(10)

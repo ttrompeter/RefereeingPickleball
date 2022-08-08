@@ -54,7 +54,7 @@ struct ReferenceView: View {
                 Button("Close") {
                     dismiss()
                 }
-                .buttonStyle(SheetButton())
+                .buttonStyle(SheetButtonStyle())
             }
             
         }  // Top VStack

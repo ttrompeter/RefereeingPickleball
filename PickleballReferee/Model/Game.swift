@@ -30,6 +30,18 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var gameWinnerTeam = 0
     @Persisted var isGameCompleted = false
     @Persisted var gameFinalScore = ""
+    @Persisted var gameStartingServerName = "Adam Rockafeller" // Should be Undetermined
+    @Persisted var gameStartingServerNumber = 0
+    @Persisted var serverNameGame1Team1 = "Tm1Game1"
+    @Persisted var serverNameGame2Team1 = "Tm1Game2"
+    @Persisted var serverNameGame3Team1 = "Tm1Game3"
+    @Persisted var serverNameGame4Team1 = ""
+    @Persisted var serverNameGame5Team1 = ""
+    @Persisted var serverNameGame1Team2 = "Tm2Game1"
+    @Persisted var serverNameGame2Team2 = "Tm2Game2"
+    @Persisted var serverNameGame3Team2 = "Tm2Game3"
+    @Persisted var serverNameGame4Team2 = ""
+    @Persisted var serverNameGame5Team2 = ""
     
     @Persisted(originProperty: "games") var match: LinkingObjects<Match>
     
@@ -66,7 +78,7 @@ class Game: Object, ObjectKeyIdentifiable {
     
     
     // Add Example Data
-    static let example = Game()
+    static let exampleGame = Game()
     
     // Change Equatable test to only test on id since it is unique. Makes code faster
     static func ==(lhs: Game, rhs: Game) -> Bool {

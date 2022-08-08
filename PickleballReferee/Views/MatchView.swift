@@ -13,6 +13,7 @@ struct MatchView: View {
     @Environment(\.realm) var realm
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
+    @State private var screenshotMaker: ScreenshotMaker?
     @State private var alertItem: AlertItem?
     @State private var presentMatchSetupAlert = false
     @State private var presentMatchSetupButtonAlert = false
@@ -81,7 +82,7 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                                 Text("\(match.currentGameNumber)")
                                     .foregroundColor(Constants.DARK_SLATE)
-                                Text(match.gameStartingServerName)
+                                Text(match.matchStartingServerName)
                                     .foregroundColor(Constants.DARK_SLATE)
                             }
                         }
@@ -139,6 +140,7 @@ struct MatchView: View {
                 }
             }
             
+    // MARK: - Scoring Section
             
             // Scoring Section
             Section {
@@ -152,7 +154,7 @@ struct MatchView: View {
                             Text("Point")
                                 .foregroundColor(Constants.DARK_SLATE)
                         }
-                        .buttonStyle(PointSideoutButton())
+                        .buttonStyle(PointsSideoutButtonStyle())
                         .disabled(!match.isMatchSetup || !(match.servingPlayerNumber > 0))
                         .alert("Game Over", isPresented: $presentGameWinnerAlert) {
                             Button("OK", role: .cancel) {
@@ -167,6 +169,9 @@ struct MatchView: View {
                         } message: {
                             Text("Game Winner is\n \(match.games[match.currentGameNumber - 1].gameWinner)")
                         }
+                        
+                        
+                        
                         
                         
                         //                        .alert("", isPresented: $presentGameWinnerAlert, actions: {
@@ -187,6 +192,11 @@ struct MatchView: View {
                         
                         
                         
+                        Text(currentMatchStatusDisplay)
+                            .font(.headline)
+                            .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
+                        
+                        // TODO: - This is temporary until get working - allowing two alerts for game over and match over
                         Button(action: {
                                     
                                     //self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), primaryButton: .default(Text("OK"), action: {
@@ -203,6 +213,8 @@ struct MatchView: View {
                                     }))
                                 }, label: {
                                     Text("SHOW ALERT")
+                                        .font(.body)
+                                        .foregroundColor(Constants.MINT_LEAF)
                                 }).alert(item: $alertItem) { alertItem in
                                   
                                     //guard let primaryButton = alertItem.primaryButton, let secondaryButton = alertItem.secondaryButton else {
@@ -213,20 +225,6 @@ struct MatchView: View {
                                     //return Alert(title: alertItem.title, message: alertItem.message, primaryButton: primaryButton, secondaryButton: secondaryButton)
                                     return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
                                 }
-                        
-                        
-                        if match.isTimeOutTaken {
-                            //setTimeoutImage(team: match.teamTakingTimeout)
-                        }
-                        
-                        
-                        
-                        
-                        
-                        
-                        Text(currentMatchStatusDisplay)
-                            .font(.headline)
-                            .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
                     }
                     
                     // Match Setup Warning
@@ -261,19 +259,22 @@ struct MatchView: View {
                                 .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
                                     Button(match.namePlayer1Team1) {
                                         $match.servingPlayerNumber.wrappedValue = 1
-                                        $match.gameStartingServerName.wrappedValue = setStartingServerName()
+                                        $match.matchStartingServerName.wrappedValue = setStartingServerName()
+                                        $match.matchStartingServerNumber.wrappedValue = 1
                                         presentStartingServerSetupAlert.toggle()
                                     }
                                     Button(match.namePlayer1Team2) {
                                         $match.servingPlayerNumber.wrappedValue = 3
-                                        $match.gameStartingServerName.wrappedValue = setStartingServerName()
+                                        $match.matchStartingServerName.wrappedValue = setStartingServerName()
+                                        $match.matchStartingServerNumber.wrappedValue = 2
                                         $match.isTeam1Serving.wrappedValue = false
                                         presentStartingServerSetupAlert.toggle()
                                     }
                                 }
                             }
                         } else {
-                            VStack (spacing: 10) {
+                            // MARK: - Score Display
+                            VStack (spacing: 5) {
                                 HStack {
                                     Text("Score: ")
                                         .font(.title)
@@ -283,9 +284,20 @@ struct MatchView: View {
                                         .font(.largeTitle)
                                         .foregroundColor(Constants.CRIMSON)
                                 }
-                                .padding(20)
+                                .padding(10)
+                                .background(Constants.CLOUDS)
+                                
+                                Button {
+                                    if let screenshotMaker = screenshotMaker {
+                                        screenshotMaker.screenshot()?.saveToDocuments()
+                                    }
+                                } label: {
+                                    Text("Take Screenshot")
+                                        .font(.headline)
+                                        .foregroundColor(Constants.MINT_LEAF)
+                                }
+                                //.disabled(match.isMatchCompleted)
                             }
-                            .background(Constants.CLOUDS)
                         }
                     }
                     
@@ -330,7 +342,7 @@ struct MatchView: View {
                                     .foregroundColor(Constants.DARK_SLATE)
                             }
                         }
-                        .buttonStyle(PointSideoutButton())
+                        .buttonStyle(PointsSideoutButtonStyle())
                         .disabled(!match.isMatchSetup  || !(match.servingPlayerNumber > 0))
                         
                         Text("\(match.whoIsServingText) is Serving")
@@ -422,12 +434,13 @@ struct MatchView: View {
         ////                presentFirstServerAlert.toggle()
         ////            }
         //        }
+        .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
         .alert("Please set up Match before trying to start Match. The application will not run unless the Match has been set up first.", isPresented: $presentMatchSetupAlert, actions: {})
         
     }
     
     
-    // MARK: - Funtions
+    // MARK: - Match Funtions
     
     func setStartingServerName() -> String{
         //print("Starting setStartingServerName()")
@@ -541,6 +554,8 @@ struct MatchView: View {
 // MARK: - Extension for Saving Images, Updating score, Checking Game Winner and Checking Match Winner
 
 extension MatchView {
+
+// MARK: - Extension Match & Game Functions
     
     func updateScore() {
         
@@ -768,10 +783,32 @@ extension MatchView {
         return false
     }
     
-    func closeMatch() {
-        print("closeMatch() function")
+    func closeGame() {
+        print("closeGame() function")
+        
+        /*
+         Mark current game as completed
+         Change current game number to next game number
+         Set first server for next game
+         Set court orientation for next game - players change sides
+         
+         
+         */
+        
+        
     }
     
+    func closeMatch() {
+        print("closeMatch() function")
+        
+        /*
+         
+         
+         
+         */
+    }
+    
+// MARK: - Extension Point Scored
     
     func pointScored() {
         
@@ -2908,104 +2945,102 @@ extension MatchView {
     }  // End pointScored()
     
     
-    func setTimeoutImage(team: Int) {
-        
-        print("\nStarting setTimeoutImage()")
-        print("team parameter: \(team)")
-        print("timeOutsTeam1: \(match.games[match.currentGameNumber - 1].timeOutsTeam1)")
-        print("timeOutsTeam2: \(match.games[match.currentGameNumber - 1].timeOutsTeam2)\n")
-        
-        if team == 1 {
-            switch match.games[match.currentGameNumber - 1].timeOutsTeam1 {
-            case 0:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut1Game1ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut1Game2ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut1Game3ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut1Game4ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut1Game5ImageTm1.wrappedValue = "squareleftfwdslash"
-                }
-            case 1:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut2Game1ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut2Game2ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut2Game3ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut2Game4ImageTm1.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut2Game5ImageTm1.wrappedValue = "squareleftfwdslash"
-                }
-            case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut3Game1ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut3Game2ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut3Game3ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut3Game4ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut3Game5ImageTm1.wrappedValue = "squarerightfwdslash"
-                }
-            default:
-                print("Error setting image in switch statement of setTimeoutImage()")
-            }
-            
-        } else if team == 2 {
-            switch match.games[match.currentGameNumber - 1].timeOutsTeam2 {
-            case 0:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut1Game1ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut1Game2ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut1Game3ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut1Game4ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut1Game5ImageTm2.wrappedValue = "squareleftfwdslash"
-                }
-            case 1:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut2Game2ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut2Game3ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut2Game4ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "squareleftfwdslash"
-                }
-            case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut3Game1ImageTm2.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut3Game2ImageTm2.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut3Game3ImageTm2.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut3Game4ImageTm2.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut3Game5ImageTm2.wrappedValue = "squarerightfwdslash"
-                }
-            default:
-                print("Error setting image in switch statement of setTimeoutImage()")
-            }
-        }
-        
-        
-    }  // End setTimeoutImage()
+//    func setTimeoutImage(team: Int) {
+//
+//        print("\nStarting setTimeoutImage()")
+//        print("team parameter: \(team)")
+//        print("timeOutsTeam1: \(match.games[match.currentGameNumber - 1].timeOutsTeam1)")
+//        print("timeOutsTeam2: \(match.games[match.currentGameNumber - 1].timeOutsTeam2)\n")
+//
+//        if team == 1 {
+//            switch match.games[match.currentGameNumber - 1].timeOutsTeam1 {
+//            case 0:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut1Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut1Game2ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut1Game3ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut1Game4ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut1Game5ImageTm1.wrappedValue = "squareleftfwdslash"
+//                }
+//            case 1:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut2Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut2Game2ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut2Game3ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut2Game4ImageTm1.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut2Game5ImageTm1.wrappedValue = "squareleftfwdslash"
+//                }
+//            case 2:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut3Game1ImageTm1.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut3Game2ImageTm1.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut3Game3ImageTm1.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut3Game4ImageTm1.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut3Game5ImageTm1.wrappedValue = "squarerightfwdslash"
+//                }
+//            default:
+//                print("Error setting image in switch statement of setTimeoutImage()")
+//            }
+//
+//        } else if team == 2 {
+//            switch match.games[match.currentGameNumber - 1].timeOutsTeam2 {
+//            case 0:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut1Game1ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut1Game2ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut1Game3ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut1Game4ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut1Game5ImageTm2.wrappedValue = "squareleftfwdslash"
+//                }
+//            case 1:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut2Game2ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut2Game3ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut2Game4ImageTm2.wrappedValue = "squareleftfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "squareleftfwdslash"
+//                }
+//            case 2:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].timeOut3Game1ImageTm2.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 2 {
+//                    $match.games[1].timeOut3Game2ImageTm2.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 3 {
+//                    $match.games[2].timeOut3Game3ImageTm2.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 4 {
+//                    $match.games[3].timeOut3Game4ImageTm2.wrappedValue = "squarerightfwdslash"
+//                } else if match.currentGameNumber == 5 {
+//                    $match.games[4].timeOut3Game5ImageTm2.wrappedValue = "squarerightfwdslash"
+//                }
+//            default:
+//                print("Error setting image in switch statement of setTimeoutImage()")
+//            }
+//        }
+//
+//
+//    }  // End setTimeoutImage()
+    
+    
 }
-
-
-
-
 
 

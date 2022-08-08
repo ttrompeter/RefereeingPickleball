@@ -291,7 +291,7 @@ struct MatchSetupView: View {
                         // Reset to default or existing values
                         dismiss()
                     }
-                    .buttonStyle(SheetButton())
+                    .buttonStyle(SheetButtonStyle())
                     
                     Button("Save") {
                         //print("")
@@ -300,7 +300,7 @@ struct MatchSetupView: View {
                         //print("")
                         dismiss()
                     }
-                    .buttonStyle(SheetButton())
+                    .buttonStyle(SheetButtonStyle())
                     .disabled(match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty)
                 }
             }

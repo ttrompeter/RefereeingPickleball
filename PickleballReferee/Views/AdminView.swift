@@ -13,44 +13,25 @@ struct AdminView: View {
     
     var body: some View {
         
-        VStack (spacing: 30) {
-            
-            Text("Local Map ")
-                .bold()
-                .font(.largeTitle)
-            
-            ZStack {
-                Rectangle()
-                    .frame(width: CGFloat(660), height: CGFloat(410))
-                    .foregroundColor(Constants.CLOUDS)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                VStack (alignment: .leading) {
-                    Group {
-                        Text("Local Map Iformaiton Goes Here")
-                            .font(.headline)
-                        Text("Local Restaurants and Sights")
-                       
-                    }
+        TabView {
+            SnapshotAdminView()
+                .tabItem {
+                    Label("Snapshot", systemImage: "list.dash")
                 }
-                
-            }
-            
-          
-            
-            VStack {
-                Button("Close") {
-                    dismiss()
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "list.dash")
                 }
-                .buttonStyle(MediumButton())
-            }
-            
-        }  // Top VStack
+            StatisticsView()
+                .tabItem {
+                    Label("Statistics", systemImage: "list.dash")
+                }
+        }
     }
 }
 
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        AdminView()
-    }
-}
+//struct MapView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AdminView()
+//    }
+//}

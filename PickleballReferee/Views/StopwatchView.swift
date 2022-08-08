@@ -37,7 +37,7 @@ struct StopwatchView: View {
                         Button("Close") {
                             dismiss()
                         }
-                        .buttonStyle(SheetButton())
+                        .buttonStyle(SheetButtonStyle())
                     }
                 }.padding()
                 

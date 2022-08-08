@@ -40,10 +40,11 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchWinner = false
     @Persisted var selectedGameStartingServer = 0
     @Persisted var selectedMatchStartingServer = 0
-    @Persisted var gameStartingServerName = "Adam Rockafeller"      // Should be "Undetermined"
+    @Persisted var matchStartingServerName = "Adam Rockafeller"  // Should be Undetermined
+    @Persisted var matchStartingServerNumber = 0
     @Persisted var scoreDisplay = "0 - 0 - 2"
-    @Persisted var isTimeOutTaken = false
     @Persisted var teamTakingTimeout = 0
+    @Persisted var isTimeOutTaken = false
 
     @Persisted var games = RealmSwift.List<Game>()
     

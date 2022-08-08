@@ -10,6 +10,7 @@ import SwiftUI
 struct EditView: View {
     
     @Environment(\.dismiss) var dismiss
+    @State var screenshotMaker: ScreenshotMaker?
     
     var body: some View {
         
@@ -25,28 +26,52 @@ struct EditView: View {
                     .foregroundColor(Constants.CLOUDS)
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                VStack (alignment: .leading) {
-                    Group {
-                        Text("Data to edit Goes Here")
-                            .font(.headline)
-                        Text("Confirm Edits")
-                       
+                VStack {
+                    
+                    HStack {
+                        Text("Lorem ipsum dolor sit amet. Aut architecto dolor est dolorem doloribus et velit galisum qui nihil omnis et soluta sint sit cupiditate sapiente ab impedit sequi? Et mollitia dolorem aut atque nostrum sed eaque cupiditate? Id perspiciatis dignissimos et consectetur harum nobis quam ea quod blanditiis aut consectetur repellendus. Vel impedit mollitia aut voluptate cupiditate qui reprehenderit ducimus ut reiciendis eaque quo sint nesciunt est ullam ducimus.")
+                            .padding()
+                            .font(.body)
+                            .frame(width: 500, height: 350)
                     }
+                    HStack {
+                        Text("Confirm Edits\n")
+                        
+                    }
+                    HStack {
+                        Button {
+                            if let screenshotMaker = screenshotMaker {
+                                screenshotMaker.screenshot()?.saveToDocuments()
+                            }
+                            else { // first approach implementation with UIHostingController
+                                //snapshot().saveToDocuments()
+                            }
+                        } label: {
+                            Text("Take screenshot\n")
+                                .font(.largeTitle)
+                                .foregroundColor(Constants.CRIMSON)
+                        }
+                    }
+                    
                 }
-                
-                
-            }
+            }  // End ZStack
             
             VStack {
                 Button("Save") {
                     dismiss()
                 }
-                .buttonStyle(MediumButton())
+                .buttonStyle(SheetButtonStyle())
             }
             
         }  // Top VStack
+        .screenshotView { screenshotMaker in
+            self.screenshotMaker = screenshotMaker
+        }
     }
-}
+    
+} // End Edit View
+
+
 
 struct EditView_Previews: PreviewProvider {
     static var previews: some View {
