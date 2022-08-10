@@ -10,6 +10,7 @@ import SwiftUI
 struct HelpView: View {
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var sheetManager: SheetManager
     
     var body: some View {
         
@@ -26,19 +27,15 @@ struct HelpView: View {
                     .cornerRadius(10)
                     .shadow(radius: 5)
                 VStack (alignment: .leading) {
-                    Group {
-                        Text("Help Information Goes Here")
+    
+                    Text("Help Information Goes Here")
                             .font(.headline)
-                        Text("Help For You")
+                    Text("Help For You")
                        
-                    }
                 }
                 
-                
             }
-            
           
-            
             VStack {
                 Button("Close") {
                     dismiss()
@@ -53,5 +50,6 @@ struct HelpView: View {
 struct HelpView_Previews: PreviewProvider {
     static var previews: some View {
         HelpView()
+            .environmentObject(SheetManager())
     }
 }

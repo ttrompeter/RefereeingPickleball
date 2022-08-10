@@ -11,12 +11,11 @@
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* TimeOutView.swift */; };
-		E34932772893B6580087ABB1 /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932762893B6580087ABB1 /* ReferenceView.swift */; };
 		E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932782893B6710087ABB1 /* StopwatchView.swift */; };
 		E349327B2893B7FC0087ABB1 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327A2893B7FC0087ABB1 /* HelpView.swift */; };
 		E349327D2893B8490087ABB1 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327C2893B8490087ABB1 /* EditView.swift */; };
-		E349327F2893B86F0087ABB1 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327E2893B86F0087ABB1 /* StatisticsView.swift */; };
-		E34932812893B8A70087ABB1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932802893B8A70087ABB1 /* SettingsView.swift */; };
+		E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */; };
+		E34932812893B8A70087ABB1 /* SettingsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932802893B8A70087ABB1 /* SettingsAdminView.swift */; };
 		E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932822893B8CF0087ABB1 /* AdminView.swift */; };
 		E34D25DA289C9023006AAC51 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = E34D25D9289C9023006AAC51 /* Realm */; };
 		E34D25DC289C9023006AAC51 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E34D25DB289C9023006AAC51 /* RealmSwift */; };
@@ -48,6 +47,9 @@
 		E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FBE2893A23800F29D83 /* TopButtonsView.swift */; };
 		E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */; };
 		E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */; };
+		E39058D628A40B1E0067A536 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058D528A40B1E0067A536 /* PopupView.swift */; };
+		E39058D828A424440067A536 /* SheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058D728A424440067A536 /* SheetManager.swift */; };
+		E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058F928A44D620067A536 /* PopupViewModifier.swift */; };
 		E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3912AD428985B1200D0DA38 /* WelcomeView.swift */; };
 		E3961548289F250B001D3596 /* PointsFourthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */; };
 		E396154A289F2595001D3596 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */; };
@@ -70,12 +72,11 @@
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
-		E34932762893B6580087ABB1 /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
 		E34932782893B6710087ABB1 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
 		E349327A2893B7FC0087ABB1 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		E349327C2893B8490087ABB1 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
-		E349327E2893B86F0087ABB1 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
-		E34932802893B8A70087ABB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAdminView.swift; sourceTree = "<group>"; };
+		E34932802893B8A70087ABB1 /* SettingsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdminView.swift; sourceTree = "<group>"; };
 		E34932822893B8CF0087ABB1 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		E3632F7B2893775600F29D83 /* PickleballReferee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PickleballReferee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3632F7E2893775600F29D83 /* PickleballRefereeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickleballRefereeApp.swift; sourceTree = "<group>"; };
@@ -104,6 +105,9 @@
 		E3632FBE2893A23800F29D83 /* TopButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalityButtonsView.swift; sourceTree = "<group>"; };
+		E39058D528A40B1E0067A536 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		E39058D728A424440067A536 /* SheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetManager.swift; sourceTree = "<group>"; };
+		E39058F928A44D620067A536 /* PopupViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewModifier.swift; sourceTree = "<group>"; };
 		E3912AD428985B1200D0DA38 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFourthRowTeam1View.swift; sourceTree = "<group>"; };
 		E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
@@ -198,16 +202,16 @@
 				E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */,
 				E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */,
 				E3632FA428938BF000F29D83 /* PointsScoringTitlesView.swift */,
+				E39058D528A40B1E0067A536 /* PopupView.swift */,
 				E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */,
-				E34932762893B6580087ABB1 /* ReferenceView.swift */,
 				E396157128A0B965001D3596 /* RulesView.swift */,
 				E3632FB22893920D00F29D83 /* ScoringSectionTeam1View.swift */,
 				E3632FB42893922200F29D83 /* ScoringSectionTeam2View.swift */,
 				E396157728A18771001D3596 /* ScreenshotMakerView.swift */,
 				E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */,
-				E34932802893B8A70087ABB1 /* SettingsView.swift */,
+				E34932802893B8A70087ABB1 /* SettingsAdminView.swift */,
 				E396157D28A19A29001D3596 /* SnapshotAdminView.swift */,
-				E349327E2893B86F0087ABB1 /* StatisticsView.swift */,
+				E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */,
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
 				E3632FBA2893A1DE00F29D83 /* TeamListingTeam1.swift */,
 				E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */,
@@ -234,8 +238,10 @@
 				E396154F289F6DDE001D3596 /* AlertItem.swift */,
 				E3632FA22893871900F29D83 /* Constants.swift */,
 				E396157B28A18998001D3596 /* ExtensionUIImage.swift */,
+				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
 				E330F671289C7ACE004B50BF /* ScoringManager.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
+				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 				E396157928A187C3001D3596 /* ViewExtension.swift */,
@@ -324,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E39058D628A40B1E0067A536 /* PopupView.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
@@ -341,7 +348,6 @@
 				E3632FA528938BF000F29D83 /* PointsScoringTitlesView.swift in Sources */,
 				E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
-				E34932772893B6580087ABB1 /* ReferenceView.swift in Sources */,
 				E396157228A0B965001D3596 /* RulesView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
@@ -353,6 +359,7 @@
 				E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */,
 				E3632F9F28937EFF00F29D83 /* MatchView.swift in Sources */,
 				E3632F90289379EC00F29D83 /* Game.swift in Sources */,
+				E39058D828A424440067A536 /* SheetManager.swift in Sources */,
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */,
 				E3632FA32893871900F29D83 /* Constants.swift in Sources */,
@@ -360,8 +367,8 @@
 				E3632FA928938D0600F29D83 /* PointsFirstRowTeam2View.swift in Sources */,
 				E396157A28A187C3001D3596 /* ViewExtension.swift in Sources */,
 				E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */,
-				E34932812893B8A70087ABB1 /* SettingsView.swift in Sources */,
-				E349327F2893B86F0087ABB1 /* StatisticsView.swift in Sources */,
+				E34932812893B8A70087ABB1 /* SettingsAdminView.swift in Sources */,
+				E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */,
 				E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */,
 				E349327D2893B8490087ABB1 /* EditView.swift in Sources */,
 				E3632FAF2893915C00F29D83 /* PointsThirdRowTeam1View.swift in Sources */,
@@ -369,6 +376,7 @@
 				E3632FB928939E0E00F29D83 /* Styles.swift in Sources */,
 				E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */,
 				E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */,
+				E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */,
 				E3632FB32893920D00F29D83 /* ScoringSectionTeam1View.swift in Sources */,
 				E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */,
 				E3632F9728937C2100F29D83 /* Match.swift in Sources */,

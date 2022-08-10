@@ -16,15 +16,15 @@ struct AdminView: View {
         TabView {
             SnapshotAdminView()
                 .tabItem {
-                    Label("Snapshot", systemImage: "list.dash")
+                    Label("Snapshot", systemImage: "camera")
                 }
-            SettingsView()
+            SettingsAdminView()
                 .tabItem {
-                    Label("Settings", systemImage: "list.dash")
+                    Label("Settings", systemImage: "gear")
                 }
-            StatisticsView()
+            StatisticAdminView()
                 .tabItem {
-                    Label("Statistics", systemImage: "list.dash")
+                    Label("Statistics", systemImage: "list.bullet")
                 }
         }
     }

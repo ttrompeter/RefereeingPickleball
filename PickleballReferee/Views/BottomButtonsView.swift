@@ -37,7 +37,7 @@ struct BottomButtonsView: View {
             Button {
                 showingRules.toggle()
             }label: {
-                Text("USGA Rules")
+                Text("USAPA Rules")
             }
             .buttonStyle(OptionsButtonStyle())
             .sheet(isPresented: $showingRules) { RulesView() }

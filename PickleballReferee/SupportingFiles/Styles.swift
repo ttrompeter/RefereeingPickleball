@@ -136,7 +136,7 @@ struct SheetButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .frame(width: 90, height: 26)
+            .frame(width: 120, height: 30)
             .background(Constants.SILVER)
             .font(.body)
             .foregroundColor(Constants.DARK_SLATE)

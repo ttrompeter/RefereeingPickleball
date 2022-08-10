@@ -32,18 +32,18 @@ struct StopwatchView: View {
                     
                     // Create space between objects
                     Text(" ")
-                    
-                    VStack {
-                        Button("Close") {
-                            dismiss()
-                        }
-                        .buttonStyle(SheetButtonStyle())
-                    }
                 }.padding()
-                
-                
+
             }
-        }
+            
+            VStack {
+                Button("Close") {
+                    dismiss()
+                }
+                .buttonStyle(SheetButtonStyle())
+            }
+            
+        } // End Top VStack
     }
 }
 

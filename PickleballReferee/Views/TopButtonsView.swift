@@ -49,7 +49,7 @@ struct TopButtonsView: View {
                 Text("Edit Match")
             }
             .buttonStyle(OptionsButtonStyle())
-            .sheet(isPresented: $showingEdit) { EditView() }
+            .sheet(isPresented: $showingEdit) { EditView(match: match) }
             
         }
         .padding(10)

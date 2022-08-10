@@ -11,6 +11,7 @@ struct HomeView: View {
     
     @Environment(\.realm) var realm
     @ObservedRealmObject var match: Match
+    @EnvironmentObject var sheetManager: SheetManager
     
     
     // **********************************************************************************************
@@ -27,25 +28,33 @@ struct HomeView: View {
         
         VStack (alignment: .leading) {
             
-            if match.isTeam1Serving {
-                HStack {
-                    MatchView(match: match)
-                    FunctionalityButtonsView(match: match)
-                    VStack {
-                        // Far right column for spacing
-                        Text("     ")
+            ZStack {
+                if match.isTeam1Serving {
+                    HStack {
+                        MatchView(match: match)
+                        FunctionalityButtonsView(match: match)
+                        VStack {
+                            // Far right column for spacing
+                            Text("     ")
+//                            Button(" + ") {
+//                                withAnimation (.spring()) {
+//                                    sheetManager.present(with: .init(systemName: "info", title: "Title Text", content: "Some text to show the user in the popup so that they can be inofrmed and lean something from the whole process."))
+//                                }
+//                            }
+                        }
                     }
-                }
-            } else if !match.isTeam1Serving {
-                HStack {
-                    VStack {
-                        // Far left column for spacing
-                        Text("     ")
+                } else if !match.isTeam1Serving {
+                    HStack {
+                        VStack {
+                            // Far left column for spacing
+                            Text("     ")
+                        }
+                        FunctionalityButtonsView(match: match)
+                        MatchView(match: match)
                     }
-                    FunctionalityButtonsView(match: match)
-                    MatchView(match: match)
                 }
             }
+//            .popup(with: sheetManager)
         }
     }
 }
