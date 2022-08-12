@@ -32,7 +32,7 @@ struct FunctionalityButtonsView: View {
                 }
             }
             Spacer()
-            BottomButtonsView()
+            BottomButtonsView(match: match)
             Spacer()
         }
     }

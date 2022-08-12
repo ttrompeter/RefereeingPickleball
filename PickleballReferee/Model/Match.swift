@@ -19,7 +19,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var selectedMatchFormat = 2
     @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 11
-    @Persisted var matchNotes = "Water breaks ever 30 minutes"
+    @Persisted var matchNotes = "Water breaks every 30 minutes"
     @Persisted var matchRefereeRemarks = ""
     @Persisted var namePlayer1Team1 = "Adam Rocafeller"
     @Persisted var namePlayer2Team1 = "Judith Van Hammersmith"
@@ -35,7 +35,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchSetup = true    // Should be false
     @Persisted var whoIsServingText = "2nd Server"
     @Persisted var servingPlayerNumber = 1  // Should be 0
-    @Persisted var currentGameNumber = 2
+    @Persisted var currentGameNumber = 1
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchWinner = false
     @Persisted var selectedGameStartingServer = 0
@@ -45,6 +45,8 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var scoreDisplay = "0 - 0 - 2"
     @Persisted var teamTakingTimeout = 0
     @Persisted var isTimeOutTaken = false
+    @Persisted var numberOfTimeoutsPerGame = 2
+    @Persisted var emailAddressForScoresheetSnaphot = ""
 
     @Persisted var games = RealmSwift.List<Game>()
     
@@ -87,7 +89,7 @@ class Match: Object, ObjectKeyIdentifiable {
             return "Singles"
         default:
             print("Error selecting gameFormatDescription.")
-            return "Unknown Match Style"
+            return "Unknown"
         }
     }
     

@@ -13,7 +13,6 @@ struct WelcomeView: View {
     @Environment(\.realm) var realm
     @ObservedRealmObject var match: Match
     
-    
     var body: some View {
         
         NavigationView {
@@ -63,11 +62,6 @@ struct WelcomeView: View {
             .padding()
             .onAppear {
                 addGames()
-                if match.isMatchSetup {
-                    print("Match is already set up")
-                } else {
-                    print("Match is NOT already set up")
-                }
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
@@ -82,21 +76,12 @@ struct WelcomeView: View {
         // TODO: - Should be a better way to set up the default of a match to have 5 games
         let game1 = Game()
         game1.gameNumber = 1
-        game1.refereeName = "Ellen Delangouria"
-        game1.traineeName = "Billie Wantanabe"
-        game1.gameWinner = "Billy Bob Jones"
         $match.games.append(game1)
         let game2 = Game()
         game2.gameNumber = 2
-        game2.refereeName = "Roger Malkowitz"
-        game2.traineeName = "Amanda Johansson"
-        game2.gameWinner = "Beverly Rasmussen"
         $match.games.append(game2)
         let game3 = Game()
         game3.gameNumber = 3
-        game3.refereeName = "Stephanie Puskin"
-        game3.traineeName = "Collin Hutchinson"
-        game3.gameWinner = "Roger Butler"
         $match.games.append(game3)
         let game4 = Game()
         game4.gameNumber = 4
@@ -109,7 +94,6 @@ struct WelcomeView: View {
     }
     
     func saveMatch() {
-        
         do {
             try realm.write {
                 realm.add(match)
@@ -127,27 +111,3 @@ struct WelcomeView_Previews: PreviewProvider {
 }
 
 
-//            NavigationView {
-//                    NavigationLink {
-//                        //HomeView(match: matches[0])
-//                    } label: {
-//                        Button {
-//                            //HomeView(match: matches[0])
-//                        } label: {
-//                            Text("Start Match")
-//                                .font(.largeTitle)
-//                                .foregroundColor(.green)
-//                        }
-//                        .buttonStyle(PointSideoutButton())
-//                    }
-//            }
-
-
-//            Text("\nTap the \(Image(systemName: "arrow.right")) button below to start Match     ")
-//                .font(.title)
-//                .foregroundColor(.indigo)
-//
-//            Image(systemName: "arrow.right")
-//                .resizable()
-//                .frame(width: 60, height: 60)
-//                .foregroundColor(.red)

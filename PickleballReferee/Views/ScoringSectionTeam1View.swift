@@ -24,6 +24,7 @@ struct ScoringSectionTeam1View: View {
                     PointsFirstRowTeam1View(match: match)
                     PointsSecondRowTeam1View(match: match)
                     PointsThirdRowTeam1View(match: match)
+                    // If match is best 3 games of 5 games then show 5 games else just show 3 games
                     if match.selectedMatchFormat == 3 {
                         PointsFourthRowTeam1View(match: match)
                         PointsFifthRowTeam1View(match: match)

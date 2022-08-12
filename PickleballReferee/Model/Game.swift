@@ -16,7 +16,7 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var player2Team1Points = 0
     @Persisted var player1Team2Points = 0
     @Persisted var player2Team2Points = 0
-    @Persisted var refereeName = ""
+    @Persisted var refereeName = "Buddy Vistok"
     @Persisted var asstRefereeName = ""
     @Persisted var traineeName = ""
     @Persisted var lineJudge1Name = ""

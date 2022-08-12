@@ -5,9 +5,12 @@
 //  Created by Tom Trompeter on 7/28/22.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct BottomButtonsView: View {
+    
+    @ObservedRealmObject var match: Match
     
     @State private var showingHelp = false
     @State private var showingStopwatch = false
@@ -48,7 +51,7 @@ struct BottomButtonsView: View {
                 Text("Admin")
             }
             .buttonStyle(OptionsButtonStyle())
-            .sheet(isPresented: $showingAdmin) { AdminView() }
+            .sheet(isPresented: $showingAdmin) { AdminView(match: match) }
             
         }
         .padding(10)
@@ -58,6 +61,6 @@ struct BottomButtonsView: View {
 
 struct BottomButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        BottomButtonsView()
+        BottomButtonsView(match: Match())
     }
 }

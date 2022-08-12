@@ -5,11 +5,35 @@
 //  Created by Tom Trompeter on 8/8/22.
 //
 
+import MessageUI
+import RealmSwift
 import SwiftUI
+import UIKit
 
 struct SnapshotAdminView: View {
     
     @Environment(\.dismiss) var dismiss
+    @ObservedRealmObject var match: Match
+    
+    // // TODO: - Fix recipients for email instead of hardcoded value
+    @State private var mailData = ComposeMailData(subject: "Pickleball Match Report",
+        recipients: ["ttrompeter@zoho.com"],
+        message: "Match report sent from Pickleball Referee. Completed score sheet is attached.",
+        attachments:  [])  // Empty array of attachments until this is working for matc hsnapshot image
+    
+        // imageView: UIImageView
+        // let imageData: NSData = UIImagePNGRepresentation(imageView.image)!
+        // mail.addAttachmentData(imageData, mimeType: "image/png", fileName: "imageName.png")
+        //      addAttachmentData($0.data, mimeType: $0.mimeType, fileName: $0.fileName)
+        //[AttachmentData(data: UIImagePNGRepresentation(imageView.image)!,
+        //mimeType: "image/png",
+        //fileName: "FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].match.png")]
+    
+    @State private var showMailView = false
+    @State private var showPrintView = false
+    @State private var imageToUse = UIImage()
+    @State private var isSnapshotScorsheetImageAvailable = false
+
     
     var body: some View {
         
@@ -50,17 +74,48 @@ struct SnapshotAdminView: View {
                             VStack {
                                 Text("\n")
                                 HStack {
-                                    Image("printer")
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
-                                        .clipped()
+                                    Button(action: {
+                                        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("match.png")
+                                        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+                                        if matchUIImage == nil {
+                                            print("Error: the scoresheet image is missing")
+                                            
+                                        } else {
+                                            isSnapshotScorsheetImageAvailable.toggle()
+                                            $imageToUse.wrappedValue = matchUIImage!
+                                            showPrintView.toggle()
+                                        }
+                                       
+                                        }) {
+                                            Image("printer")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .clipped()
+                                        }
+                                        .sheet(isPresented: $showPrintView) {
+                                            ActivityViewController(activityItems: [imageToUse])
+                                        }
+                                        // TODO: - Add alert of there is no snapshot image available and tell use to take snapshot first
+                                    
                                     Text("Print")
                                 }
                                 HStack {
-                                    Image("mail")
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
-                                        .clipped()
+                                    Button(action: {
+                                        //$mailData.recipients[0] = [match.emailAddressForScoresheetSnaphot]
+                                            showMailView.toggle()
+                                        }) {
+                                            Image("mail")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .clipped()
+                                        }
+                                        .disabled(!MailView.canSendMail)
+                                        .sheet(isPresented: $showMailView) {
+                                          MailView(data: $mailData) { result in
+                                            print(result)
+                                           }
+                                        }
+                                    
                                     Text("Email")
                                 }
                                 
@@ -70,12 +125,12 @@ struct SnapshotAdminView: View {
                         VStack (alignment: .leading) {
                             HStack (alignment: .top) {
                                 Text("\u{2022}")
-                                Text("To print the snapshot of the match click the print icon next to the image and select the printer to use.")
+                                Text("To print the snapshot of the match click the print icon next to the image and select the printer to use. You MUST have first created the snapshot using the 'Take Screenshot' link on the main Match Scorsheet page located under the Score.")
                             }
                             Text("")
                             HStack (alignment: .top) {
                                 Text("\u{2022}")
-                                Text("To email the snapshot of the match click the email icon next to the image and enter the email address to send the image to.")
+                                Text("To email the snapshot of the match click the email icon next to the image and enter the email address to send the image to. If you did not set up the email address to send the email to in 'Match Setup', you can add one or more addressees in the email popup before you send it.")
                             }
                         }
                         .padding(15)
@@ -97,6 +152,9 @@ struct SnapshotAdminView: View {
 }
 struct SnapshotAdminView_Previews: PreviewProvider {
     static var previews: some View {
-        SnapshotAdminView()
+        SnapshotAdminView(match: Match())
     }
 }
+
+
+

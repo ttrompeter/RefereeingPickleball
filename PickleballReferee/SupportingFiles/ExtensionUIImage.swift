@@ -22,8 +22,12 @@ extension UIImage {
     
     func saveToDocuments() {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let name = "Match-\(Date().timeIntervalSince1970).png"
-        let fileURL = paths[0].appendingPathComponent(name)
+        //let name = "match-\(Date().timeIntervalSince1970).png"
+        let fileURL = paths[0].appendingPathComponent("match.png")
         saveToFile(atURL: fileURL)
     }
+    
 }
+
+// Remove item using FileManger
+//try fileManager.removeItem(atPath: filePath)
