@@ -19,7 +19,7 @@ struct PointsFifthRowTeam2View: View {
                 
                 Rectangle()
                     .foregroundColor(.white)
-                    .frame(width: 120.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                    .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
                     .border(.black, width: 1.0)
                     .overlay(Text(match.games[4].serverNameGame5Team2).font(.caption).italic())
                     

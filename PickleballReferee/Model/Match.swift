@@ -19,6 +19,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var selectedMatchFormat = 2
     @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 11
+    @Persisted var selectedScoringFormat = 1
     @Persisted var matchNotes = "Water breaks every 30 minutes"
     @Persisted var matchRefereeRemarks = ""
     @Persisted var namePlayer1Team1 = "Adam Rocafeller"
@@ -32,10 +33,11 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var matchWinner = ""
     @Persisted var isSecondServer = true
     @Persisted var isTeam1Serving = true
-    @Persisted var isMatchSetup = true    // Should be false
     @Persisted var whoIsServingText = "2nd Server"
     @Persisted var servingPlayerNumber = 1  // Should be 0
     @Persisted var currentGameNumber = 1
+    @Persisted var isMatchSetup = true    // Should be false
+    @Persisted var isMatchStarted = false
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchWinner = false
     @Persisted var selectedGameStartingServer = 0
@@ -93,7 +95,17 @@ class Match: Object, ObjectKeyIdentifiable {
         }
     }
     
-    
+    var matchScoringFormatDescription: String {
+        switch selectedScoringFormat {
+        case 1:
+            return "Regular Scoring"
+        case 2:
+            return "Rally Scoring"
+        default:
+            print("Error selecting gameFormatDescription.")
+            return "Unknown Scoring"
+        }
+    }
     
     override class func primaryKey() -> String? {
         return "id"

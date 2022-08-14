@@ -20,7 +20,7 @@ struct PointsSecondRowTeam1View: View {
                 
                 Rectangle()
                     .foregroundColor(.white)
-                    .frame(width: 120.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                    .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
                     .border(.black, width: 1.0)
                     .overlay(Text(match.games[1].serverNameGame2Team1).font(.caption).italic())
                     
@@ -220,21 +220,36 @@ struct PointsSecondRowTeam1View: View {
                     Text("1")
                         .foregroundColor(Constants.DARK_SLATE)
                 }
-                ZStack {
-                    
-                    Image(match.games[match.currentGameNumber - 1].timeOut2Game2ImageTm1)
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    Text("2")
-                        .foregroundColor(Constants.DARK_SLATE)
+                if match.selectedMatchFormat == 3 {
+                    ZStack {
+                        
+                        Image(match.games[match.currentGameNumber - 1].timeOut2_5Game2ImageTm1)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Text("2")
+                            .foregroundColor(Constants.DARK_SLATE)
+                    }
+                } else {
+                    ZStack {
+                        
+                        Image(match.games[match.currentGameNumber - 1].timeOut2Game2ImageTm1)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Text("2")
+                            .foregroundColor(Constants.DARK_SLATE)
+                    }
                 }
-                ZStack {
-                    
-                    Image(match.games[match.currentGameNumber - 1].timeOut3Game2ImageTm1)
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    Text("3")
-                        .foregroundColor(Constants.DARK_SLATE)
+                
+                // If match is best 3 games of 5 games then show 3 timeouts else just show 2 timeouts
+                if match.selectedMatchFormat == 3 {
+                    ZStack {
+                        
+                        Image(match.games[match.currentGameNumber - 1].timeOut3Game1ImageTm1)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Text("3")
+                            .foregroundColor(Constants.DARK_SLATE)
+                    }
                 }
 
             }

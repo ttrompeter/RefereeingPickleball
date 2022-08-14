@@ -8,7 +8,7 @@
 import RealmSwift
 import SwiftUI
 
-struct TimeOutView: View {
+struct RegularTimeOutView: View {
     
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
@@ -17,28 +17,32 @@ struct TimeOutView: View {
     @State private var isButtonTapped = false
     @State private var presentReceivingTeamNoTimeOutsAvailableAlert = false
     @State private var presentServingTeamNoTimeOutsAvailableAlert = false
+    private let servingTeam = 1
+    private let receivingTeam = 2
+    private let team1 = 1
+    private let team2 = 2
     
     var body: some View {
         
         VStack (spacing: 10) {
             
-            Text("Time Out")
-                .bold()
-                .font(.largeTitle)
-                .padding(.top, 5)
+//            Text("Time Out")
+//                .bold()
+//                .font(.largeTitle)
+//                .padding(.top, 5)
             
             HStack (alignment: .top) {
                 ZStack {
                     Rectangle()
-                        .frame(width: CGFloat(620), height: CGFloat(420))
+                        .frame(width: CGFloat(620), height: CGFloat(410))
                         .foregroundColor(Constants.CLOUDS)
                         .cornerRadius(10)
                         .shadow(radius: 5)
                     VStack (alignment: .leading, spacing: 2) {
                         
                         Group {
-                            Text("Timeout Procedure")
-                                .font(.headline)
+                            Text("Regular Timeout Procedure")
+                                .font(.title)
                             Text("\u{2022}") + Text(" Time out has been called by the [Receiving / Serving] Team")
                             Text("\u{2022}") + Text(" Start Stopwatch")
                             Text("\u{2022}") + Text(" Move to side of court of team that called the timeout")
@@ -76,6 +80,7 @@ struct TimeOutView: View {
                     }
                 }
             }
+            .padding(.top, 10)
             
             VStack {
                 HStack (alignment: .center) {
@@ -86,8 +91,8 @@ struct TimeOutView: View {
                         Spacer()
                         Text("Select Team Taking Time Out")
                         Button {
-                            if validateTimeOut(team: 1) {
-                                timeOutTaken(teamTakingTimeOut: 1)
+                            if validateTimeOut(team: servingTeam) {
+                                timeOutTaken(teamTakingTimeOut: servingTeam)
                                 isServingTeamButtonSelected = true
                                 isButtonTapped = true
                             } else {
@@ -112,8 +117,8 @@ struct TimeOutView: View {
                         
                         Spacer()
                         Button {
-                            if validateTimeOut(team: 2) {
-                                timeOutTaken(teamTakingTimeOut: 2)
+                            if validateTimeOut(team: receivingTeam) {
+                                timeOutTaken(teamTakingTimeOut: receivingTeam)
                                 isReceivingTeamButtonSelected = true
                                 isButtonTapped = true
                             } else {
@@ -155,31 +160,59 @@ struct TimeOutView: View {
     
     func validateTimeOut(team: Int) -> Bool {
         
-        if team == 1 {
+        if team == servingTeam {
             // Time Out by Serving Team
             if match.isTeam1Serving {
-                if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 2 {
-                    // No timeouts avaiable
-                    return false
+                if match.selectedMatchFormat == 3 {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 2 {
+                        // No timeouts avaiable
+                        return false
+                    }
+                } else {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 1 {
+                        // No timeouts avaiable
+                        return false
+                    }
                 }
-                
             } else {
-                if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 2 {
-                    // No timeouts avaiable
-                    return false
+                
+                if match.selectedMatchFormat == 3 {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 2 {
+                        // No timeouts avaiable
+                        return false
+                    }
+                } else {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 1 {
+                        // No timeouts avaiable
+                        return false
+                    }
                 }
             }
-        } else {  // team == 2
+        } else {  // team == 2 == receiving team
             // Time Out by Receiving Team
             if match.isTeam1Serving {
-                if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 2 {
-                    // No timeouts avaiable
-                    return false
+                if match.selectedMatchFormat == 3 {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 2 {
+                        // No timeouts avaiable
+                        return false
+                    }
+                } else {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 1 {
+                        // No timeouts avaiable
+                        return false
+                    }
                 }
             } else {
-                if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 2 {
-                    // No timeouts avaiable
-                    return false
+                if match.selectedMatchFormat == 3 {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 2 {
+                        // No timeouts avaiable
+                        return false
+                    }
+                } else {
+                    if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 1 {
+                        // No timeouts avaiable
+                        return false
+                    }
                 }
             }
         }
@@ -189,30 +222,30 @@ struct TimeOutView: View {
     
     func timeOutTaken (teamTakingTimeOut: Int) {
         
-        if teamTakingTimeOut == 1 {
+        if teamTakingTimeOut == servingTeam {
             // Time Out by Serving Team
             if match.isTeam1Serving {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam1.wrappedValue += 1
-                setTimeoutImage(team: 1)
+                setTimeoutImage(team: team1)
                 $match.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 1
             } else {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam2.wrappedValue += 1
-                setTimeoutImage(team: 2)
+                setTimeoutImage(team: team2)
                 $match.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 2
             }
             
-        } else {  // teamTakingTimeout == 2
+        } else {
             // Time Out by Receiving Team
             if match.isTeam1Serving {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam2.wrappedValue += 1
-                setTimeoutImage(team: 1)
+                setTimeoutImage(team: team2)
                 $match.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 2
             } else {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam1.wrappedValue += 1
-                setTimeoutImage(team: 2)
+                setTimeoutImage(team: team1)
                 $match.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 1
             }
@@ -226,8 +259,8 @@ struct TimeOutView: View {
         print("timeOutsTeam1: \(match.games[match.currentGameNumber - 1].timeOutsTeam1)")
         print("timeOutsTeam2: \(match.games[match.currentGameNumber - 1].timeOutsTeam2)")
         
-        if team == 1 {
-            print("In if team 1 setTimeoutImage()")
+        if team == team1 {
+            print("In if serving team setTimeoutImage()")
             switch match.games[match.currentGameNumber - 1].timeOutsTeam1 {
             case 1:
                 if match.currentGameNumber == 1 {
@@ -238,10 +271,10 @@ struct TimeOutView: View {
                 } else if match.currentGameNumber == 2 {
                     print("In if team 1 Game 2 before setTimeoutImage()")
                     $match.games[1].timeOut1Game2ImageTm1.wrappedValue = "squareleftfwdslash"   // This is in Game
-                    $match.matchLocation.wrappedValue = "From Timeouts"                         // This is in Match
-                    $match.games[1].refereeName.wrappedValue = "From Timeouts"                  // This is in Game
-                    $match.games[1].serverNameGame2Team1.wrappedValue = "From Timeouts"         // This is in Game
-                    print("In if team 1 Game 2 after setTimeoutImage()\n")
+//                    $match.matchLocation.wrappedValue = "From Timeouts"                         // This is in Match
+//                    $match.games[1].refereeName.wrappedValue = "From Timeouts"                  // This is in Game
+//                    $match.games[1].serverNameGame2Team1.wrappedValue = "From Timeouts"         // This is in Game
+//                    print("In if team 1 Game 2 after setTimeoutImage()\n")
                 } else if match.currentGameNumber == 3 {
                     $match.games[2].timeOut1Game3ImageTm1.wrappedValue = "squareleftfwdslash"
                 } else if match.currentGameNumber == 4 {
@@ -277,10 +310,10 @@ struct TimeOutView: View {
                 print("Error setting image in switch statement of setTimeoutImage()")
             }
             
-        } else if team == 2 {
-            print("In if team 2 setTimeoutImage()\n")
+        } else if team == team2 {
+            print("In if receiving team setTimeoutImage()\n")
             switch match.games[match.currentGameNumber - 1].timeOutsTeam2 {
-            case 0:
+            case 1:
                 if match.currentGameNumber == 1 {
                     $match.games[0].timeOut1Game1ImageTm2.wrappedValue = "squareleftfwdslash"
                 } else if match.currentGameNumber == 2 {
@@ -292,7 +325,7 @@ struct TimeOutView: View {
                 } else if match.currentGameNumber == 5 {
                     $match.games[4].timeOut1Game5ImageTm2.wrappedValue = "squareleftfwdslash"
                 }
-            case 1:
+            case 2:
                 if match.currentGameNumber == 1 {
                     $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "squareleftfwdslash"
                 } else if match.currentGameNumber == 2 {
@@ -304,7 +337,7 @@ struct TimeOutView: View {
                 } else if match.currentGameNumber == 5 {
                     $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "squareleftfwdslash"
                 }
-            case 2:
+            case 3:
                 if match.currentGameNumber == 1 {
                     $match.games[0].timeOut3Game1ImageTm2.wrappedValue = "squarerightfwdslash"
                 } else if match.currentGameNumber == 2 {
@@ -326,9 +359,9 @@ struct TimeOutView: View {
     
 }
 
-//struct TimeOutView_Previews: PreviewProvider {
+//struct RegularTimeOutView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TimeOutView()
+//        RegularTimeOutView()
 //    }
 //}
 

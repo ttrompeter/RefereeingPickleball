@@ -10,7 +10,7 @@
 		E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330F671289C7ACE004B50BF /* ScoringManager.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
-		E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* TimeOutView.swift */; };
+		E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* RegularTimeOutView.swift */; };
 		E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932782893B6710087ABB1 /* StopwatchView.swift */; };
 		E349327B2893B7FC0087ABB1 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327A2893B7FC0087ABB1 /* HelpView.swift */; };
 		E349327D2893B8490087ABB1 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327C2893B8490087ABB1 /* EditView.swift */; };
@@ -66,6 +66,10 @@
 		E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157B28A18998001D3596 /* ExtensionUIImage.swift */; };
 		E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157D28A19A29001D3596 /* SnapshotAdminView.swift */; };
 		E3BF696928A6D983006FD5E5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */; };
+		E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */; };
+		E3BF696D28A73D47006FD5E5 /* RefereeTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */; };
+		E3BF696F28A73D56006FD5E5 /* MedicalTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */; };
+		E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */; };
 		E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,7 +77,7 @@
 		E330F671289C7ACE004B50BF /* ScoringManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringManager.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
-		E34932742893B6450087ABB1 /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
+		E34932742893B6450087ABB1 /* RegularTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularTimeOutView.swift; sourceTree = "<group>"; };
 		E34932782893B6710087ABB1 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
 		E349327A2893B7FC0087ABB1 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		E349327C2893B8490087ABB1 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
@@ -126,6 +130,10 @@
 		E396157B28A18998001D3596 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		E396157D28A19A29001D3596 /* SnapshotAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotAdminView.swift; sourceTree = "<group>"; };
 		E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammerNotes.swift; sourceTree = "<group>"; };
+		E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefereeTimeOutView.swift; sourceTree = "<group>"; };
+		E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalTimeOutView.swift; sourceTree = "<group>"; };
+		E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutsView.swift; sourceTree = "<group>"; };
 		E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGameStartingServerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,6 +202,7 @@
 				E3632F9C28937EC900F29D83 /* HomeView.swift */,
 				E3632F9E28937EFF00F29D83 /* MatchView.swift */,
 				E3632FA028937F1E00F29D83 /* MatchSetupView.swift */,
+				E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */,
 				E396156F28A0B8EC001D3596 /* PDFKitView.swift */,
 				E3632FA628938CDB00F29D83 /* PointsFirstRowTeam1View.swift */,
 				E3632FA828938D0600F29D83 /* PointsFirstRowTeam2View.swift */,
@@ -208,6 +217,8 @@
 				E3632FA428938BF000F29D83 /* PointsScoringTitlesView.swift */,
 				E39058D528A40B1E0067A536 /* PopupView.swift */,
 				E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */,
+				E34932742893B6450087ABB1 /* RegularTimeOutView.swift */,
+				E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */,
 				E396157128A0B965001D3596 /* RulesView.swift */,
 				E3632FB22893920D00F29D83 /* ScoringSectionTeam1View.swift */,
 				E3632FB42893922200F29D83 /* ScoringSectionTeam2View.swift */,
@@ -219,7 +230,7 @@
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
 				E3632FBA2893A1DE00F29D83 /* TeamListingTeam1.swift */,
 				E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */,
-				E34932742893B6450087ABB1 /* TimeOutView.swift */,
+				E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */,
 				E3632FBE2893A23800F29D83 /* TopButtonsView.swift */,
 				E3912AD428985B1200D0DA38 /* WelcomeView.swift */,
 			);
@@ -245,6 +256,7 @@
 				E396157B28A18998001D3596 /* ExtensionUIImage.swift */,
 				E390590028A4842C0067A536 /* MailView.swift */,
 				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
+				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
 				E330F671289C7ACE004B50BF /* ScoringManager.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E39058D728A424440067A536 /* SheetManager.swift */,
@@ -336,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */,
 				E39058D628A40B1E0067A536 /* PopupView.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
@@ -353,16 +366,18 @@
 				E3632FAB28938D2100F29D83 /* PointsSecondRowTeam1View.swift in Sources */,
 				E3632FA528938BF000F29D83 /* PointsScoringTitlesView.swift in Sources */,
 				E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */,
+				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
 				E396157228A0B965001D3596 /* RulesView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
 				E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */,
 				E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */,
-				E34932752893B6450087ABB1 /* TimeOutView.swift in Sources */,
+				E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */,
 				E3632FB728939DD500F29D83 /* Stopwatch.swift in Sources */,
 				E349327B2893B7FC0087ABB1 /* HelpView.swift in Sources */,
 				E3BF696928A6D983006FD5E5 /* ActivityViewController.swift in Sources */,
+				E3BF696F28A73D56006FD5E5 /* MedicalTimeOutView.swift in Sources */,
 				E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */,
 				E3632F9F28937EFF00F29D83 /* MatchView.swift in Sources */,
 				E3632F90289379EC00F29D83 /* Game.swift in Sources */,
@@ -382,6 +397,7 @@
 				E3632FAF2893915C00F29D83 /* PointsThirdRowTeam1View.swift in Sources */,
 				E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */,
 				E3632FB928939E0E00F29D83 /* Styles.swift in Sources */,
+				E3BF696D28A73D47006FD5E5 /* RefereeTimeOutView.swift in Sources */,
 				E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */,
 				E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */,
 				E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */,
@@ -523,8 +539,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -552,8 +568,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

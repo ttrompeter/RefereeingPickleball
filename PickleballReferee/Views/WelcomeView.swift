@@ -39,22 +39,6 @@ struct WelcomeView: View {
                                 .font(.largeTitle)
                                 .foregroundColor(.red)
                         }
-                        
-                        
-//                        if match.isMatchSetup {
-//                            NavigationLink (destination: HomeView(match: match)) {
-//                                Text("\nStart Match")
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(.red)
-//                            }
-//                        } else {
-//                            NavigationLink (destination: MatchSetupView(match: match)) {
-//                                Text("\nStart Match")
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(.red)
-//                            }
-//                        }
-                        
                     }
                     .frame(width: 700)
                 }

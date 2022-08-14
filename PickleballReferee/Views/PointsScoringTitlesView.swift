@@ -18,8 +18,8 @@ struct PointsScoringTitlesView: View {
                 
                 Rectangle()
                     .foregroundColor(.white)
-                    .frame(width: 120.0, height: boxDimension, alignment: .leading)
-                    .overlay(Text("Servers"))
+                    .frame(width: 90.0, height: boxDimension, alignment: .leading)
+                    .overlay(Text("   Servers"))
                 
                 
                 //Empty space column

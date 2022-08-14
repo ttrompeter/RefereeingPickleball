@@ -42,6 +42,8 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var serverNameGame3Team2 = "Tm2Game3"
     @Persisted var serverNameGame4Team2 = ""
     @Persisted var serverNameGame5Team2 = ""
+    @Persisted var selectedFirstServerTeam1 = 0
+    @Persisted var selectedFirstServerTeam2 = 0
     
     @Persisted(originProperty: "games") var match: LinkingObjects<Match>
     
@@ -322,36 +324,48 @@ class Game: Object, ObjectKeyIdentifiable {
     
     
     // Images for timeout boxes - default values
-    var timeOut1Game1ImageTm1 = "squareleft"
-    var timeOut2Game1ImageTm1 = "squareleft"
-    var timeOut3Game1ImageTm1 = "square"
-    var timeOut1Game2ImageTm1 = "squaremiddleleft"
-    var timeOut2Game2ImageTm1 = "squaremiddleleft"
-    var timeOut3Game2ImageTm1 = "squaremiddleright"
-    var timeOut1Game3ImageTm1 = "squareleft"
-    var timeOut2Game3ImageTm1 = "squareleft"
-    var timeOut3Game3ImageTm1 = "square"
-    var timeOut1Game4ImageTm1 = "squareleft"
-    var timeOut2Game4ImageTm1 = "squareleft"
-    var timeOut3Game4ImageTm1 = "square"
-    var timeOut1Game5ImageTm1 = "squareleft"
-    var timeOut2Game5ImageTm1 = "squareleft"
-    var timeOut3Game5ImageTm1 = "square"
+    @Persisted var timeOut1Game1ImageTm1 = "squareleft"
+    @Persisted var timeOut2Game1ImageTm1 = "square"
+    @Persisted var timeOut2_5Game1ImageTm1 = "squareleft"
+    @Persisted var timeOut3Game1ImageTm1 = "square"
     
-    var timeOut1Game1ImageTm2 = "squareleft"
-    var timeOut2Game1ImageTm2 = "squareleft"
-    var timeOut3Game1ImageTm2 = "square"
-    var timeOut1Game2ImageTm2 = "squaremiddleleft"
-    var timeOut2Game2ImageTm2 = "squaremiddleleft"
-    var timeOut3Game2ImageTm2 = "squaremiddleright"
-    var timeOut1Game3ImageTm2 = "squareleft"
-    var timeOut2Game3ImageTm2 = "squareleft"
-    var timeOut3Game3ImageTm2 = "square"
-    var timeOut1Game4ImageTm2 = "squareleft"
-    var timeOut2Game4ImageTm2 = "squareleft"
-    var timeOut3Game4ImageTm2 = "square"
-    var timeOut1Game5ImageTm2 = "squareleft"
-    var timeOut2Game5ImageTm2 = "squareleft"
-    var timeOut3Game5ImageTm2 = "square"
+    @Persisted var timeOut1Game2ImageTm1 = "squaremiddleleft"
+    @Persisted var timeOut2Game2ImageTm1 = "squaremiddleright"
+    @Persisted var timeOut2_5Game2ImageTm1 = "squaremiddleleft"
+    @Persisted var timeOut3Game2ImageTm1 = "squaremiddleright"
+    
+    @Persisted var timeOut1Game3ImageTm1 = "squareleft"
+    @Persisted var timeOut2Game3ImageTm1 = "square"
+    @Persisted var timeOut2_5Game3ImageTm1 = "squareleft"
+    @Persisted var timeOut3Game3ImageTm1 = "square"
+    
+    @Persisted var timeOut1Game4ImageTm1 = "squareleft"
+    @Persisted var timeOut2Game4ImageTm1 = "squareleft"
+    @Persisted var timeOut3Game4ImageTm1 = "square"
+    @Persisted var timeOut1Game5ImageTm1 = "squareleft"
+    @Persisted var timeOut2Game5ImageTm1 = "squareleft"
+    @Persisted var timeOut3Game5ImageTm1 = "square"
+    
+    @Persisted var timeOut1Game1ImageTm2 = "squareleft"
+    @Persisted var timeOut2Game1ImageTm2 = "square"
+    @Persisted var timeOut2_5Game1ImageTm2 = "squareleft"
+    @Persisted var timeOut3Game1ImageTm2 = "square"
+    
+    @Persisted var timeOut1Game2ImageTm2 = "squaremiddleleft"
+    @Persisted var timeOut2Game2ImageTm2 = "squaremiddleright"
+    @Persisted var timeOut2_5Game2ImageTm2 = "squaremiddleleft"
+    @Persisted var timeOut3Game2ImageTm2 = "squaremiddleright"
+    
+    @Persisted var timeOut1Game3ImageTm2 = "squareleft"
+    @Persisted var timeOut2Game3ImageTm2 = "square"
+    @Persisted var timeOut2_5Game3ImageTm2 = "squareleft"
+    @Persisted var timeOut3Game3ImageTm2 = "square"
+    
+    @Persisted var timeOut1Game4ImageTm2 = "squareleft"
+    @Persisted var timeOut2Game4ImageTm2 = "squareleft"
+    @Persisted var timeOut3Game4ImageTm2 = "square"
+    @Persisted var timeOut1Game5ImageTm2 = "squareleft"
+    @Persisted var timeOut2Game5ImageTm2 = "squareleft"
+    @Persisted var timeOut3Game5ImageTm2 = "square"
     
 }

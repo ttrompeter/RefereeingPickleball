@@ -164,6 +164,22 @@ struct MediumButtonStyle: ButtonStyle {
     
 }
 
+struct CoinTossButtonStyle: ButtonStyle {
+    
+    // Point & 2nd Server Burttons
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .frame(width: 100, height: 30)
+            .background(Constants.MINT_LEAF)
+            .font(.caption)
+            .foregroundColor(Constants.DARK_SLATE)
+            .clipShape(Capsule())
+            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+    
+}
 
 // One Tutorial Solution for changing buttons using .isEnabled
 public struct ButtonStyleContent<Content: View>: View {

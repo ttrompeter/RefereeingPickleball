@@ -19,9 +19,15 @@ struct TeamListingTeam2: View {
                 Text("Team 2:   ")
                     .font(.headline)
                     .foregroundColor(Constants.DARK_SLATE)
-                Text("   \(match.namePlayer1Team2)   ")
-                    .font(.headline)
-                    .foregroundColor(Constants.MINT_LEAF)
+                if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 1 {
+                    Text("   \(match.namePlayer1Team2)   ")
+                        .font(.headline)
+                        .foregroundColor(Constants.MINT_LEAF)
+                } else {
+                    Text("   \(match.namePlayer1Team2)   ")
+                        .font(.headline)
+                        .foregroundColor(Constants.DARK_SLATE)
+                }
             }
             
             Text("[ \(match.player1Team2Identifiers) ]")
@@ -31,9 +37,15 @@ struct TeamListingTeam2: View {
             Text("     ||     ")
                 .font(.headline)
                 .foregroundColor(Constants.DARK_SLATE)
-            Text("\(match.namePlayer2Team2)   ")
-                .font(.headline)
-                .foregroundColor(Constants.DARK_SLATE)
+            if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 2 {
+                Text("   \(match.namePlayer2Team2)   ")
+                    .font(.headline)
+                    .foregroundColor(Constants.MINT_LEAF)
+            } else {
+                Text("   \(match.namePlayer2Team2)   ")
+                    .font(.headline)
+                    .foregroundColor(Constants.DARK_SLATE)
+            }
             Text("[ \(match.player2Team2Identifiers) ]")
                 .italic()
                 .font(.subheadline)

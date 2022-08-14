@@ -25,7 +25,7 @@ struct TopButtonsView: View {
                 Text("Timeout")
             }
             .buttonStyle(OptionsButtonStyle())
-            .sheet(isPresented: $showingTimeOut) { TimeOutView(match: match) }
+            .sheet(isPresented: $showingTimeOut) { TimeOutsView(match: match) }
             
             Button {
                 showingPreMatchBriefing.toggle()
