@@ -57,5 +57,69 @@ struct Constants {
     // POMAGRANATE      rgba(192, 57, 43,1.0)
     // EMERALD          rgba(46, 204, 113,1.0)
     
+    
     //********************************************************************************
+    //     IMAGES
+    
+    static var BOX = "box"
+    static var BOX_BLANK = "boxblank"
+    static var BOX_BACK_SLASH = "boxbackslash"
+    static var BOX_FORWARD_SLASH = "boxfwdslash"
+    
+    static var BOX_LEFT = "boxleft"
+    static var BOX_LEFT_BACK_SLASH = "boxleftbackslash"
+    static var BOX_LEFT_FORWARD_SLASH = "boxleftfwdslash"
+    
+    static var BOX_BOTTOM_LEFT = "boxbottomleft"
+    static var BOX_BOTTOM_LEFT_BACK_SLASH = "boxbottomleftbackslash"
+    static var BOX_BOTTOM_LEFT_FORWARD_SLASH = "boxbottomleftbackslash"
+   
+    static var BOX_RIGHT_END = "boxrightend"
+    static var BOX_RIGHT_END_BACK_SLASH = "boxrightendbackslash"
+    static var BOX_RIGHT_END_FORWARD_SLASH = "boxrightendfwdslash"
+    
+    static var SIDEOUT_LEFT = "sideoutleft"
+    static var SIDEOUT_RIGHT = "sideoutright"
+    
+    static var TRIANGLE = "triangle"
+    
+    //********************************************************************************
+    
+    
+    
+    
+    //    static var SQUARE_LEFT = "squareleft"
+    //    static var SQUARE_LEFT_SIDEOUT = "squareleftsideout"
+    //    static var SQUARE_LEFT_FORWARD_SLASH = "squareleftfwdslash"
+    //    static var SQUARE_LEFT_FORWARD_SLASH_SIDEOUT = "squareleftfwdslashsideout"
+    //    static var SQUARE_LEFT_BACK_SLASH = "squareleftbackslash"
+    //    static var SQUARE_LEFT_BACK_SLASH_SIDEOUT = "squareleftbackslashsideout"
+    //
+    //    static var SQUARE_MIDDLE_LEFT = "squaremiddleleft"
+    //    static var SQUARE_MIDDLE_LEFT_SIDEOUT = "squaremiddleleftsideout"
+    //    static var SQUARE_MIDDLE_LEFT_FORWARD_SLASH = "squaremiddleleftfwdslash"
+    //    static var SQUARE_MIDDLE_LEFT_FORWARD_SLASH_SIDEOUT = "squaremiddleleftfwdslashsideout"
+    //    static var SQUARE_MIDDLE_LEFT_BACK_SLASH = "squaremiddleleftbackslash"
+    //    static var SQUARE_MIDDLE_LEFT_BACK_SLASH_SIDEOUT = "squareleftbackslashsideout"
+    //
+    //    static var SQUARE_MIDDLE_RIGHT = "squaremiddleright"
+    //    static var SQUARE_MIDDLE_RIGHT_FORWARD_SLASH = "squaremiddlerightfwdslash"
+    //    static var SQUARE_MIDDLE_RIGHT_FORWARD_SLASH_SIDEOUT = "squaremiddlerightfwdslashsideout"
+    //    static var SQUARE_MIDDLE_RIGHT_BACK_SLASH = "squaremiddlerightbackslash"
+    //    static var SQUARE_MIDDLE_RIGHT_BACK_SLASH_SIDEOUT = "squaremiddlerightbackslashsideout"
+    //    static var SQUARE_MIDDLE_RIGHT_SIDEOUT = "squaremiddlerightsideout"
+    
+    //static var BOX_BOTTOM_LEFT_FORWARD_SLASH_SIDEOUT = "boxbottomleftbackslashsideout"
+    //static var BOX_BOTTOM_LEFT_SIDEOUT = "boxbottomleftsideout"
+    //static var BOX_LEFT_FORWARD_SLASH_SIDEOUT = "boxleftfwdslashsideout"
+    //static var BOX_LEFT_SIDEOUT = "boxleftsideout"
+    //static var BOX_BACK_SLASH_SIDEOUT = "boxbackslashsideout"
+    //static var BOX_FORWARD_SLASH_SIDEOUT = "boxfwdslashsideout"
+    //static var BOX_SIDEOUT = "boxsideout"
+    //static var BOX_LEFT_BACK_SLASH_SIDEOUT = "boxleftbackslashsideout"
+    //static var BOX_RIGHT_END_FORWARD_SLASH_SIDEOUT = "boxrightendfwdslashsideout"
+    //static var BOX_RIGHT_END_BACK_SLASH_SIDEOUT = "boxrightendbackslashsideout"
+    //static var BOX_BOTTOM_LEFT_BACK_SLASH_SIDEOUT = "boxbottomleftbackslashsideout"
+    
+    
 }

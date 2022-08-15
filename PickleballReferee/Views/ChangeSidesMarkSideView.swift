@@ -28,114 +28,114 @@ struct ChangeSidesMarkSideView: View {
                 }
                 
                 Group {
-                    Image("squareblank")  //1
+                    Image(Constants.BOX_BLANK)  //1
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //2
+                    Image(Constants.BOX_BLANK)  //2
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 7 {
-                        Image("triangleempty5")
+                        Image(Constants.TRIANGLE)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")  //3
+                        Image(Constants.BOX_BLANK)  //3
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")  //4
+                    Image(Constants.BOX_BLANK)  //4
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //5
+                    Image(Constants.BOX_BLANK)  //5
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 11 {
-                        Image("triangleempty5")
+                        Image(Constants.TRIANGLE)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")  //6
+                        Image(Constants.BOX_BLANK)  //6
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")  //7
+                    Image(Constants.BOX_BLANK)  //7
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 15 {
-                        Image("triangleempty5")
+                        Image(Constants.TRIANGLE)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")  //8
+                        Image(Constants.BOX_BLANK)  //8
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")  //9
+                    Image(Constants.BOX_BLANK)  //9
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 Group {
-                    Image("squareblank")  //10
+                    Image(Constants.BOX_BLANK)  //10
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
                     if match.selectedGameFormat == 21 {
-                        Image("triangleempty5")
+                        Image(Constants.TRIANGLE)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     } else {
-                        Image("squareblank")  //11
+                        Image(Constants.BOX_BLANK)  //11
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     }
                     
-                    Image("squareblank")  //12
+                    Image(Constants.BOX_BLANK)  //12
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //13
+                    Image(Constants.BOX_BLANK)  //13
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //14
+                    Image(Constants.BOX_BLANK)  //14
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //15
+                    Image(Constants.BOX_BLANK)  //15
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //16
+                    Image(Constants.BOX_BLANK)  //16
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //17
+                    Image(Constants.BOX_BLANK)  //17
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //18
+                    Image(Constants.BOX_BLANK)  //18
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //19
+                    Image(Constants.BOX_BLANK)  //19
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
                 
                 Group {
-                    Image("squareblank")  //20
+                    Image(Constants.BOX_BLANK)  //20
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     
-                    Image("squareblank")  //21
+                    Image(Constants.BOX_BLANK)  //21
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 }
@@ -147,15 +147,15 @@ struct ChangeSidesMarkSideView: View {
                 }
                 // Timeouts
                 
-                Image("squareblank")
+                Image(Constants.BOX_BLANK)
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 
-                Image("squareblank")
+                Image(Constants.BOX_BLANK)
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                 
-                Image("squareblank")
+                Image(Constants.BOX_BLANK)
                     .resizable()
                     .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
             }

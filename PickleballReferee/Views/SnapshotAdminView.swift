@@ -60,7 +60,7 @@ struct SnapshotAdminView: View {
                         
                         HStack (alignment: .top) {
                             VStack {
-                                Image("match-1")
+                                Image("z_match-1")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 380.0, height: 280.0, alignment: .center)

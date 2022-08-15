@@ -59,7 +59,7 @@ public struct MailView: UIViewControllerRepresentable {
         vc.setMessageBody(data.message, isHTML: false)
         
         // TRT Changes to only use single attachement and specific for snapshot of score sheet
-        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("match.png")
+        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
         let matchUIImage = UIImage(contentsOfFile: imageUrl.path)!
         let matchData = matchUIImage.pngData()!
         vc.addAttachmentData(matchData, mimeType: "image/png", fileName: "FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].match.png")

@@ -15,6 +15,9 @@ struct TopButtonsView: View {
     @State private var showingMatchSetup = false
     @State private var showingPreMatchBriefing = false
     @State private var showingEdit = false
+    @State private var presentCoinTossAlert = false
+    
+    let randCoinToss = Int.random(in: 1...2)
     
     var body: some View {
         
@@ -51,6 +54,18 @@ struct TopButtonsView: View {
             .buttonStyle(OptionsButtonStyle())
             .sheet(isPresented: $showingEdit) { EditView(match: match) }
             
+            if !match.isMatchStarted {
+                Button {
+                    presentCoinTossAlert.toggle()
+                } label: {
+                    Text("Coin Toss")
+                }
+                .buttonStyle(OptionsButtonStyle())
+                .alert("\(randCoinToss)", isPresented: $presentCoinTossAlert) {
+                    Button("OK", role: .cancel) {
+                    }
+                }
+            }
         }
         .padding(10)
         .background(Constants.CLOUDS)
