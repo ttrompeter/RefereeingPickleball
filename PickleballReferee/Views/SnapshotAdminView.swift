@@ -34,6 +34,10 @@ struct SnapshotAdminView: View {
     @State private var imageToUse = UIImage()
     @State private var isSnapshotScorsheetImageAvailable = false
 
+    private var url: URL {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            return paths[0].appendingPathComponent("scoresheet.png")
+    }
     
     var body: some View {
         
@@ -60,6 +64,9 @@ struct SnapshotAdminView: View {
                         
                         HStack (alignment: .top) {
                             VStack {
+                                //let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                                //let fileURL = paths[0].appendingPathComponent("scoresheet.png")
+                                
                                 Image("z_match-1")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)

@@ -36,7 +36,16 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point1Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint0Game2Team1 {
+                                Image(Constants.SIDEOUT_LEFT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
+                            if match.games[3].isSideoutPoint1Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("1")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -44,6 +53,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point2Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            if match.games[3].isSideoutPoint2Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("2")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -51,6 +65,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point3Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            if match.games[3].isSideoutPoint3Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("3")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -58,7 +77,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point4Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint4Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("4")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -66,7 +89,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point5Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint5Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("5")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -74,7 +101,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point6Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint6Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("6")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -82,7 +113,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point7Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint7Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("7")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -90,7 +125,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point8Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint8Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("8")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -98,7 +137,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point9Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint9Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("9")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -108,7 +151,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point10Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint10Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("10")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -116,7 +163,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point11Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint11Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("11")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -124,7 +175,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point12Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint12Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("12")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -132,7 +187,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point13Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint13Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("13")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -140,7 +199,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point14Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint14Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("14")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -148,7 +211,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point15Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint15Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("15")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -156,7 +223,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point16Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint16Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("16")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -164,7 +235,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point17Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint17Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("17")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -172,7 +247,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point18Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint18Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("18")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -180,7 +259,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point19Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint19Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("19")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -191,7 +274,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point20Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint20Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("20")
                                 .foregroundColor(Constants.SILVER)
                         }
@@ -199,7 +286,11 @@ struct PointsFourthRowTeam1View: View {
                             Image(match.games[match.currentGameNumber - 1].point21Game4ImageTm1)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-
+                            if match.games[3].isSideoutPoint21Game2Team1 {
+                                Image(Constants.SIDEOUT_RIGHT)
+                                    .resizable()
+                                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                            }
                             Text("21")
                                 .foregroundColor(Constants.SILVER)
                         }
