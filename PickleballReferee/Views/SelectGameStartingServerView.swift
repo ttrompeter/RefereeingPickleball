@@ -11,17 +11,20 @@ import SwiftUI
 struct SelectGameStartingServerView: View {
     
     // TODO: - This View is not being used and should be deleted.
-    // This functionality is handled in the MatchView sith the SelectStartingServer
+    // This functionality is handled in the MatchView with the SelectStartingServer
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
+    @EnvironmentObject var sheetManager: SheetManager
     
     var body: some View {
         
         VStack (spacing: 30) {
             
-            Text("Set First Server For This Game: Game \(match.currentGameNumber)")
+            Text("Set First Server For This Game")
                 .bold()
                 .font(.largeTitle)
+            Text("Game \(match.currentGameNumber)")
+                .font(.title)
             
             ZStack {
                 Rectangle()
@@ -29,64 +32,77 @@ struct SelectGameStartingServerView: View {
                     .foregroundColor(Constants.CLOUDS)
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                Form {
+                
                 VStack {
-                    
-                    HStack {
-                        Text("Match Location: ")
-                            .foregroundColor(Constants.DARK_SLATE)
-                        TextField("Match Location", text: $match.matchLocation)
+                    Form {
+                        
+                        Section(header: Text("SERVER INFORMATION").bold().font(.headline)) {
+                            
+                            VStack (alignment: .leading) {
+                                
+                                HStack {
+                                    Text("Team 1 First Server: ")
+                                    Picker(selection: $match.games[match.currentGameNumber - 1].selectedFirstServerTeam1,
+                                           //Picker(selection: $match.selectedGameFirstServer,
+                                           label: Text("First Server"),
+                                           content:  {
+                                        Text("Select First Server").tag(0)
+                                        Text(match.namePlayer1Team1).tag(1)
+                                        Text(match.namePlayer2Team1).tag(2)
+                                    })
+                                    .pickerStyle(MenuPickerStyle())
+                                    .fixedSize()
+                                }
+                                
+                                HStack {
+                                    Text("Team 2 First Server: ")
+                                    Picker(selection: $match.games[match.currentGameNumber - 1].selectedFirstServerTeam2,
+                                           //Picker(selection: $match.selectedGameFirstServer,
+                                           label: Text("First Server"),
+                                           content:  {
+                                        Text("Select First Server").tag(0)
+                                        Text(match.namePlayer1Team2).tag(3)
+                                        Text(match.namePlayer2Team2).tag(4)
+                                    })
+                                    .pickerStyle(MenuPickerStyle())
+                                    .fixedSize()
+                                }
+                                HStack {
+                                    Text("Game Starting Server: ")
+                                    Picker(selection: $match.selectedGameStartingServer,
+                                           label: Text("First Server"),
+                                           content:  {
+                                        Text("Select Starting Server").tag(0)
+                                        Text(match.namePlayer1Team1).tag(1)
+                                        Text(match.namePlayer2Team1).tag(2)
+                                        Text(match.namePlayer1Team2).tag(3)
+                                        Text(match.namePlayer2Team2).tag(4)
+                                    })
+                                    .pickerStyle(MenuPickerStyle())
+                                    .fixedSize()
+                                }
+                            }
+                        }
+                        
+                        Section(header: Text("COURT ALIGNMENT INFORMATION").bold().font(.headline)) {
+                            
+                            HStack {
+                                Text("Game Starting Court Side:")
+                                
+                                Picker(selection: $match.isServingLeftSide,
+                                       label: Text("Side"),
+                                       content:  {
+                                    Text("Select Court Side").tag(0)
+                                    Text("Left").tag(true)
+                                    Text("Right").tag(false)
+                                })
+                                .pickerStyle(MenuPickerStyle())
+                                
+                            }
+                        }
                     }
-                    HStack {
-                        Text("Game Starting Server: ")
-                        Picker(selection: $match.selectedGameStartingServer,
-                        //Picker(selection: $match.selectedGameFirstServer,
-                               label: Text("Starting Server"),
-                               content:  {
-                            Text("Select Starting Server").tag(0)
-                            Text(match.namePlayer1Team1).tag(1)
-                            Text(match.namePlayer1Team2).tag(3)
-                        })
-                        .pickerStyle(MenuPickerStyle())
-                        //.fixedSize()
-                    }
-                    
-                    HStack {
-                        Text("Match Format:")
-
-                        Picker(selection: $match.selectedMatchFormat,
-                               label: Text("Match Format"),
-                               content:  {
-                            Text("Best 2 out of 3 Games")
-                                .tag(2)
-                                .foregroundColor(Constants.DARK_SLATE)
-                            Text("Best 3 out of 5 Games")
-                                .tag(3)
-                                .foregroundColor(Constants.DARK_SLATE)
-                            Text("Single Game")
-                                .tag(1)
-                                .foregroundColor(Constants.DARK_SLATE)
-                        })
-                        .pickerStyle(MenuPickerStyle())
-
-                    }
-                    
-                    HStack {
-                        Text("Game First Server:")
-
-                        Picker(selection: $match.servingPlayerNumber,
-                               label: Text("Server"),
-                               content:  {
-                            Text("Select Starting Server").tag(0)
-                            Text(match.namePlayer1Team1).tag(1)
-                            Text(match.namePlayer1Team2).tag(3)
-                        })
-                        .pickerStyle(MenuPickerStyle())
-
-                    }
-                    
                 }
-                }
+                
             }
             
             VStack {
@@ -110,9 +126,10 @@ struct SelectGameStartingServerView: View {
                     .disabled(match.namePlayer1Team1.isEmpty  || match.namePlayer2Team1.isEmpty || match.namePlayer1Team2.isEmpty || match.namePlayer2Team2.isEmpty)
                 }
             }
+            Spacer()
             
         }  // Top VStack
-        
+        .padding()
     }
 }
 

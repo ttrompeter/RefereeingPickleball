@@ -149,7 +149,7 @@ struct SheetButtonStyle: ButtonStyle {
 
 struct MediumButtonStyle: ButtonStyle {
     
-    // Point & 2nd Server Burttons
+    // Point & 2nd Server Buttons
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
@@ -166,11 +166,10 @@ struct MediumButtonStyle: ButtonStyle {
 
 struct CoinTossButtonStyle: ButtonStyle {
     
-    // Point & 2nd Server Burttons
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .frame(width: 100, height: 30)
+            .frame(width: 140, height: 40)
             .background(Constants.MINT_LEAF)
             .font(.caption)
             .foregroundColor(Constants.DARK_SLATE)
@@ -180,6 +179,72 @@ struct CoinTossButtonStyle: ButtonStyle {
     }
     
 }
+
+struct StartMatchButtonStyle: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .frame(width: 140, height: 40)
+            .background(Constants.MINT_LEAF)
+            .font(.caption)
+            .foregroundColor(Constants.DARK_SLATE)
+            .clipShape(Capsule())
+            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+    
+}
+
+struct EndMatchButtonStyle: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .frame(width: 140, height: 40)
+            .background(Constants.CRIMSON)
+            .font(.caption)
+            .foregroundColor(Constants.DARK_SLATE)
+            .clipShape(Capsule())
+            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+    
+}
+
+struct WelcomeButtonStyle: ButtonStyle {
+
+    private struct ContentView<Content: View>: View {
+
+        var view: Content
+
+        @Environment(\.isEnabled) private var isEnabled
+
+        var body: some View {
+            view
+                .padding()
+                .frame(width: 200, height: 60)
+                .background(backgroundColor)
+                .font(.title)
+                .foregroundColor(foregroundColor)
+                .clipShape(Capsule())
+        }
+
+        var backgroundColor: Color {
+            isEnabled ? Constants.MINT_LEAF : Constants.SILVER
+        }
+        var foregroundColor: Color {
+            isEnabled ? Constants.WHITE : Constants.DARK_SLATE
+        }
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        ContentView(view: configuration.label)
+            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+}
+
 
 // One Tutorial Solution for changing buttons using .isEnabled
 public struct ButtonStyleContent<Content: View>: View {

@@ -32,7 +32,10 @@ struct SnapshotAdminView: View {
     @State private var showMailView = false
     @State private var showPrintView = false
     @State private var imageToUse = UIImage()
-    @State private var isSnapshotScorsheetImageAvailable = false
+    @State private var isScorsheetScreenshotUnavailable = true
+    @State private var presentingNoScoresheetScreenshotAvailable = false
+    @State private var presentEnlargedImage = false
+    
 
     private var url: URL {
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -64,34 +67,41 @@ struct SnapshotAdminView: View {
                         
                         HStack (alignment: .top) {
                             VStack {
-                                //let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                                //let fileURL = paths[0].appendingPathComponent("scoresheet.png")
                                 
-                                Image("z_match-1")
+                                Image(uiImage: imageToUse)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 380.0, height: 280.0, alignment: .center)
                                     .border(Color.gray, width: 3.0)
                                     .clipped()
-                                Text("Show Enlarged Image")
-                                    .padding(5)
-                                    .font(.title2)
-                                    .foregroundColor(Constants.MINT_LEAF)
+                                
+                                Button {
+                                    presentEnlargedImage = true
+                                } label: {
+                                    Text("Show Enlarged Image")
+                                        .padding(10)
+                                        .font(.headline)
+                                        .foregroundColor(Constants.MINT_LEAF)
+                                }
+                                .sheet(isPresented: $presentEnlargedImage) { LargeScoresheetImageView() }
+                                
                             }
                             VStack {
                                 Text("\n")
                                 HStack {
                                     Button(action: {
-                                        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("match.png")
-                                        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
-                                        if matchUIImage == nil {
-                                            print("Error: the scoresheet image is missing")
-                                            
-                                        } else {
-                                            isSnapshotScorsheetImageAvailable.toggle()
-                                            $imageToUse.wrappedValue = matchUIImage!
-                                            showPrintView.toggle()
-                                        }
+                                        showPrintView = true
+                                        
+//                                        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
+//                                        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+//                                        if matchUIImage == nil {
+//                                            print("Error: the scoresheet image is missing")
+//
+//                                        } else {
+//                                            isScorsheetScreenshotUnavailable.toggle()
+//                                            $imageToUse.wrappedValue = matchUIImage!
+//                                            showPrintView.toggle()
+//                                        }
                                        
                                         }) {
                                             Image("printer")
@@ -102,14 +112,12 @@ struct SnapshotAdminView: View {
                                         .sheet(isPresented: $showPrintView) {
                                             ActivityViewController(activityItems: [imageToUse])
                                         }
-                                        // TODO: - Add alert of there is no snapshot image available and tell use to take snapshot first
-                                    
                                     Text("Print")
                                 }
                                 HStack {
                                     Button(action: {
                                         //$mailData.recipients[0] = [match.emailAddressForScoresheetSnaphot]
-                                            showMailView.toggle()
+                                            showMailView = true
                                         }) {
                                             Image("mail")
                                                 .resizable()
@@ -122,22 +130,21 @@ struct SnapshotAdminView: View {
                                             print(result)
                                            }
                                         }
-                                    
                                     Text("Email")
                                 }
-                                
                                 .padding()
+                                
                             }
                         }
                         VStack (alignment: .leading) {
                             HStack (alignment: .top) {
                                 Text("\u{2022}")
-                                Text("To print the snapshot of the match click the print icon next to the image and select the printer to use. You MUST have first created the snapshot using the 'Take Screenshot' link on the main Match Scorsheet page located under the Score.")
+                                Text("To print the screenshot of the match click the print icon next to the image and select the printer to use. You MUST HAVE FIRST CREATED THE SCREENSHOT using the 'Take Screenshot' link on the main Match Scorsheet page located under the Score.")
                             }
                             Text("")
                             HStack (alignment: .top) {
                                 Text("\u{2022}")
-                                Text("To email the snapshot of the match click the email icon next to the image and enter the email address to send the image to. If you did not set up the email address to send the email to in 'Match Setup', you can add one or more addressees in the email popup before you send it.")
+                                Text("To email the screenshot of the match click the email icon next to the image and enter the email address to send the image to. If you did not set up the email address to send the email to in 'Match Setup', you can add one or more addressees in the email popup before you send it.")
                             }
                         }
                         .padding(15)
@@ -146,6 +153,7 @@ struct SnapshotAdminView: View {
                 }
                 .padding(.leading, 20)
             }
+            .alert("No Scoresheet Screenshot is available.\nTake Screenshot on Match Scorsheet Page.", isPresented: $presentingNoScoresheetScreenshotAvailable, actions: {})
             VStack {
                 Button("Close") {
                     dismiss()
@@ -154,6 +162,27 @@ struct SnapshotAdminView: View {
             }
             
         }   // End Top VStack
+        .onAppear {
+            //$imageToUse.wrappedValue = getScoresheetImage()
+            
+            let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
+            let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+            if matchUIImage == nil {
+                print("Error: the scoresheet image is missing. Using sample scoresheet")
+                let sampleImageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sample_scoresheet.png")
+                let sampleUIImage = UIImage(contentsOfFile: sampleImageUrl.path)
+                $imageToUse.wrappedValue = sampleUIImage!
+                $presentingNoScoresheetScreenshotAvailable.wrappedValue = true
+                $isScorsheetScreenshotUnavailable.wrappedValue = true
+            } else {
+                $imageToUse.wrappedValue = matchUIImage!
+                print("imgeToUse loaded during onAppear.")
+                print("isScorsheetScreenshotUnavailable before set in else: \(isScorsheetScreenshotUnavailable)")
+                $isScorsheetScreenshotUnavailable.wrappedValue = false
+                print("isScorsheetScreenshotUnavailable after set in else: \(isScorsheetScreenshotUnavailable)")
+                
+            }
+        }
     }
     
 }

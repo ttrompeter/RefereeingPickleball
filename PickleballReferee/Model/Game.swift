@@ -31,7 +31,7 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var isGameCompleted = false
     @Persisted var gameFinalScore = ""
     @Persisted var gameStartingServerName = "Adam Rockafeller" // Should be Undetermined
-    @Persisted var gameStartingServerNumber = 0
+    @Persisted var gameStartingServerPlayerNumber = 0
     @Persisted var serverNameGame1Team1 = "Tm1Game1"
     @Persisted var serverNameGame2Team1 = "Tm1Game2"
     @Persisted var serverNameGame3Team1 = "Tm1Game3"
@@ -46,6 +46,8 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var selectedFirstServerTeam2 = 0
     @Persisted var sideOutsTeam1 = 0
     @Persisted var sideOutsTeam2 = 0
+    @Persisted var gameElapsedTime = 0.0
+    @Persisted var isServerSideSet = false
     
     @Persisted(originProperty: "games") var match: LinkingObjects<Match>
     

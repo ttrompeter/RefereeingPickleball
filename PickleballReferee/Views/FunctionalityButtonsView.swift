@@ -16,14 +16,13 @@ struct FunctionalityButtonsView: View {
         VStack  {
             Spacer()
             TopButtonsView(match: match)
-            Spacer()
             VStack (spacing: 1) {
-                if match.isTeam1Serving {
+                if !match.isServingLeftSide {
                     Image(systemName: "arrow.right.square")
                         .font(.system(size: 90))
                 }
                 //else if orientation.type == .landscapeLeft {
-                else if !match.isTeam1Serving {
+                else if match.isServingLeftSide {
                     Image(systemName: "arrow.left.square")  // Left arrow
                         .font(.system(size: 90))
                 } else {
@@ -31,7 +30,6 @@ struct FunctionalityButtonsView: View {
                         .font(.system(size: 90))
                 }
             }
-            Spacer()
             BottomButtonsView(match: match)
             Spacer()
         }

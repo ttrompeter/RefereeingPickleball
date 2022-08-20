@@ -66,6 +66,7 @@ struct TopButtonsView: View {
                     }
                 }
             }
+            
         }
         .padding(10)
         .background(Constants.CLOUDS)

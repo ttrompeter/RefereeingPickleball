@@ -13,9 +13,9 @@
  of such matches the teams change sides halfway through the game.
  
  A triangle mark is placed on the scoresheet of 3rd or 5th games of a
- match to indicate that the teams change sides before that point is
- scored in the game. Example: If mark is at point 6, then change sides
- at the end of point 5. Players have 1 minute to change sides.
+ match to indicate that the teams change sides after a team scores that
+ point in the game. Example: If mark is at point 6, then change sides
+ after the point where one team scores 6. Players have 1 minute to change sides.
  
  End-Change Marks
  AT 6 of the third game for 3 games to 11 points
@@ -37,6 +37,10 @@
  Thus, the layout of the scoresheet (whether the arrow points left or right) and the identification
  of values for first servers can't be set until after the pre-Match briefing. Plus the layout depends
  on which side of the court the referee stands.
+ 
+ In doubles, teams may change the starting server between games and should notify the referee.
+ Teams switch ends and initial service upon the completion of each game.
+ In game three of five, the teams will switch ends when the first team reaches a score of 6 / 8 / 11
  
  */
 

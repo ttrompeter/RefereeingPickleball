@@ -33,6 +33,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var matchWinner = ""
     @Persisted var isSecondServer = true
     @Persisted var isTeam1Serving = true
+    @Persisted var isServingLeftSide = false
     @Persisted var whoIsServingText = "2nd Server"
     @Persisted var servingPlayerNumber = 1  // Should be 0
     @Persisted var currentGameNumber = 1
@@ -49,6 +50,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isTimeOutTaken = false
     @Persisted var numberOfTimeoutsPerGame = 2
     @Persisted var emailAddressForScoresheetSnaphot = ""
+    @Persisted var matchElapsedTime = 0.0
 
     @Persisted var games = RealmSwift.List<Game>()
     

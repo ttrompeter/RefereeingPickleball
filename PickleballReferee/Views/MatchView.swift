@@ -22,6 +22,11 @@ struct MatchView: View {
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
     @State private var showingGameStartingServer = false
+    @State private var isGameTimerRunning = false
+    
+    let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common)
+    // let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common).autoconnect()
+    // timer.upstream.connect().cancel() // stop timer
     
     var currentMatchStatusDisplay: String {
         switch match.selectedMatchFormat {
@@ -174,7 +179,6 @@ struct MatchView: View {
                                     $match.currentGameNumber.wrappedValue += 1
                                     print("currentGameNumber after set in alert: \(match.currentGameNumber)")
                                 }
-                                
                             }
                         } message: {
                             Text("Game Winner is\n \(match.games[match.currentGameNumber - 1].gameWinner)")
@@ -319,19 +323,6 @@ struct MatchView: View {
                             if match.isSecondServer {
                                 sideOut()
                                 
-                                //                                // Side Out Button label is showing and second server is serving
-                                //                                // Button pushed when Side Out label showing
-                                //                                // Set server to the next server
-                                //                                setWhoIsServing()
-                                //                                // Set isSecondServer value to false
-                                //                                //$match.isSecondServer.wrappedValue = false
-                                //                                $match.isSecondServer.wrappedValue.toggle()
-                                //                                $match.whoIsServingText.wrappedValue = "1st Server"
-                                //
-                                //                                // Team Service game is over so change value for isTeam1Serving
-                                //                                $match.isTeam1Serving.wrappedValue.toggle()
-                                //                                updateScore()
-                                
                             } else {
                                 // 2nd Server Button label is showing and 1st server is serving
                                 // Button is pushed when 2nd Server label is showing
@@ -363,7 +354,6 @@ struct MatchView: View {
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
                     }
                 }
-                //.padding(10)
             }
             
             
@@ -405,8 +395,6 @@ struct MatchView: View {
                     .foregroundColor(Constants.SLATE_GRAY)
                     .padding()
                     .background(Constants.CLOUDS.opacity(0.6))
-                    //.padding(.bottom, 10)
-                    //Spacer()
                 }
             }
             
@@ -434,6 +422,10 @@ struct MatchView: View {
             // Empty text field for spacing
             Text(" ")
                 .padding()
+                // This is monitoring the timer
+                .onReceive(gameTimer) { time in
+                        // print("The time is now \(time)")
+                    }
             
         }
         .navigationBarTitle("")
@@ -453,7 +445,21 @@ struct MatchView: View {
     }
     
     
-    // MARK: - Match Funtions
+}
+
+//struct MatchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MatchView(match: Match())
+//    }
+//}
+
+
+
+// ============================================================================================
+
+// MARK: - MatchView Extension - Match & Game Functions
+
+extension MatchView {
     
     func setStartingServerName() -> String{
         //print("Starting setStartingServerName()")
@@ -470,96 +476,6 @@ struct MatchView: View {
         }
     }
     
-    
-    func setWhoIsServing() {
-        
-        switch match.servingPlayerNumber {
-        case 1:
-            //print("\nStarting case 1 of setWhoIsServing()")
-            //print("gameScoreTeam2 in case 1: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-            //print("isSecondServer in case 1: \(match.isSecondServer)")
-            if match.isSecondServer {
-                //print("In if match.isSecondServer of case 1")
-                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
-                    $match.servingPlayerNumber.wrappedValue = 3
-                    //print("Player1Team1 was serving, server is set to Player1Team2")
-                } else {
-                    $match.servingPlayerNumber.wrappedValue = 4
-                    //print("Player1Team1 was serving, server is set to Player2Team2")
-                }
-            } else {
-                //print("In else of if match.isSecondServer of case 1")
-                $match.servingPlayerNumber.wrappedValue = 2
-                //print("Player1Team1 was serving, server is set to Player2Team1")
-            }
-        case 2:
-            //print("\nStarting case 2 of setWhoIsServing()")
-            //print("gameScoreTeam2 in case 2: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-            if match.isSecondServer {
-                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
-                    $match.servingPlayerNumber.wrappedValue = 3
-                    //print("Player2Team1 was serving, server is set to Player1Team2")
-                } else {
-                    $match.servingPlayerNumber.wrappedValue = 4
-                    //print("Player2Team1 was serving, server is set to Player2Team2")
-                }
-            } else {
-                $match.servingPlayerNumber.wrappedValue = 1
-                //print("Player2Team1 was serving, server is set to Player1Team1")
-            }
-        case 3:
-            //print("\nStarting case 3 of setWhoIsServing()")
-            //print("gameScoreTeam1: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-            if match.isSecondServer {
-                if ((match.games[match.currentGameNumber - 1].gameScoreTeam1) % 2) == 0 {
-                    $match.servingPlayerNumber.wrappedValue = 1
-                    //print("Player1Team2 was serving, server is set to Player1Team1")
-                } else {
-                    $match.servingPlayerNumber.wrappedValue = 2
-                    //print("Player1Team2 was serving, server is set to Player2Team1")
-                }
-            } else {
-                $match.servingPlayerNumber.wrappedValue = 4
-                //print("Player1Team2 was serving, server is set to Player2Team2")
-            }
-        case 4:
-            //print("\nStarting case 4 of setWhoIsServing()")
-            //print("gameScoreTeam1: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-            if match.isSecondServer {
-                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
-                    $match.servingPlayerNumber.wrappedValue = 1
-                    //print("Player2Team2 was serving, server is set to Player1Team1")
-                } else {
-                    $match.servingPlayerNumber.wrappedValue = 2
-                    //print("Player2Team2 was serving, server is set to Player2Team1")
-                }
-            } else {
-                $match.servingPlayerNumber.wrappedValue = 3
-                //print("Player2Team2 was serving, server is set to Player1Team2")
-            }
-        default:
-            print("Error in function setWhoIsServing()")
-        }
-    }
-    
-    
-}
-
-//struct MatchView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MatchView(match: Match())
-//    }
-//}
-
-
-
-
-
-// MARK: - MatchView Extension
-
-extension MatchView {
-    
-    // MARK: - Extension Match & Game Functions
     
     func updateScore() {
         
@@ -579,3097 +495,3211 @@ extension MatchView {
         //print("scoreDisplay at end of updateScore(): \(match.scoreDisplay)\n")
         
         // TODO: - Activate the isGameWinner
-//        if isGameWinner() {
-//            if isMatchWinner() {
-//                print("There is a match winner")
-//
-//            }
+        if isGameWinner() {
+            print("There is a game winner")
+            closeGame()
+            if isMatchWinner() {
+                print("There is a match winner")
+                closeMatch()
+            }
 //            presentGameWinnerAlert = true
-//            $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
-//        }
-        
-        
-    }
-    
-    func isGameWinner() -> Bool {
-        
-        let tm1Score = (match.games[match.currentGameNumber - 1].player1Team1Points) + (match.games[match.currentGameNumber - 1].player2Team1Points)
-        let tm2Score = (match.games[match.currentGameNumber - 1].player1Team2Points) + (match.games[match.currentGameNumber - 1].player2Team2Points)
-        
-        if match.selectedGameFormat == 7 {
-            if (tm1Score > 6) || (tm2Score > 6) {
-                let largest = max(tm1Score, tm2Score)
-                if  largest == tm1Score {
-                    if tm1Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        return true
-                    }
-                } else if largest == tm2Score {
-                    if tm2Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        return true
-                    }
-                }
-            }
-            return false
-        } else if match.selectedGameFormat == 11 {
-            if (tm1Score > 10) || (tm2Score > 10) {
-                let largest = max(tm1Score, tm2Score)
-                if  largest == tm1Score {
-                    if tm1Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        return true
-                    }
-                } else if largest == tm2Score {
-                    if tm2Score - tm1Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        return true
-                    }
-                }
-            }
-            return false
-        } else if match.selectedGameFormat == 15 {
-            if (tm1Score > 14) || (tm2Score > 14) {
-                let largest = max(tm1Score, tm2Score)
-                if  largest == tm1Score {
-                    if tm1Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                    }
-                } else if largest == tm2Score {
-                    if tm2Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        return true
-                    }
-                }
-            }
-            return false
-        } else if match.selectedGameFormat == 21 {
-            if (tm1Score > 20) || (tm2Score > 20) {
-                let largest = max(tm1Score, tm2Score)
-                if  largest == tm1Score {
-                    if tm1Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        return true
-                    }
-                } else if largest == tm2Score {
-                    if tm2Score - tm2Score > 1 {
-                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
-                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        return true
-                    }
-                }
-            }
-            return false
+            
         }
         
-        return false
-    }
-    
-    func isMatchWinner() -> Bool {
         
-        var gamesWonTeam1 = 0
-        var gamesWonTeam2 = 0
-        
-        if match.selectedMatchFormat == 1 {
-            if match.games[match.currentGameNumber - 1].isGameWinner {
-                $match.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
-                if match.games[match.currentGameNumber - 1].gameWinnerTeam == 1 {
-                    $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                } else {
-                    $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                }
-                return true
-            }
-        } else if match.selectedMatchFormat == 2 {
-            
-            if match.games[0].isGameWinner {
-                if match.games[0].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[1].isGameWinner {
-                if match.games[1].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[2].isGameWinner {
-                if match.games[2].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            
-            if gamesWonTeam1 == 2 {
-                $match.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
-                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                gamesWonTeam1 = 0
-                gamesWonTeam2 = 0
-                return true
-            } else if gamesWonTeam2 == 2 {
-                $match.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
-                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                gamesWonTeam1 = 0
-                gamesWonTeam2 = 0
-                return true
-            }
-        } else if match.selectedMatchFormat == 3 {
-            if match.games[0].isGameWinner {
-                if match.games[0].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[1].isGameWinner {
-                if match.games[1].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[2].isGameWinner {
-                if match.games[2].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[3].isGameWinner {
-                if match.games[3].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[4].isGameWinner {
-                if match.games[4].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            if match.games[5].isGameWinner {
-                if match.games[5].gameWinnerTeam == 1 {
-                    gamesWonTeam1 += 1
-                } else {
-                    gamesWonTeam2 += 1
-                }
-            }
-            
-            if gamesWonTeam1 == 3 {
-                $match.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
-                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                gamesWonTeam1 = 0
-                gamesWonTeam2 = 0
-                return true
-            } else if gamesWonTeam2 == 3 {
-                $match.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
-                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                gamesWonTeam1 = 0
-                gamesWonTeam2 = 0
-                return true
-            }
-        }
-        
-        return false
     }
     
     func closeGame() {
-        print("closeGame() function")
+        print("     > > > closeGame() function starting ...")
         
         /*
-         Mark current game as completed
-         Change current game number to next game number
          Set first server for next game
          Set court orientation for next game - players change sides
+         Set gameWinner = ""  IN isGameWinner()
+         -- Set isGameWinner [= false]
+         Set gameWinnerTeam  [= 0]
+         -- Set isGameCompleted  [= false]
+         -- Set gameFinalScore = "" IN isGameWinner()
+         Set gameElapsedTime  [= 0.0]
+         Update referee if needed
+         Update asst referee if needed
+         Update line judges if needed
+         update trainee if needed
+         Change current game number of match to next game number
          
+         // For next game set:
+         gameStartingServerName = "Adam Rockafeller"
+         gameStartingServerPlayerNumber = 0
+         selectedFirstServerTeam1 = 0
+         selectedFirstServerTeam2 = 0
+         
+         serverNameGame1Team1 = "Tm1Game1"
+         serverNameGame2Team1 = "Tm1Game2"
+         serverNameGame3Team1 = "Tm1Game3"
+         serverNameGame4Team1 = ""
+         serverNameGame5Team1 = ""
+         serverNameGame1Team2 = "Tm2Game1"
+         serverNameGame2Team2 = "Tm2Game2"
+         serverNameGame3Team2 = "Tm2Game3"
+         serverNameGame4Team2 = ""
+         serverNameGame5Team2 = ""
+         
+         team first server can change if players choose
+         sides of court change for teams
          
          */
         
+        $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
+        $match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
+        
+        
+        $match.currentGameNumber.wrappedValue = match.currentGameNumber + 1
         
     }
     
     func closeMatch() {
-        print("closeMatch() function")
+        print("     > > > closeMatch() function starting ...")
         
         /*
-         
-         
+         Set matchWinner = ""
+         Set isMatchWinner = false
+         Set isMatchCompleted = false
+         Set selectedGameStartingServer = 0
+         ??  currentGameNumber = 1
          
          */
     }
+   
     
-    func sideOut() {
-       
-        if match.servingPlayerNumber == 1 || match.servingPlayerNumber == 2 {
-            // In here Team 1 was serving at sideout
-            $match.games[match.currentGameNumber - 1].sideOutsTeam1.wrappedValue += 1
-            switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
-            case 0:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint0Game1Team1.wrappedValue = true
-                }
-            case 1:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint1Game1Team1.wrappedValue = true
-                }
-            case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint2Game1Team1.wrappedValue = true
-                }
-            case 3:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint3Game1Team1.wrappedValue = true
-                }
-            case 4:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint4Game1Team1.wrappedValue = true
-                }
-            case 5:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint5Game1Team1.wrappedValue = true
-                }
-            case 6:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint6Game1Team1.wrappedValue = true
-                }
-            case 7:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint7Game1Team1.wrappedValue = true
-                }
-            default:
-                print("Error setting image in switch statement of pointScored()")
-            }
-        } else if match.servingPlayerNumber == 3 || match.servingPlayerNumber == 4 {
-            // In here Team 2 was serving at sideout
-            $match.games[match.currentGameNumber - 1].sideOutsTeam2.wrappedValue += 1
-            switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
-            case 0:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint0Game1Team2.wrappedValue = true
-                }
-            case 1:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint1Game1Team2.wrappedValue = true
-                }
-            case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint2Game1Team2.wrappedValue = true
-                }
-            case 3:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint3Game1Team2.wrappedValue = true
-                }
-            case 4:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint4Game1Team2.wrappedValue = true
-                }
-            case 5:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint5Game1Team2.wrappedValue = true
-                }
-            case 6:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint6Game1Team2.wrappedValue = true
-                }
-            case 7:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint7Game1Team2.wrappedValue = true
-                }
-            default:
-                print("Error setting image in switch statement of pointScored()")
-            }
-        }
-        
-        
-        // Set server to the next server
-        setWhoIsServing()
-        // Set isSecondServer value to false
-        //$match.isSecondServer.wrappedValue = false
-        $match.isSecondServer.wrappedValue.toggle()
-        $match.whoIsServingText.wrappedValue = "1st Server"
-        
-        // Team Service game is over so change value for isTeam1Serving
-        $match.isTeam1Serving.wrappedValue.toggle()
-        updateScore()
-    }
+    
+    
+//    func setWhoIsServing() {
+//
+//        switch match.servingPlayerNumber {
+//        case 1:
+//            //print("\nStarting case 1 of setWhoIsServing()")
+//            //print("gameScoreTeam2 in case 1: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//            //print("isSecondServer in case 1: \(match.isSecondServer)")
+//            if match.isSecondServer {
+//                //print("In if match.isSecondServer of case 1")
+//                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
+//                    $match.servingPlayerNumber.wrappedValue = 3
+//                    //print("Player1Team1 was serving, server is set to Player1Team2")
+//                } else {
+//                    $match.servingPlayerNumber.wrappedValue = 4
+//                    //print("Player1Team1 was serving, server is set to Player2Team2")
+//                }
+//            } else {
+//                //print("In else of if match.isSecondServer of case 1")
+//                $match.servingPlayerNumber.wrappedValue = 2
+//                //print("Player1Team1 was serving, server is set to Player2Team1")
+//            }
+//        case 2:
+//            //print("\nStarting case 2 of setWhoIsServing()")
+//            //print("gameScoreTeam2 in case 2: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//            if match.isSecondServer {
+//                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
+//                    $match.servingPlayerNumber.wrappedValue = 3
+//                    //print("Player2Team1 was serving, server is set to Player1Team2")
+//                } else {
+//                    $match.servingPlayerNumber.wrappedValue = 4
+//                    //print("Player2Team1 was serving, server is set to Player2Team2")
+//                }
+//            } else {
+//                $match.servingPlayerNumber.wrappedValue = 1
+//                //print("Player2Team1 was serving, server is set to Player1Team1")
+//            }
+//        case 3:
+//            //print("\nStarting case 3 of setWhoIsServing()")
+//            //print("gameScoreTeam1: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//            if match.isSecondServer {
+//                if ((match.games[match.currentGameNumber - 1].gameScoreTeam1) % 2) == 0 {
+//                    $match.servingPlayerNumber.wrappedValue = 1
+//                    //print("Player1Team2 was serving, server is set to Player1Team1")
+//                } else {
+//                    $match.servingPlayerNumber.wrappedValue = 2
+//                    //print("Player1Team2 was serving, server is set to Player2Team1")
+//                }
+//            } else {
+//                $match.servingPlayerNumber.wrappedValue = 4
+//                //print("Player1Team2 was serving, server is set to Player2Team2")
+//            }
+//        case 4:
+//            //print("\nStarting case 4 of setWhoIsServing()")
+//            //print("gameScoreTeam1: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//            if match.isSecondServer {
+//                if ((match.games[match.currentGameNumber - 1].gameScoreTeam2) % 2) == 0 {
+//                    $match.servingPlayerNumber.wrappedValue = 1
+//                    //print("Player2Team2 was serving, server is set to Player1Team1")
+//                } else {
+//                    $match.servingPlayerNumber.wrappedValue = 2
+//                    //print("Player2Team2 was serving, server is set to Player2Team1")
+//                }
+//            } else {
+//                $match.servingPlayerNumber.wrappedValue = 3
+//                //print("Player2Team2 was serving, server is set to Player1Team2")
+//            }
+//        default:
+//            print("Error in function setWhoIsServing()")
+//        }
+//    }
+    
+    
+//    func isGameWinner() -> Bool {
+//
+//        let tm1Score = (match.games[match.currentGameNumber - 1].player1Team1Points) + (match.games[match.currentGameNumber - 1].player2Team1Points)
+//        let tm2Score = (match.games[match.currentGameNumber - 1].player1Team2Points) + (match.games[match.currentGameNumber - 1].player2Team2Points)
+//
+//        if match.selectedGameFormat == 7 {
+//            if (tm1Score > 6) || (tm2Score > 6) {
+//                let largest = max(tm1Score, tm2Score)
+//                if  largest == tm1Score {
+//                    if tm1Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                        return true
+//                    }
+//                } else if largest == tm2Score {
+//                    if tm2Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                        return true
+//                    }
+//                }
+//            }
+//            return false
+//        } else if match.selectedGameFormat == 11 {
+//            if (tm1Score > 10) || (tm2Score > 10) {
+//                let largest = max(tm1Score, tm2Score)
+//                if  largest == tm1Score {
+//                    if tm1Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                        return true
+//                    }
+//                } else if largest == tm2Score {
+//                    if tm2Score - tm1Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                        return true
+//                    }
+//                }
+//            }
+//            return false
+//        } else if match.selectedGameFormat == 15 {
+//            if (tm1Score > 14) || (tm2Score > 14) {
+//                let largest = max(tm1Score, tm2Score)
+//                if  largest == tm1Score {
+//                    if tm1Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                    }
+//                } else if largest == tm2Score {
+//                    if tm2Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                        return true
+//                    }
+//                }
+//            }
+//            return false
+//        } else if match.selectedGameFormat == 21 {
+//            if (tm1Score > 20) || (tm2Score > 20) {
+//                let largest = max(tm1Score, tm2Score)
+//                if  largest == tm1Score {
+//                    if tm1Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                        return true
+//                    }
+//                } else if largest == tm2Score {
+//                    if tm2Score - tm2Score > 1 {
+//                        $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
+//                        $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                        return true
+//                    }
+//                }
+//            }
+//            return false
+//        }
+//
+//        return false
+//    }
+    
+//    func isMatchWinner() -> Bool {
+//        
+//        var gamesWonTeam1 = 0
+//        var gamesWonTeam2 = 0
+//        
+//        if match.selectedMatchFormat == 1 {
+//            if match.games[match.currentGameNumber - 1].isGameWinner {
+//                $match.isMatchWinner.wrappedValue = true
+//                $match.isMatchCompleted.wrappedValue = true
+//                if match.games[match.currentGameNumber - 1].gameWinnerTeam == 1 {
+//                    $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                } else {
+//                    $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                }
+//                return true
+//            }
+//        } else if match.selectedMatchFormat == 2 {
+//            
+//            if match.games[0].isGameWinner {
+//                if match.games[0].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[1].isGameWinner {
+//                if match.games[1].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[2].isGameWinner {
+//                if match.games[2].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            
+//            if gamesWonTeam1 == 2 {
+//                $match.isMatchWinner.wrappedValue = true
+//                $match.isMatchCompleted.wrappedValue = true
+//                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                gamesWonTeam1 = 0
+//                gamesWonTeam2 = 0
+//                return true
+//            } else if gamesWonTeam2 == 2 {
+//                $match.isMatchWinner.wrappedValue = true
+//                $match.isMatchCompleted.wrappedValue = true
+//                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                gamesWonTeam1 = 0
+//                gamesWonTeam2 = 0
+//                return true
+//            }
+//        } else if match.selectedMatchFormat == 3 {
+//            if match.games[0].isGameWinner {
+//                if match.games[0].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[1].isGameWinner {
+//                if match.games[1].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[2].isGameWinner {
+//                if match.games[2].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[3].isGameWinner {
+//                if match.games[3].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[4].isGameWinner {
+//                if match.games[4].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            if match.games[5].isGameWinner {
+//                if match.games[5].gameWinnerTeam == 1 {
+//                    gamesWonTeam1 += 1
+//                } else {
+//                    gamesWonTeam2 += 1
+//                }
+//            }
+//            
+//            if gamesWonTeam1 == 3 {
+//                $match.isMatchWinner.wrappedValue = true
+//                $match.isMatchCompleted.wrappedValue = true
+//                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+//                gamesWonTeam1 = 0
+//                gamesWonTeam2 = 0
+//                return true
+//            } else if gamesWonTeam2 == 3 {
+//                $match.isMatchWinner.wrappedValue = true
+//                $match.isMatchCompleted.wrappedValue = true
+//                $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+//                gamesWonTeam1 = 0
+//                gamesWonTeam2 = 0
+//                return true
+//            }
+//        }
+//        
+//        return false
+//    }
+    
+    
+    
+//    func sideOut() {
+//       
+//        if match.servingPlayerNumber == 1 || match.servingPlayerNumber == 2 {
+//            // In here Team 1 was serving at sideout
+//            $match.games[match.currentGameNumber - 1].sideOutsTeam1.wrappedValue += 1
+//            switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+//            case 0:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint0Game1Team1.wrappedValue = true
+//                }
+//            case 1:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint1Game1Team1.wrappedValue = true
+//                }
+//            case 2:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint2Game1Team1.wrappedValue = true
+//                }
+//            case 3:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint3Game1Team1.wrappedValue = true
+//                }
+//            case 4:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint4Game1Team1.wrappedValue = true
+//                }
+//            case 5:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint5Game1Team1.wrappedValue = true
+//                }
+//            case 6:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint6Game1Team1.wrappedValue = true
+//                }
+//            case 7:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint7Game1Team1.wrappedValue = true
+//                }
+//            default:
+//                print("Error setting image in switch statement of pointScored()")
+//            }
+//        } else if match.servingPlayerNumber == 3 || match.servingPlayerNumber == 4 {
+//            // In here Team 2 was serving at sideout
+//            $match.games[match.currentGameNumber - 1].sideOutsTeam2.wrappedValue += 1
+//            switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+//            case 0:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint0Game1Team2.wrappedValue = true
+//                }
+//            case 1:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint1Game1Team2.wrappedValue = true
+//                }
+//            case 2:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint2Game1Team2.wrappedValue = true
+//                }
+//            case 3:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint3Game1Team2.wrappedValue = true
+//                }
+//            case 4:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint4Game1Team2.wrappedValue = true
+//                }
+//            case 5:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint5Game1Team2.wrappedValue = true
+//                }
+//            case 6:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint6Game1Team2.wrappedValue = true
+//                }
+//            case 7:
+//                if match.currentGameNumber == 1 {
+//                    $match.games[0].isSideoutPoint7Game1Team2.wrappedValue = true
+//                }
+//            default:
+//                print("Error setting image in switch statement of pointScored()")
+//            }
+//        }
+//        
+//        
+//        // Set server to the next server
+//        setWhoIsServing()
+//        // Set isSecondServer value to false
+//        //$match.isSecondServer.wrappedValue = false
+//        $match.isSecondServer.wrappedValue.toggle()
+//        $match.whoIsServingText.wrappedValue = "1st Server"
+//        
+//        // Team Service game is over so change value for isTeam1Serving
+//        $match.isTeam1Serving.wrappedValue.toggle()
+//        updateScore()
+//    }
     
 
     
-    // MARK: - Point Scored Function
+
     
-    func pointScored() {
-        
-        // TODO: - Need to handle game to 21 points if it goes past 21 points
-        if match.servingPlayerNumber == 1 {
-            $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
-            // Player 1 Team 1 is serving as second server on Team 1
-            if match.isSecondServer {
-                // Second server uses backslash to mark points - "squareleftbackslash"
-                //print("    > > > gameScoreTeam1 in pointScored()[1]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
-                case 1:
-                    print("Starting case 1 Player 1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 20:
-                    print("Starting case 20 Player1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 21:
-                    print("Starting case 21 Player1 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            } else {
-                // Player 1 Team 1 is serving as first server on Team 1
-                // First server uses forwardslash to mark points - "squareleftfwdslash"
-                //print("    > > > gameScoreTeam1 in pointScored() [2]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
-                case 1:
-                    print("Starting case 1 Player 1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 20:
-                    print("Starting case 20 Player1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                case 21:
-                    print("Starting case 21 Player1 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            }
-            // End if player 1 serving
-        } else if  match.servingPlayerNumber == 2 {
-            $match.games[match.currentGameNumber - 1].player2Team1Points.wrappedValue += 1
-            // Player 2 Team 1 is serving as second server on Team 1
-            if match.isSecondServer {
-                // Second server uses backslash to mark points - "squareleftbackslash"
-                
-                //print("    > > > gameScoreTeam1 in pointScored()[3]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
-                case 1:
-                    print("Starting case 1 Player 2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    }
-                    else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    }
-                    else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    }
-                    else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    }
-                    else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 20:
-                    print("Starting case 21 Player2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 21:
-                    print("Starting case 21 Player2 Team1 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            } else {
-                // Player 2 Team 1 is serving as first server on Team 1
-                // First server uses forwardslash to mark points - "squareleftfwdslash"
-                //print("    > > > gameScoreTeam1 in pointScored() [4]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
-                case 1:
-                    print("Starting case 1 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 20:
-                    print("Starting case 20 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 21:
-                    print("Starting case 21 Player 2 Team1 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            }
-            // End if player 2 serving
-        } else if  match.servingPlayerNumber == 3 {
-            $match.games[match.currentGameNumber - 1].player1Team2Points.wrappedValue += 1
-            // Player 1 Team 2 is serving as second server on Team 2
-            if match.isSecondServer {
-                // Second server uses backslash to mark points - "squareleftbackslash"
-                
-                //print("    > > > gameScoreTeam2 in pointScored()[5]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
-                case 1:
-                    print("Starting case 1 Player 1 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 1 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    }
-                    else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 1 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 1 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 1 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    }
-                    else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    }
-                    else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 20:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 21:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
-                    }
-                    
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            } else {
-                // Player 1 Team 2 is serving as first server on Team 2
-                // First server uses forwardslash to mark points - "squareleftfwdslash"
-                //print("    > > > gameScoreTeam2 in pointScored() [6]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
-                case 1:
-                    print("Starting case 1 Player 1 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 1 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 1 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    }
-                    else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 1 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 1 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 20:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 21:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            }
-            
-            // End if player 3 serving
-        }
-        
-        else if  match.servingPlayerNumber == 4 {
-            $match.games[match.currentGameNumber - 1].player2Team2Points.wrappedValue += 1
-            // Player 2 Team 2 is serving as second server on Team 2
-            if match.isSecondServer {
-                // Second server uses backslash to mark points - "squareleftbackslash"
-                
-                //print("    > > > gameScoreTeam2 in pointScored()[7]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
-                case 1:
-                    print("Starting case 1 Player 2 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 2 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 2 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 2 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 2 Team2 as second server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 20:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = "squareleftbackslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 21:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = "squarerightfwdslash"
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
-                    }
-                    
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            } else {
-                // Player 2 Team 2 is serving as first server on Team 2
-                // First server uses forwardslash to mark points - "squareleftfwdslash"
-                //print("    > > > gameScoreTeam2 in pointScored() [8]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
-                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
-                case 1:
-                    print("Starting case 1 Player 2 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 2:
-                    print("Starting case 2 Player 2 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 3:
-                    print("Starting case 3 Player 2 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 4:
-                    print("Starting case 4 Player 2 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 5:
-                    print("Starting case 5 Player 2 Team2 as first server")
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 6:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 7:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 8:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 9:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 10:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 11:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
-                    }
-                case 12:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 13:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 14:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 15:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 16:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 17:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 18:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 19:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 20:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
-                    }
-                case 21:
-                    if match.currentGameNumber == 1 {
-                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 2 {
-                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 3 {
-                        if match.selectedMatchFormat == 3 {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                        } else {
-                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
-                        }
-                    } else if match.currentGameNumber == 4 {
-                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
-                    } else if match.currentGameNumber == 5 {
-                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
-                    }
-                default:
-                    print("Error setting image in switch statement of pointScored()")
-                }
-            }
-            
-            // End if player 4 serving
-        }
-        
-    }  // End pointScored()
+//    func pointScored() {
+//
+//        if match.servingPlayerNumber == 1 {
+//            $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
+//            // Player 1 Team 1 is serving as second server on Team 1
+//            if match.isSecondServer {
+//                // Second server uses backslash to mark points - "squareleftbackslash"
+//                //print("    > > > gameScoreTeam1 in pointScored()[1]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+//                case 1:
+//                    print("Starting case 1 Player 1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 20:
+//                    print("Starting case 20 Player1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 21:
+//                    print("Starting case 21 Player1 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            } else {
+//                // Player 1 Team 1 is serving as first server on Team 1
+//                // First server uses forwardslash to mark points - "squareleftfwdslash"
+//                //print("    > > > gameScoreTeam1 in pointScored() [2]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+//                case 1:
+//                    print("Starting case 1 Player 1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 20:
+//                    print("Starting case 20 Player1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                case 21:
+//                    print("Starting case 21 Player1 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            }
+//            // End if player 1 serving
+//        } else if  match.servingPlayerNumber == 2 {
+//            $match.games[match.currentGameNumber - 1].player2Team1Points.wrappedValue += 1
+//            // Player 2 Team 1 is serving as second server on Team 1
+//            if match.isSecondServer {
+//                // Second server uses backslash to mark points - "squareleftbackslash"
+//                
+//                //print("    > > > gameScoreTeam1 in pointScored()[3]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+//                case 1:
+//                    print("Starting case 1 Player 2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    }
+//                    else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    }
+//                    else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    }
+//                    else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    }
+//                    else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 20:
+//                    print("Starting case 21 Player2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 21:
+//                    print("Starting case 21 Player2 Team1 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            } else {
+//                // Player 2 Team 1 is serving as first server on Team 1
+//                // First server uses forwardslash to mark points - "squareleftfwdslash"
+//                //print("    > > > gameScoreTeam1 in pointScored() [4]: \(match.games[match.currentGameNumber - 1].gameScoreTeam1)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+//                case 1:
+//                    print("Starting case 1 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 20:
+//                    print("Starting case 20 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 21:
+//                    print("Starting case 21 Player 2 Team1 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            }
+//            // End if player 2 serving
+//        } else if  match.servingPlayerNumber == 3 {
+//            $match.games[match.currentGameNumber - 1].player1Team2Points.wrappedValue += 1
+//            // Player 1 Team 2 is serving as second server on Team 2
+//            if match.isSecondServer {
+//                // Second server uses backslash to mark points - "squareleftbackslash"
+//                
+//                //print("    > > > gameScoreTeam2 in pointScored()[5]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+//                case 1:
+//                    print("Starting case 1 Player 1 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 1 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    }
+//                    else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 1 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 1 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 1 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    }
+//                    else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    }
+//                    else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 20:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 21:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
+//                    }
+//                    
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            } else {
+//                // Player 1 Team 2 is serving as first server on Team 2
+//                // First server uses forwardslash to mark points - "squareleftfwdslash"
+//                //print("    > > > gameScoreTeam2 in pointScored() [6]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+//                case 1:
+//                    print("Starting case 1 Player 1 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 1 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 1 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    }
+//                    else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 1 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 1 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 20:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 21:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            }
+//            
+//            // End if player 3 serving
+//        }
+//        
+//        else if  match.servingPlayerNumber == 4 {
+//            $match.games[match.currentGameNumber - 1].player2Team2Points.wrappedValue += 1
+//            // Player 2 Team 2 is serving as second server on Team 2
+//            if match.isSecondServer {
+//                // Second server uses backslash to mark points - "squareleftbackslash"
+//                
+//                //print("    > > > gameScoreTeam2 in pointScored()[7]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+//                case 1:
+//                    print("Starting case 1 Player 2 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 2 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 2 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 2 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 2 Team2 as second server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 20:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = "squareleftbackslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 21:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = "squarerightfwdslash"
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
+//                    }
+//                    
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            } else {
+//                // Player 2 Team 2 is serving as first server on Team 2
+//                // First server uses forwardslash to mark points - "squareleftfwdslash"
+//                //print("    > > > gameScoreTeam2 in pointScored() [8]: \(match.games[match.currentGameNumber - 1].gameScoreTeam2)")
+//                switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+//                case 1:
+//                    print("Starting case 1 Player 2 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 2:
+//                    print("Starting case 2 Player 2 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 3:
+//                    print("Starting case 3 Player 2 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 4:
+//                    print("Starting case 4 Player 2 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 5:
+//                    print("Starting case 5 Player 2 Team2 as first server")
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 6:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point6Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 7:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point7Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 8:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point8Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 9:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point9Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 10:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point10Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 11:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point11Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
+//                    }
+//                case 12:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point12Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 13:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point13Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 14:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point14Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 15:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point15Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 16:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point16Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 17:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point17Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 18:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point18Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 19:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point19Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 20:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point20Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
+//                    }
+//                case 21:
+//                    if match.currentGameNumber == 1 {
+//                        $match.games[match.currentGameNumber - 1].point21Game1ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 2 {
+//                        $match.games[match.currentGameNumber - 1].point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 3 {
+//                        if match.selectedMatchFormat == 3 {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                        } else {
+//                            $match.games[match.currentGameNumber - 1].point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                        }
+//                    } else if match.currentGameNumber == 4 {
+//                        $match.games[match.currentGameNumber - 1].point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+//                    } else if match.currentGameNumber == 5 {
+//                        $match.games[match.currentGameNumber - 1].point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
+//                    }
+//                default:
+//                    print("Error setting image in switch statement of pointScored()")
+//                }
+//            }
+//            
+//            // End if player 4 serving
+//        }
+//        
+//    }  // End pointScored()
     
        
     

@@ -29,21 +29,18 @@ struct HomeView: View {
         VStack (alignment: .leading) {
             
             ZStack {
-                if match.isTeam1Serving {
+                //if match.isTeam1Serving {
+                if !match.isServingLeftSide {
                     HStack {
                         MatchView(match: match)
                         FunctionalityButtonsView(match: match)
                         VStack {
                             // Far right column for spacing
                             Text("     ")
-//                            Button(" + ") {
-//                                withAnimation (.spring()) {
-//                                    sheetManager.present(with: .init(systemName: "info", title: "Title Text", content: "Some text to show the user in the popup so that they can be inofrmed and lean something from the whole process."))
-//                                }
-//                            }
                         }
                     }
-                } else if !match.isTeam1Serving {
+                } else if match.isServingLeftSide {
+                    //else if !match.isTeam1Serving {
                     HStack {
                         VStack {
                             // Far left column for spacing
@@ -53,8 +50,21 @@ struct HomeView: View {
                         MatchView(match: match)
                     }
                 }
+//                else if match.isTeam1Serving && match.isServingLeftSide {
+//                    HStack {
+//
+//                        VStack {
+//                            // Far right column for spacing
+//                            Text("     ")
+//                        }
+//                        FunctionalityButtonsView(match: match)
+//                        MatchView(match: match)
+//                    }
+//
+//                } else if !match.isTeam1Serving && match.isServingLeftSide {
+//
+//                }
             }
-//            .popup(with: sheetManager)
         }
     }
 }
@@ -64,3 +74,10 @@ struct HomeView: View {
 //        HomeView(match: Match())
 //    }
 //}
+
+// Button(" + ") {
+//   withAnimation (.spring()) {
+//       sheetManager.present(with: .init(systemName: "info", title: "Title Text", content: "Some text to show the user in the popup so that they can be inofrmed and learn something from the whole process."))
+//   }
+// }
+//            .popup(with: sheetManager)

@@ -87,39 +87,4 @@ struct Constants {
     
     
     
-    
-    //    static var SQUARE_LEFT = "squareleft"
-    //    static var SQUARE_LEFT_SIDEOUT = "squareleftsideout"
-    //    static var SQUARE_LEFT_FORWARD_SLASH = "squareleftfwdslash"
-    //    static var SQUARE_LEFT_FORWARD_SLASH_SIDEOUT = "squareleftfwdslashsideout"
-    //    static var SQUARE_LEFT_BACK_SLASH = "squareleftbackslash"
-    //    static var SQUARE_LEFT_BACK_SLASH_SIDEOUT = "squareleftbackslashsideout"
-    //
-    //    static var SQUARE_MIDDLE_LEFT = "squaremiddleleft"
-    //    static var SQUARE_MIDDLE_LEFT_SIDEOUT = "squaremiddleleftsideout"
-    //    static var SQUARE_MIDDLE_LEFT_FORWARD_SLASH = "squaremiddleleftfwdslash"
-    //    static var SQUARE_MIDDLE_LEFT_FORWARD_SLASH_SIDEOUT = "squaremiddleleftfwdslashsideout"
-    //    static var SQUARE_MIDDLE_LEFT_BACK_SLASH = "squaremiddleleftbackslash"
-    //    static var SQUARE_MIDDLE_LEFT_BACK_SLASH_SIDEOUT = "squareleftbackslashsideout"
-    //
-    //    static var SQUARE_MIDDLE_RIGHT = "squaremiddleright"
-    //    static var SQUARE_MIDDLE_RIGHT_FORWARD_SLASH = "squaremiddlerightfwdslash"
-    //    static var SQUARE_MIDDLE_RIGHT_FORWARD_SLASH_SIDEOUT = "squaremiddlerightfwdslashsideout"
-    //    static var SQUARE_MIDDLE_RIGHT_BACK_SLASH = "squaremiddlerightbackslash"
-    //    static var SQUARE_MIDDLE_RIGHT_BACK_SLASH_SIDEOUT = "squaremiddlerightbackslashsideout"
-    //    static var SQUARE_MIDDLE_RIGHT_SIDEOUT = "squaremiddlerightsideout"
-    
-    //static var BOX_BOTTOM_LEFT_FORWARD_SLASH_SIDEOUT = "boxbottomleftbackslashsideout"
-    //static var BOX_BOTTOM_LEFT_SIDEOUT = "boxbottomleftsideout"
-    //static var BOX_LEFT_FORWARD_SLASH_SIDEOUT = "boxleftfwdslashsideout"
-    //static var BOX_LEFT_SIDEOUT = "boxleftsideout"
-    //static var BOX_BACK_SLASH_SIDEOUT = "boxbackslashsideout"
-    //static var BOX_FORWARD_SLASH_SIDEOUT = "boxfwdslashsideout"
-    //static var BOX_SIDEOUT = "boxsideout"
-    //static var BOX_LEFT_BACK_SLASH_SIDEOUT = "boxleftbackslashsideout"
-    //static var BOX_RIGHT_END_FORWARD_SLASH_SIDEOUT = "boxrightendfwdslashsideout"
-    //static var BOX_RIGHT_END_BACK_SLASH_SIDEOUT = "boxrightendbackslashsideout"
-    //static var BOX_BOTTOM_LEFT_BACK_SLASH_SIDEOUT = "boxbottomleftbackslashsideout"
-    
-    
 }
