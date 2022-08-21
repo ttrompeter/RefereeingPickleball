@@ -32,16 +32,6 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var gameFinalScore = ""
     @Persisted var gameStartingServerName = "Adam Rockafeller" // Should be Undetermined
     @Persisted var gameStartingServerPlayerNumber = 0
-    @Persisted var serverNameGame1Team1 = "Tm1Game1"
-    @Persisted var serverNameGame2Team1 = "Tm1Game2"
-    @Persisted var serverNameGame3Team1 = "Tm1Game3"
-    @Persisted var serverNameGame4Team1 = ""
-    @Persisted var serverNameGame5Team1 = ""
-    @Persisted var serverNameGame1Team2 = "Tm2Game1"
-    @Persisted var serverNameGame2Team2 = "Tm2Game2"
-    @Persisted var serverNameGame3Team2 = "Tm2Game3"
-    @Persisted var serverNameGame4Team2 = ""
-    @Persisted var serverNameGame5Team2 = ""
     @Persisted var selectedFirstServerTeam1 = 0
     @Persisted var selectedFirstServerTeam2 = 0
     @Persisted var sideOutsTeam1 = 0

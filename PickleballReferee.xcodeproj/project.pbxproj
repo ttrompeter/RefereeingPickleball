@@ -15,6 +15,8 @@
 		E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829928B03CA900690D36 /* ScorekeepingView.swift */; };
 		E327829C28B03F8F00690D36 /* IntroductionOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */; };
 		E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330F671289C7ACE004B50BF /* ScoringManager.swift */; };
+		E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A393E28B1CC840077A2C2 /* RulesView.swift */; };
+		E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* RegularTimeOutView.swift */; };
@@ -62,12 +64,10 @@
 		E390590128A4842C0067A536 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E390590028A4842C0067A536 /* MailView.swift */; };
 		E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3912AD428985B1200D0DA38 /* WelcomeView.swift */; };
 		E3961548289F250B001D3596 /* PointsFourthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */; };
-		E396154A289F2595001D3596 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */; };
 		E396154C289F25EE001D3596 /* PointsFourthRowTeam2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154B289F25EE001D3596 /* PointsFourthRowTeam2View.swift */; };
 		E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */; };
 		E3961550289F6DDE001D3596 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396154F289F6DDE001D3596 /* AlertItem.swift */; };
 		E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396156F28A0B8EC001D3596 /* PDFKitView.swift */; };
-		E396157228A0B965001D3596 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157128A0B965001D3596 /* RulesView.swift */; };
 		E396157428A0BA1A001D3596 /* PickleballRulebook2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E396157328A0BA1A001D3596 /* PickleballRulebook2022.pdf */; };
 		E396157628A186F6001D3596 /* ScreenshotMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157528A186F6001D3596 /* ScreenshotMaker.swift */; };
 		E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157728A18771001D3596 /* ScreenshotMakerView.swift */; };
@@ -91,6 +91,8 @@
 		E327829928B03CA900690D36 /* ScorekeepingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorekeepingView.swift; sourceTree = "<group>"; };
 		E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionOverviewView.swift; sourceTree = "<group>"; };
 		E330F671289C7ACE004B50BF /* ScoringManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringManager.swift; sourceTree = "<group>"; };
+		E33A393E28B1CC840077A2C2 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
+		E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* RegularTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularTimeOutView.swift; sourceTree = "<group>"; };
@@ -135,12 +137,10 @@
 		E390590028A4842C0067A536 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		E3912AD428985B1200D0DA38 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFourthRowTeam1View.swift; sourceTree = "<group>"; };
-		E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E396154B289F25EE001D3596 /* PointsFourthRowTeam2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFourthRowTeam2View.swift; sourceTree = "<group>"; };
 		E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam2View.swift; sourceTree = "<group>"; };
 		E396154F289F6DDE001D3596 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
 		E396156F28A0B8EC001D3596 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
-		E396157128A0B965001D3596 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		E396157328A0BA1A001D3596 /* PickleballRulebook2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PickleballRulebook2022.pdf; sourceTree = "<group>"; };
 		E396157528A186F6001D3596 /* ScreenshotMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMaker.swift; sourceTree = "<group>"; };
 		E396157728A18771001D3596 /* ScreenshotMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMakerView.swift; sourceTree = "<group>"; };
@@ -233,7 +233,7 @@
 				E3632FB02893918100F29D83 /* PointsThirdRowTeam2View.swift */,
 				E3961547289F250B001D3596 /* PointsFourthRowTeam1View.swift */,
 				E396154B289F25EE001D3596 /* PointsFourthRowTeam2View.swift */,
-				E3961549289F2595001D3596 /* PointsFifthRowTeam1View.swift */,
+				E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */,
 				E396154D289F262D001D3596 /* PointsFifthRowTeam2View.swift */,
 				E3632FA428938BF000F29D83 /* PointsScoringTitlesView.swift */,
 				E39058D528A40B1E0067A536 /* PopupView.swift */,
@@ -241,7 +241,7 @@
 				E327829728B03C8600690D36 /* QuickstartView.swift */,
 				E34932742893B6450087ABB1 /* RegularTimeOutView.swift */,
 				E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */,
-				E396157128A0B965001D3596 /* RulesView.swift */,
+				E33A393E28B1CC840077A2C2 /* RulesView.swift */,
 				E3632FB22893920D00F29D83 /* ScoringSectionTeam1View.swift */,
 				E3632FB42893922200F29D83 /* ScoringSectionTeam2View.swift */,
 				E327829928B03CA900690D36 /* ScorekeepingView.swift */,
@@ -381,7 +381,6 @@
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
-				E396154A289F2595001D3596 /* PointsFifthRowTeam1View.swift in Sources */,
 				E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */,
 				E3632F9B28937C6F00F29D83 /* GameScoreImages.swift in Sources */,
 				E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */,
@@ -399,7 +398,6 @@
 				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
 				E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */,
-				E396157228A0B965001D3596 /* RulesView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
 				E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */,
@@ -414,6 +412,7 @@
 				E3632F90289379EC00F29D83 /* Game.swift in Sources */,
 				E39058D828A424440067A536 /* SheetManager.swift in Sources */,
 				E367357428B1343600D18CCC /* MatchManagerMatchExtension.swift in Sources */,
+				E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */,
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */,
 				E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */,
@@ -433,6 +432,7 @@
 				E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */,
 				E3632FB928939E0E00F29D83 /* Styles.swift in Sources */,
 				E3BF696D28A73D47006FD5E5 /* RefereeTimeOutView.swift in Sources */,
+				E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */,
 				E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */,
 				E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */,
 				E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */,

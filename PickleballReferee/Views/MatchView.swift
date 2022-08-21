@@ -23,8 +23,9 @@ struct MatchView: View {
     @State private var presentGameWinnerAlert = false
     @State private var showingGameStartingServer = false
     @State private var isGameTimerRunning = false
+    @State private var elapsedGameTime = 0.0
     
-    let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common)
+    let gameTimer = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     // let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common).autoconnect()
     // timer.upstream.connect().cancel() // stop timer
     
@@ -273,12 +274,14 @@ struct MatchView: View {
                                 .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
                                     Button(match.namePlayer1Team1) {
                                         $match.servingPlayerNumber.wrappedValue = 1
+                                        //TODO: - Fix setStartingServerName()
                                         $match.matchStartingServerName.wrappedValue = setStartingServerName()
                                         $match.matchStartingServerNumber.wrappedValue = 1
                                         presentStartingServerSetupAlert.toggle()
                                     }
                                     Button(match.namePlayer1Team2) {
                                         $match.servingPlayerNumber.wrappedValue = 3
+                                        //TODO: - Fix setStartingServerName()
                                         $match.matchStartingServerName.wrappedValue = setStartingServerName()
                                         $match.matchStartingServerNumber.wrappedValue = 2
                                         $match.isTeam1Serving.wrappedValue = false
@@ -427,7 +430,7 @@ struct MatchView: View {
                         // print("The time is now \(time)")
                     }
             
-        }
+        }  // Top VStack
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
@@ -441,6 +444,9 @@ struct MatchView: View {
         //        }
         .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
         .alert("Please set up Match before trying to start Match. The application will not run unless the Match has been set up first.", isPresented: $presentMatchSetupAlert, actions: {})
+        .onReceive(gameTimer) { time in
+            $elapsedGameTime.wrappedValue += 30.0
+        }
         
     }
     
@@ -462,7 +468,7 @@ struct MatchView: View {
 extension MatchView {
     
     func setStartingServerName() -> String{
-        //print("Starting setStartingServerName()")
+        print("Starting setStartingServerName()")
         switch match.servingPlayerNumber {
         case 0:
             return "Undetermined"
@@ -483,79 +489,96 @@ extension MatchView {
         let tm2Score = (match.games[match.currentGameNumber - 1].player1Team2Points) + (match.games[match.currentGameNumber - 1].player2Team2Points)
         let server = match.isSecondServer == true ? "2" : "1"
         
-        //print("\nIn updateScore() - tm1Score: \(tm1Score) tm2Score: \(tm2Score) server: \(server)")
         
         if match.isTeam1Serving {
-            //print("Team 1 is serving")
             $match.scoreDisplay.wrappedValue = "\(tm1Score) - \(tm2Score) - \(server)"
         } else {
-            //print("Team 2 is serving")
             $match.scoreDisplay.wrappedValue = "\(tm2Score) - \(tm1Score) - \(server)"
         }
-        //print("scoreDisplay at end of updateScore(): \(match.scoreDisplay)\n")
         
-        // TODO: - Activate the isGameWinner
+        
         if isGameWinner() {
             print("There is a game winner")
-            closeGame()
+            // Set final values in current game
+            $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
+            $match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
+            gameTimer.connect().cancel()
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTime
+            
+            // Set values for new game
+            $match.currentGameNumber.wrappedValue = match.currentGameNumber + 1
+            
+            // Set gameStartingServerPlayerNumber for next game
+            switch match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber {
+            case 1, 2:
+                $match.games[match.currentGameNumber].gameStartingServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber - 1].selectedFirstServerTeam2
+            case 3, 4:
+                $match.games[match.currentGameNumber].gameStartingServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber - 1].selectedFirstServerTeam1
+            default:
+                print("Error setting first server for next game in isGameWinner().")
+            }
+            
+            // Set gameStartingServerName for next game
+            switch match.games[match.currentGameNumber].gameStartingServerPlayerNumber {
+            case 1 :
+                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer1Team1
+            case 2 :
+                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer2Team1
+            case 3 :
+                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer1Team2
+            case 4 :
+                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer2Team2
+            default:
+                print("Error setting first server name for next game in isGameWinner().")
+            }
+            
+            // Teams switch sides so switch layout
+            match.isServingLeftSide.toggle()
+            
+            // Start timer for new game
+            _ = gameTimer.connect()
+            
+            
+            //        /*
+            //         -- Set isGameWinner for current game [= false]
+            //         -- Set isGameCompleted for current game  [= false]
+            //         -- Set gameElapsedTime for current game (stop Timer)  [= 0.0]
+            //
+            //         -- Set first server for next game
+            //         -- Set court orientation for next game - players change sides
+            //         -- Change current game number of match to next game number
+            //         -- Set gameStartingServerName for next game  [ = "Adam Rockafeller" ]
+            //         -- Set gameStartingServerPlayerNumber for next game [ = 0 ]
+            //
+            //         // Already done IN isGameWinner()
+            //         Set gameWinner = ""  IN isGameWinner()
+            //         Set gameWinnerTeam  [= 0]   IN isGameWinner()
+            //         Set gameFinalScore = "" IN isGameWinner()
+            //
+            //         // This can be done in MatchSetupView
+            //         Set selectedFirstServerTeam1 for next game  [ = 0 ]
+            //         Set selectedFirstServerTeam2 for next game  [ = 0 ]
+            //         team first server can change if players choose
+            //         Update referee if needed
+            //         Update asst referee if needed
+            //         Update line judges if needed
+            //         update trainee if needed
+            //         */
+            
+        
             if isMatchWinner() {
                 print("There is a match winner")
+                
+                
                 closeMatch()
             }
+            // TODO: - Activate the isGameWinner alert message
 //            presentGameWinnerAlert = true
-            
         }
         
         
     }
     
-    func closeGame() {
-        print("     > > > closeGame() function starting ...")
-        
-        /*
-         Set first server for next game
-         Set court orientation for next game - players change sides
-         Set gameWinner = ""  IN isGameWinner()
-         -- Set isGameWinner [= false]
-         Set gameWinnerTeam  [= 0]
-         -- Set isGameCompleted  [= false]
-         -- Set gameFinalScore = "" IN isGameWinner()
-         Set gameElapsedTime  [= 0.0]
-         Update referee if needed
-         Update asst referee if needed
-         Update line judges if needed
-         update trainee if needed
-         Change current game number of match to next game number
-         
-         // For next game set:
-         gameStartingServerName = "Adam Rockafeller"
-         gameStartingServerPlayerNumber = 0
-         selectedFirstServerTeam1 = 0
-         selectedFirstServerTeam2 = 0
-         
-         serverNameGame1Team1 = "Tm1Game1"
-         serverNameGame2Team1 = "Tm1Game2"
-         serverNameGame3Team1 = "Tm1Game3"
-         serverNameGame4Team1 = ""
-         serverNameGame5Team1 = ""
-         serverNameGame1Team2 = "Tm2Game1"
-         serverNameGame2Team2 = "Tm2Game2"
-         serverNameGame3Team2 = "Tm2Game3"
-         serverNameGame4Team2 = ""
-         serverNameGame5Team2 = ""
-         
-         team first server can change if players choose
-         sides of court change for teams
-         
-         */
-        
-        $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
-        $match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
-        
-        
-        $match.currentGameNumber.wrappedValue = match.currentGameNumber + 1
-        
-    }
     
     func closeMatch() {
         print("     > > > closeMatch() function starting ...")

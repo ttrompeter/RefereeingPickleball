@@ -30,7 +30,6 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var player2Team1Identifiers = "Blonde"
     @Persisted var player1Team2Identifiers = "Green Shirt"
     @Persisted var player2Team2Identifiers = "Yellow Shoes"
-    @Persisted var matchWinner = ""
     @Persisted var isSecondServer = true
     @Persisted var isTeam1Serving = true
     @Persisted var isServingLeftSide = false
@@ -41,6 +40,8 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchStarted = false
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchWinner = false
+    @Persisted var matchWinner = ""
+    @Persisted var matchWinnerTeam = 0
     @Persisted var selectedGameStartingServer = 0
     @Persisted var selectedMatchStartingServer = 0
     @Persisted var matchStartingServerName = "Adam Rockafeller"  // Should be Undetermined
@@ -51,6 +52,16 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var numberOfTimeoutsPerGame = 2
     @Persisted var emailAddressForScoresheetSnaphot = ""
     @Persisted var matchElapsedTime = 0.0
+    @Persisted var firstServerDesignationGame1Team1 = "Team 1"
+    @Persisted var firstServerDesignationGame2Team1 = "X"
+    @Persisted var firstServerDesignationGame3Team1 = "Team 1"
+    @Persisted var firstServerDesignationGame4Team1 = "X"
+    @Persisted var firstServerDesignationGame5Team1 = "Team 1"
+    @Persisted var firstServerDesignationGame1Team2 = "X"
+    @Persisted var firstServerDesignationGame2Team2 = "Team 2"
+    @Persisted var firstServerDesignationGame3Team2 = "X"
+    @Persisted var firstServerDesignationGame4Team2 = "Team 2"
+    @Persisted var firstServerDesignationGame5Team2 = "X"
 
     @Persisted var games = RealmSwift.List<Game>()
     

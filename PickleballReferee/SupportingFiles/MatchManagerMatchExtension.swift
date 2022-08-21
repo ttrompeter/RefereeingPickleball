@@ -198,12 +198,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -216,12 +218,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm1Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -234,11 +238,13 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -251,12 +257,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
+                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
                         return true
                     }
                 }

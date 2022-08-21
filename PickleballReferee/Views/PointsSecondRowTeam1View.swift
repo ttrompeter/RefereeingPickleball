@@ -22,7 +22,7 @@ struct PointsSecondRowTeam1View: View {
                     .foregroundColor(.white)
                     .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
                     .border(.black, width: 1.0)
-                    .overlay(Text(match.games[1].serverNameGame2Team1).font(.caption).italic())
+                    .overlay(Text(match.firstServerDesignationGame2Team1).font(.caption).italic())
                     
                 
                 //Empty space column

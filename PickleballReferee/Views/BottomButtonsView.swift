@@ -101,7 +101,7 @@ struct BottomButtonsView: View {
         .padding(10)
         .background(Constants.CLOUDS)
         .onReceive(matchTimer) { time in
-            $elapsedMatchTime.wrappedValue += 10.0
+            $elapsedMatchTime.wrappedValue += 30.0
         }
     }
 }
