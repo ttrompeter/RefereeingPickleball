@@ -12,8 +12,6 @@ struct PointsFifthRowTeam1View: View {
     
     @ObservedRealmObject var match: Match
     
-    // This is comment for gitHub change
-    
     var body: some View {
         
         VStack (spacing: 0) {
