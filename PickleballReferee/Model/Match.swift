@@ -62,9 +62,44 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var firstServerDesignationGame3Team2 = "X"
     @Persisted var firstServerDesignationGame4Team2 = "Team 2"
     @Persisted var firstServerDesignationGame5Team2 = "X"
-
+    
     @Persisted var games = RealmSwift.List<Game>()
     
+    
+    var matchTotalPointsWinningTeam: Int {
+        var matchTotalPoints = 0
+        if isMatchCompleted {
+            switch matchWinningTeam {
+            case 1:
+                matchTotalPoints = games[0].player1Team1Points + games[0].player2Team1Points + games[1].player1Team1Points + games[1].player2Team1Points + games[2].player1Team1Points + games[2].player2Team1Points + games[3].player1Team1Points + games[3].player2Team1Points + games[4].player1Team1Points + games[4].player2Team1Points
+            case 2:
+                matchTotalPoints = games[0].player1Team2Points + games[0].player2Team2Points + games[1].player1Team2Points + games[1].player2Team2Points + games[2].player1Team2Points + games[2].player2Team2Points + games[3].player1Team2Points + games[3].player2Team2Points + games[4].player1Team2Points + games[4].player2Team2Points
+            default:
+                print("Error calculating matchTotalPointsWinningTeam")
+            }
+        } else {
+            print("isMatchCompleted is false in matrchTotalPointsWinningTeam")
+        }
+        return matchTotalPoints
+    }
+    
+    var matchTotalPointsLosingTeam: Int {
+        var matchTotalPoints = 0
+        if isMatchCompleted {
+            switch matchWinningTeam {
+            case 1:
+                matchTotalPoints = games[0].player1Team2Points + games[0].player2Team2Points + games[1].player1Team2Points + games[1].player2Team2Points + games[2].player1Team2Points + games[2].player2Team2Points + games[3].player1Team2Points + games[3].player2Team2Points + games[4].player1Team2Points + games[4].player2Team2Points
+            case 2:
+                matchTotalPoints = games[0].player1Team1Points + games[0].player2Team1Points + games[1].player1Team1Points + games[1].player2Team1Points + games[2].player1Team1Points + games[2].player2Team1Points + games[3].player1Team1Points + games[3].player2Team1Points + games[4].player1Team1Points + games[4].player2Team1Points
+            default:
+                print("Error calculating matchTotalPointsLosgTeam")
+            }
+        } else {
+            print("isMatchCompleted is false in matrchTotalPointsLosingTeam")
+        }
+        
+        return matchTotalPoints
+    }
     
     var player1FirstName: String {
         var firstName = ""
@@ -72,7 +107,7 @@ class Match: Object, ObjectKeyIdentifiable {
         var components = fullName.components(separatedBy: " ")
         if components.count > 0 {
             firstName = components.removeFirst()
-         //let lastName = components.joined(separator: " ")
+            //let lastName = components.joined(separator: " ")
         } else {
             firstName = fullName
         }
@@ -85,7 +120,7 @@ class Match: Object, ObjectKeyIdentifiable {
         var components = fullName.components(separatedBy: " ")
         if components.count > 0 {
             firstName = components.removeFirst()
-         //let lastName = components.joined(separator: " ")
+            //let lastName = components.joined(separator: " ")
         } else {
             firstName = fullName
         }
@@ -98,7 +133,7 @@ class Match: Object, ObjectKeyIdentifiable {
         var components = fullName.components(separatedBy: " ")
         if components.count > 0 {
             firstName = components.removeFirst()
-         //let lastName = components.joined(separator: " ")
+            //let lastName = components.joined(separator: " ")
         } else {
             firstName = fullName
         }
@@ -111,7 +146,7 @@ class Match: Object, ObjectKeyIdentifiable {
         var components = fullName.components(separatedBy: " ")
         if components.count > 0 {
             firstName = components.removeFirst()
-         //let lastName = components.joined(separator: " ")
+            //let lastName = components.joined(separator: " ")
         } else {
             firstName = fullName
         }

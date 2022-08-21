@@ -11,12 +11,13 @@ struct TopButtonsView: View {
     
     @ObservedRealmObject var match: Match
     
-    @State private var showingTimeOut = false
+    @State private var presentCoinTossAlert = false
+    @State private var showingEdit = false
     @State private var showingMatchSetup = false
     @State private var showingPreMatchBriefing = false
-    @State private var showingEdit = false
-    @State private var presentCoinTossAlert = false
-    
+    @State private var showingTimeOut = false
+    @State private var showingViolation = false
+   
     let randCoinToss = Int.random(in: 1...2)
     
     var body: some View {
@@ -27,7 +28,7 @@ struct TopButtonsView: View {
             } label: {
                 Text("Timeout")
             }
-            .buttonStyle(OptionsButtonStyle())
+            .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingTimeOut) { TimeOutsView(match: match) }
             
             Button {
@@ -35,7 +36,7 @@ struct TopButtonsView: View {
             } label: {
                 Text("Briefing")
             }
-            .buttonStyle(OptionsButtonStyle())
+            .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingPreMatchBriefing) { PreMatchBriefingView() }
             
             Button {
@@ -43,7 +44,7 @@ struct TopButtonsView: View {
             } label: {
                 Text("Match Setup")
             }
-            .buttonStyle(OptionsButtonStyle())
+            .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
             
             Button {
@@ -51,7 +52,8 @@ struct TopButtonsView: View {
             } label: {
                 Text("Edit Match")
             }
-            .buttonStyle(OptionsButtonStyle())
+            .buttonStyle(FunctionsButtonStyle())
+            .disabled(!match.isMatchStarted)
             .sheet(isPresented: $showingEdit) { EditView(match: match) }
             
             if !match.isMatchStarted {
@@ -60,11 +62,20 @@ struct TopButtonsView: View {
                 } label: {
                     Text("Coin Toss")
                 }
-                .buttonStyle(OptionsButtonStyle())
+                .buttonStyle(FunctionsButtonStyle())
+                .disabled(!match.isMatchSetup)
                 .alert("\(randCoinToss)", isPresented: $presentCoinTossAlert) {
                     Button("OK", role: .cancel) {
                     }
                 }
+            } else {
+                Button {
+                    showingViolation.toggle()
+                } label: {
+                    Text("Violation")
+                }
+                .buttonStyle(FunctionsButtonStyle())
+                .sheet(isPresented: $showingViolation) { ViolationView(match: match) }
             }
             
         }

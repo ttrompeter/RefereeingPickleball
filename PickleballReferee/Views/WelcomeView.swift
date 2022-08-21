@@ -49,7 +49,7 @@ struct WelcomeView: View {
                                 VStack {
                                     NavigationLink (destination: HomeView(match: match), isActive: $isStartApp) {
                                     }
-                                    Button("Start App") {
+                                    Button("Start  App") {
                                         isStartApp = true
                                     }
                                     .buttonStyle(WelcomeButtonStyle())

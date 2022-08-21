@@ -73,5 +73,13 @@
  
  */
 
+/*
+ Violations
+ 
+ Technical Foul – A referee’s assessment of a behavioral violation that results in one point being removed from the score of the offending team, unless their score is zero, in which case a point shall be added to the score of the opposing side. A technical foul shall be issued if one technical warning has already been given and a second technical warning is warranted; or when warranted by a player’s or team’s action, based on the referee’s judgement.
+ 
+ 
+ */
+
 
 //******************************************************************

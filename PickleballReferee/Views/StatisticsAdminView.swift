@@ -13,12 +13,36 @@ struct StatisticAdminView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
     @State var screenshotMaker: ScreenshotMaker?
-    
-    var matchTotalPointsWinningTeam: Int {
+
+    private var totalMatchTimeoutsTeam1: String {
         
+        let totalTimeouts = match.games[0].timeOutsTeam1 + match.games[1].timeOutsTeam1 + match.games[2].timeOutsTeam1 + match.games[3].timeOutsTeam1 + match.games[4].timeOutsTeam1
         
-    return 0
+        return String(totalTimeouts)
     }
+    
+    private var totalMatchTimeoutsTeam2: String {
+        
+        let totalTimeouts = match.games[0].timeOutsTeam2 + match.games[1].timeOutsTeam2 + match.games[2].timeOutsTeam2 + match.games[3].timeOutsTeam2 + match.games[4].timeOutsTeam2
+        
+        return String(totalTimeouts)
+    }
+    
+    private var totalMatchSideoutsTeam1: String {
+        
+        let totalSideouts = match.games[0].sideOutsTeam1 + match.games[1].sideOutsTeam1 + match.games[2].sideOutsTeam1 + match.games[3].sideOutsTeam1 + match.games[4].sideOutsTeam1
+        
+        return String(totalSideouts)
+    }
+    
+    private var totalMatchSideoutsTeam2: String {
+        
+        let totalSideouts = match.games[0].sideOutsTeam2 + match.games[1].sideOutsTeam2 + match.games[2].sideOutsTeam2 + match.games[3].sideOutsTeam2 + match.games[4].sideOutsTeam2
+        
+        return String(totalSideouts)
+    }
+    
+    
     
     var body: some View {
         
@@ -55,15 +79,15 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Total Points")
                                         Divider()
-                                        Text("11 Points")
+                                        Text("\(match.matchTotalPointsWinningTeam)")
                                         Text("X")
                                             .foregroundColor(Constants.LIGHT_GRAY)
                                         Divider()
-                                        Text("6 Points")
+                                        Text("\(match.matchTotalPointsLosingTeam)")
                                         Text("")
                                     }
                                     VStack {
-                                        Text("2 of 3 Games")
+                                        Text(match.matchFormatDescription)
                                         Divider()
                                         Text("Jack Smith")
                                         Text("6 Points")
@@ -101,48 +125,48 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Game 1")
                                         Divider()
-                                        Text("Jack (6)")
-                                        Text("Ellen (5)")
+                                        Text("\(match.player1FirstName) (\(match.games[0].player1Team1Points))")
+                                        Text("\(match.player2FirstName) (\(match.games[0].player2Team1Points))")
                                         Divider()
-                                        Text("David (2)")
-                                        Text("Margo (4)")
+                                        Text("\(match.player3FirstName) (\(match.games[0].player1Team2Points))")
+                                        Text("\(match.player4FirstName) (\(match.games[0].player2Team2Points))")
                                     }
                                     VStack {
                                         Text("Game 2")
                                         Divider()
-                                        Text("Jack (6)")
-                                        Text("Ellen (5)")
+                                        Text("\(match.player1FirstName) (\(match.games[1].player1Team1Points))")
+                                        Text("\(match.player2FirstName) (\(match.games[1].player2Team1Points))")
                                         Divider()
-                                        Text("David (2)")
-                                        Text("Margo (4)")
+                                        Text("\(match.player3FirstName) (\(match.games[1].player1Team2Points))")
+                                        Text("\(match.player4FirstName) (\(match.games[1].player2Team2Points))")
                                     }
                                     VStack {
                                         Text("Game 3")
                                         Divider()
-                                        Text("Jack (6)")
-                                        Text("Ellen (5)")
+                                        Text("\(match.player1FirstName) (\(match.games[2].player1Team1Points))")
+                                        Text("\(match.player2FirstName) (\(match.games[2].player2Team1Points))")
                                         Divider()
-                                        Text("David (2)")
-                                        Text("Margo (4)")
+                                        Text("\(match.player3FirstName) (\(match.games[2].player1Team2Points))")
+                                        Text("\(match.player4FirstName) (\(match.games[2].player2Team2Points))")
                                     }
                                     if match.selectedGameFormat == 3 {
                                         VStack {
                                             Text("Game 4")
                                             Divider()
-                                            Text("Jack (6)")
-                                            Text("Ellen (5)")
+                                            Text("\(match.player1FirstName) (\(match.games[3].player1Team1Points))")
+                                            Text("\(match.player2FirstName) (\(match.games[3].player2Team1Points))")
                                             Divider()
-                                            Text("David (2)")
-                                            Text("Margo (4)")
+                                            Text("\(match.player3FirstName) (\(match.games[3].player1Team2Points))")
+                                            Text("\(match.player4FirstName) (\(match.games[3].player2Team2Points))")
                                         }
                                         VStack {
                                             Text("Game 5")
                                             Divider()
-                                            Text("Jack (6)")
-                                            Text("Ellen (5)")
+                                            Text("\(match.player1FirstName) (\(match.games[4].player1Team1Points))")
+                                            Text("\(match.player2FirstName) (\(match.games[4].player2Team1Points))")
                                             Divider()
-                                            Text("David (2)")
-                                            Text("Margo (4)")
+                                            Text("\(match.player3FirstName) (\(match.games[4].player1Team2Points))")
+                                            Text("\(match.player4FirstName) (\(match.games[4].player2Team2Points))")
                                         }
                                     }
                                 }
@@ -162,45 +186,45 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Match")
                                         Divider()
-                                        Text("12")
+                                        Text(totalMatchSideoutsTeam1)
                                         Divider()
-                                        Text("18")
+                                        Text(totalMatchSideoutsTeam2)
                                     }
                                     VStack {
                                         Text("Game 1")
                                         Divider()
-                                        Text("4")
+                                        Text("\(match.games[0].sideOutsTeam1)")
                                         Divider()
-                                        Text("7")
+                                        Text("\(match.games[0].sideOutsTeam2)")
                                     }
                                     VStack {
                                         Text("Game 2")
                                         Divider()
-                                        Text("3")
+                                        Text("\(match.games[1].sideOutsTeam1)")
                                         Divider()
-                                        Text("8")
+                                        Text("\(match.games[1].sideOutsTeam2)")
                                     }
                                     VStack {
                                         Text("Game 3")
                                         Divider()
-                                        Text("7")
+                                        Text("\(match.games[2].sideOutsTeam1)")
                                         Divider()
-                                        Text("4")
+                                        Text("\(match.games[2].sideOutsTeam2)")
                                     }
                                     if match.selectedGameFormat == 3 {
                                         VStack {
                                             Text("Game 4")
                                             Divider()
-                                            Text("7")
+                                            Text("\(match.games[3].sideOutsTeam1)")
                                             Divider()
-                                            Text("9")
+                                            Text("\(match.games[3].sideOutsTeam2)")
                                         }
                                         VStack {
                                             Text("Game 5")
                                             Divider()
-                                            Text("3")
+                                            Text("\(match.games[4].sideOutsTeam1)")
                                             Divider()
-                                            Text("6")
+                                            Text("\(match.games[4].sideOutsTeam2)")
                                         }
                                     }
                                     
@@ -221,45 +245,45 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Match")
                                         Divider()
-                                        Text("2")
+                                        Text(totalMatchTimeoutsTeam1)
                                         Divider()
-                                        Text("3")
+                                        Text(totalMatchTimeoutsTeam2)
                                     }
                                     VStack {
                                         Text("Game 1")
                                         Divider()
-                                        Text("0")
+                                        Text("\(match.games[0].timeOutsTeam1)")
                                         Divider()
-                                        Text("1")
+                                        Text("\(match.games[0].timeOutsTeam2)")
                                     }
                                     VStack {
                                         Text("Game 2")
                                         Divider()
-                                        Text("0")
+                                        Text("\(match.games[1].timeOutsTeam1)")
                                         Divider()
-                                        Text("0")
+                                        Text("\(match.games[1].timeOutsTeam1)")
                                     }
                                     VStack {
                                         Text("Game 3")
                                         Divider()
-                                        Text("2")
+                                        Text("\(match.games[2].timeOutsTeam1)")
                                         Divider()
-                                        Text("1")
+                                        Text("\(match.games[2].timeOutsTeam1)")
                                     }
                                     if match.selectedGameFormat == 3 {
                                         VStack {
                                             Text("Game 4")
                                             Divider()
-                                            Text("0")
+                                            Text("\(match.games[3].timeOutsTeam1)")
                                             Divider()
-                                            Text("0")
+                                            Text("\(match.games[3].timeOutsTeam1)")
                                         }
                                         VStack {
                                             Text("Game 5")
                                             Divider()
-                                            Text("0")
+                                            Text("\(match.games[4].timeOutsTeam1)")
                                             Divider()
-                                            Text("0")
+                                            Text("\(match.games[4].timeOutsTeam1)")
                                         }
                                     }
                                     

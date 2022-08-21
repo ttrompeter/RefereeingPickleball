@@ -264,47 +264,54 @@ struct RegularTimeOutView: View {
             switch match.games[match.currentGameNumber - 1].timeOutsTeam1 {
             case 1:
                 if match.currentGameNumber == 1 {
-                    print("In if team 1 Game 1 before setTimeoutImage()")
-                    $match.games[0].timeOut1Game1ImageTm1.wrappedValue = "squareleftfwdslash"
-                  // match.games[match.currentGameNumber - 1].timeOut1Game2ImageTm1
-                    print("In if team 1 Game 1 after setTimeoutImage()\n")
+                    $match.games[0].timeOut1Game1ImageTm1.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 2 {
-                    print("In if team 1 Game 2 before setTimeoutImage()")
-                    $match.games[1].timeOut1Game2ImageTm1.wrappedValue = "squareleftfwdslash"   // This is in Game
-//                    $match.matchLocation.wrappedValue = "From Timeouts"                         // This is in Match
-//                    $match.games[1].refereeName.wrappedValue = "From Timeouts"                  // This is in Game
-//                    $match.games[1].serverNameGame2Team1.wrappedValue = "From Timeouts"         // This is in Game
-//                    print("In if team 1 Game 2 after setTimeoutImage()\n")
+                    $match.games[1].timeOut1Game2ImageTm1.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut1Game3ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[2].timeOut1Game3ImageTm1.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut1Game4ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[3].timeOut1Game4ImageTm1.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut1Game5ImageTm1.wrappedValue = "squarerightfwdslash"
+                    $match.games[4].timeOut1Game5ImageTm1.wrappedValue = "boxleftfwdslash"
                 }
             case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut2Game1ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut2Game2ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut2Game3ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut2Game4ImageTm1.wrappedValue = "squarerightfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut2Game5ImageTm1.wrappedValue = "squarerightfwdslash"
+                if match.selectedMatchFormat == 3 {
+                    if match.currentGameNumber == 1 {
+                        $match.games[0].timeOut2Game1ImageTm1.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 2 {
+                        $match.games[1].timeOut2Game2ImageTm1.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 3 {
+                        $match.games[2].timeOut2Game3ImageTm1.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 4 {
+                        $match.games[3].timeOut2Game4ImageTm1.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 5 {
+                        $match.games[4].timeOut2Game5ImageTm1.wrappedValue = "boxleftfwdslash"
+                    }
+                } else {
+                    if match.currentGameNumber == 1 {
+                        $match.games[0].timeOut2Game1ImageTm1.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 2 {
+                        $match.games[1].timeOut2Game2ImageTm1.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 3 {
+                        $match.games[2].timeOut2Game3ImageTm1.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 4 {
+                        $match.games[3].timeOut2Game4ImageTm1.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 5 {
+                        $match.games[4].timeOut2Game5ImageTm1.wrappedValue = "boxfwdslash"
+                    }
                 }
+                
             case 3:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut3Game1ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[0].timeOut3Game1ImageTm1.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut3Game2ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[1].timeOut3Game2ImageTm1.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut3Game3ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[2].timeOut3Game3ImageTm1.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut3Game4ImageTm1.wrappedValue = "squareleftfwdslash"
+                    $match.games[3].timeOut3Game4ImageTm1.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut3Game5ImageTm1.wrappedValue = "squarerightfwdslash"
+                    $match.games[4].timeOut3Game5ImageTm1.wrappedValue = "boxfwdslash"
                 }
             default:
                 print("Error setting image in switch statement of setTimeoutImage()")
@@ -315,39 +322,54 @@ struct RegularTimeOutView: View {
             switch match.games[match.currentGameNumber - 1].timeOutsTeam2 {
             case 1:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut1Game1ImageTm2.wrappedValue = "squareleftfwdslash"
+                    $match.games[0].timeOut1Game1ImageTm2.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut1Game2ImageTm2.wrappedValue = "squareleftfwdslash"
+                    $match.games[1].timeOut1Game2ImageTm2.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut1Game3ImageTm2.wrappedValue = "squareleftfwdslash"
+                    $match.games[2].timeOut1Game3ImageTm2.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut1Game4ImageTm2.wrappedValue = "squareleftfwdslash"
+                    $match.games[3].timeOut1Game4ImageTm2.wrappedValue = "boxleftfwdslash"
                 } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut1Game5ImageTm2.wrappedValue = "squareleftfwdslash"
+                    $match.games[4].timeOut1Game5ImageTm2.wrappedValue = "boxleftfwdslash"
                 }
             case 2:
-                if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut2Game2ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut2Game3ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut2Game4ImageTm2.wrappedValue = "squareleftfwdslash"
-                } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "squareleftfwdslash"
+                if match.selectedMatchFormat == 3 {
+                    if match.currentGameNumber == 1 {
+                        $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 2 {
+                        $match.games[1].timeOut2Game2ImageTm2.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 3 {
+                        $match.games[2].timeOut2Game3ImageTm2.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 4 {
+                        $match.games[3].timeOut2Game4ImageTm2.wrappedValue = "boxleftfwdslash"
+                    } else if match.currentGameNumber == 5 {
+                        $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "boxleftfwdslash"
+                    }
+                } else {
+                    if match.currentGameNumber == 1 {
+                        $match.games[0].timeOut2Game1ImageTm2.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 2 {
+                        $match.games[1].timeOut2Game2ImageTm2.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 3 {
+                        $match.games[2].timeOut2Game3ImageTm2.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 4 {
+                        $match.games[3].timeOut2Game4ImageTm2.wrappedValue = "boxrightendfwdslash"
+                    } else if match.currentGameNumber == 5 {
+                        $match.games[4].timeOut2Game5ImageTm2.wrappedValue = "boxfwdslash"
+                    }
                 }
+                
             case 3:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].timeOut3Game1ImageTm2.wrappedValue = "squarerightfwdslash"
+                    $match.games[0].timeOut3Game1ImageTm2.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 2 {
-                    $match.games[1].timeOut3Game2ImageTm2.wrappedValue = "squarerightfwdslash"
+                    $match.games[1].timeOut3Game2ImageTm2.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 3 {
-                    $match.games[2].timeOut3Game3ImageTm2.wrappedValue = "squarerightfwdslash"
+                    $match.games[2].timeOut3Game3ImageTm2.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 4 {
-                    $match.games[3].timeOut3Game4ImageTm2.wrappedValue = "squarerightfwdslash"
+                    $match.games[3].timeOut3Game4ImageTm2.wrappedValue = "boxrightendfwdslash"
                 } else if match.currentGameNumber == 5 {
-                    $match.games[4].timeOut3Game5ImageTm2.wrappedValue = "squarerightfwdslash"
+                    $match.games[4].timeOut3Game5ImageTm2.wrappedValue = "boxfwdslash"
                 }
             default:
                 print("Error setting image in switch statement of setTimeoutImage()")

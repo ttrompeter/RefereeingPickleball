@@ -17,6 +17,7 @@
 		E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A393E28B1CC840077A2C2 /* RulesView.swift */; };
 		E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
+		E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4828B2DE1D0030EC20 /* ViolationView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* RegularTimeOutView.swift */; };
 		E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932782893B6710087ABB1 /* StopwatchView.swift */; };
@@ -54,8 +55,8 @@
 		E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FBE2893A23800F29D83 /* TopButtonsView.swift */; };
 		E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */; };
 		E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */; };
-		E367357428B1343600D18CCC /* MatchManagerMatchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367357328B1343600D18CCC /* MatchManagerMatchExtension.swift */; };
-		E367357628B136F600D18CCC /* PointScoredMatchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367357528B136F600D18CCC /* PointScoredMatchExtension.swift */; };
+		E367357428B1343600D18CCC /* MatchManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367357328B1343600D18CCC /* MatchManagerExtension.swift */; };
+		E367357628B136F600D18CCC /* PointScoredExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367357528B136F600D18CCC /* PointScoredExtension.swift */; };
 		E39058D628A40B1E0067A536 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058D528A40B1E0067A536 /* PopupView.swift */; };
 		E39058D828A424440067A536 /* SheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058D728A424440067A536 /* SheetManager.swift */; };
 		E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39058F928A44D620067A536 /* PopupViewModifier.swift */; };
@@ -91,6 +92,7 @@
 		E33A393E28B1CC840077A2C2 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
+		E343CB4828B2DE1D0030EC20 /* ViolationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* RegularTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularTimeOutView.swift; sourceTree = "<group>"; };
 		E34932782893B6710087ABB1 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
@@ -125,8 +127,8 @@
 		E3632FBE2893A23800F29D83 /* TopButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonsView.swift; sourceTree = "<group>"; };
 		E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalityButtonsView.swift; sourceTree = "<group>"; };
-		E367357328B1343600D18CCC /* MatchManagerMatchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManagerMatchExtension.swift; sourceTree = "<group>"; };
-		E367357528B136F600D18CCC /* PointScoredMatchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointScoredMatchExtension.swift; sourceTree = "<group>"; };
+		E367357328B1343600D18CCC /* MatchManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManagerExtension.swift; sourceTree = "<group>"; };
+		E367357528B136F600D18CCC /* PointScoredExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointScoredExtension.swift; sourceTree = "<group>"; };
 		E39058D528A40B1E0067A536 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		E39058D728A424440067A536 /* SheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetManager.swift; sourceTree = "<group>"; };
 		E39058F928A44D620067A536 /* PopupViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewModifier.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */,
 				E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */,
 				E3632FBE2893A23800F29D83 /* TopButtonsView.swift */,
+				E343CB4828B2DE1D0030EC20 /* ViolationView.swift */,
 				E3912AD428985B1200D0DA38 /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -273,8 +276,8 @@
 				E3632FA22893871900F29D83 /* Constants.swift */,
 				E396157B28A18998001D3596 /* ExtensionUIImage.swift */,
 				E390590028A4842C0067A536 /* MailView.swift */,
-				E367357328B1343600D18CCC /* MatchManagerMatchExtension.swift */,
-				E367357528B136F600D18CCC /* PointScoredMatchExtension.swift */,
+				E367357328B1343600D18CCC /* MatchManagerExtension.swift */,
+				E367357528B136F600D18CCC /* PointScoredExtension.swift */,
 				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
 				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
@@ -390,6 +393,7 @@
 				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
 				E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */,
+				E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
 				E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */,
@@ -403,7 +407,7 @@
 				E3632F9F28937EFF00F29D83 /* MatchView.swift in Sources */,
 				E3632F90289379EC00F29D83 /* Game.swift in Sources */,
 				E39058D828A424440067A536 /* SheetManager.swift in Sources */,
-				E367357428B1343600D18CCC /* MatchManagerMatchExtension.swift in Sources */,
+				E367357428B1343600D18CCC /* MatchManagerExtension.swift in Sources */,
 				E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */,
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */,
@@ -416,7 +420,7 @@
 				E396157A28A187C3001D3596 /* ViewExtension.swift in Sources */,
 				E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */,
 				E34932812893B8A70087ABB1 /* SettingsAdminView.swift in Sources */,
-				E367357628B136F600D18CCC /* PointScoredMatchExtension.swift in Sources */,
+				E367357628B136F600D18CCC /* PointScoredExtension.swift in Sources */,
 				E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */,
 				E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */,
 				E349327D2893B8490087ABB1 /* EditView.swift in Sources */,

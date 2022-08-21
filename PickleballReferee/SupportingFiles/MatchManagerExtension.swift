@@ -9,8 +9,6 @@ import RealmSwift
 import SwiftUI
 
 extension MatchView {
- 
-    
     
     func sideOut() {
        
@@ -109,6 +107,21 @@ extension MatchView {
     }
     
 
+    func setStartingServerName() -> String{
+        print("Starting setStartingServerName()")
+        switch match.servingPlayerNumber {
+        case 0:
+            return "Undetermined"
+        case 1:
+            return match.namePlayer1Team1
+        case 3:
+            return match.namePlayer1Team2
+        default:
+            print("Error in setting gameStartingServerDescription")
+            return "Error"
+        }
+    }
+    
     
     func setWhoIsServing() {
         
@@ -396,5 +409,20 @@ extension MatchView {
         
         return false
     }
+    
+    func closeMatch() {
+        print("     > > > closeMatch() function starting ...")
+        
+        /*
+         Set matchWinner = ""
+         Set isMatchWinner = false
+         Set isMatchCompleted = false
+         Set selectedGameStartingServer = 0
+         ??  currentGameNumber = 1
+         
+         */
+    }
+    
+    
 }
 
