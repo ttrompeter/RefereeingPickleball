@@ -11,7 +11,6 @@ import SwiftUI
 struct PointsThirdRowTeam2View: View {
     
     @ObservedRealmObject var match: Match
-    @State private var gameScoreImages = GameScoreImages()
     
     var body: some View {
         

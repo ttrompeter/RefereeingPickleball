@@ -198,14 +198,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -218,14 +218,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm1Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -238,13 +238,13 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 1
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -257,14 +257,14 @@ extension MatchView {
                     if tm1Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm1Score) | \(tm2Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 1
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 1
                         return true
                     }
                 } else if largest == tm2Score {
                     if tm2Score - tm2Score > 1 {
                         $match.games[match.currentGameNumber - 1].gameFinalScore.wrappedValue = "\(tm2Score) | \(tm1Score)"
                         $match.games[match.currentGameNumber - 1].gameWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
-                        $match.games[match.currentGameNumber - 1].gameWinnerTeam.wrappedValue = 2
+                        $match.games[match.currentGameNumber - 1].gameWinningTeam.wrappedValue = 2
                         return true
                     }
                 }
@@ -287,7 +287,7 @@ extension MatchView {
             if match.games[match.currentGameNumber - 1].isGameWinner {
                 $match.isMatchWinner.wrappedValue = true
                 $match.isMatchCompleted.wrappedValue = true
-                if match.games[match.currentGameNumber - 1].gameWinnerTeam == 1 {
+                if match.games[match.currentGameNumber - 1].gameWinningTeam == 1 {
                     $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
                 } else {
                     $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
@@ -297,21 +297,21 @@ extension MatchView {
         } else if match.selectedMatchFormat == 2 {
             
             if match.games[0].isGameWinner {
-                if match.games[0].gameWinnerTeam == 1 {
+                if match.games[0].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[1].isGameWinner {
-                if match.games[1].gameWinnerTeam == 1 {
+                if match.games[1].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[2].isGameWinner {
-                if match.games[2].gameWinnerTeam == 1 {
+                if match.games[2].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
@@ -335,42 +335,42 @@ extension MatchView {
             }
         } else if match.selectedMatchFormat == 3 {
             if match.games[0].isGameWinner {
-                if match.games[0].gameWinnerTeam == 1 {
+                if match.games[0].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[1].isGameWinner {
-                if match.games[1].gameWinnerTeam == 1 {
+                if match.games[1].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[2].isGameWinner {
-                if match.games[2].gameWinnerTeam == 1 {
+                if match.games[2].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[3].isGameWinner {
-                if match.games[3].gameWinnerTeam == 1 {
+                if match.games[3].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[4].isGameWinner {
-                if match.games[4].gameWinnerTeam == 1 {
+                if match.games[4].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1
                 }
             }
             if match.games[5].isGameWinner {
-                if match.games[5].gameWinnerTeam == 1 {
+                if match.games[5].gameWinningTeam == 1 {
                     gamesWonTeam1 += 1
                 } else {
                     gamesWonTeam2 += 1

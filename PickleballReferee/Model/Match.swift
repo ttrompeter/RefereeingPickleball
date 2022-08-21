@@ -41,7 +41,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isMatchCompleted = false
     @Persisted var isMatchWinner = false
     @Persisted var matchWinner = ""
-    @Persisted var matchWinnerTeam = 0
+    @Persisted var matchWinningTeam = 0
     @Persisted var selectedGameStartingServer = 0
     @Persisted var selectedMatchStartingServer = 0
     @Persisted var matchStartingServerName = "Adam Rockafeller"  // Should be Undetermined
@@ -65,6 +65,58 @@ class Match: Object, ObjectKeyIdentifiable {
 
     @Persisted var games = RealmSwift.List<Game>()
     
+    
+    var player1FirstName: String {
+        var firstName = ""
+        let fullName = namePlayer1Team1
+        var components = fullName.components(separatedBy: " ")
+        if components.count > 0 {
+            firstName = components.removeFirst()
+         //let lastName = components.joined(separator: " ")
+        } else {
+            firstName = fullName
+        }
+        return firstName
+    }
+    
+    var player2FirstName: String {
+        var firstName = ""
+        let fullName = namePlayer2Team1
+        var components = fullName.components(separatedBy: " ")
+        if components.count > 0 {
+            firstName = components.removeFirst()
+         //let lastName = components.joined(separator: " ")
+        } else {
+            firstName = fullName
+        }
+        return firstName
+    }
+    
+    var player3FirstName: String {
+        var firstName = ""
+        let fullName = namePlayer1Team2
+        var components = fullName.components(separatedBy: " ")
+        if components.count > 0 {
+            firstName = components.removeFirst()
+         //let lastName = components.joined(separator: " ")
+        } else {
+            firstName = fullName
+        }
+        return firstName
+    }
+    
+    var player4FirstName: String {
+        var firstName = ""
+        let fullName = namePlayer2Team2
+        var components = fullName.components(separatedBy: " ")
+        if components.count > 0 {
+            firstName = components.removeFirst()
+         //let lastName = components.joined(separator: " ")
+        } else {
+            firstName = fullName
+        }
+        return firstName
+    }
     
     var matchFormatDescription: String {
         switch selectedMatchFormat {

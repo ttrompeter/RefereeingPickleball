@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E319215828AEE277008269D5 /* StoreManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215728AEE277008269D5 /* StoreManger.swift */; };
+		E319215828AEE277008269D5 /* StoreageManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215728AEE277008269D5 /* StoreageManger.swift */; };
 		E319215A28AFEB64008269D5 /* LargeScoresheetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */; };
 		E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215B28AFFE39008269D5 /* IntroductionView.swift */; };
 		E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215D28B004D3008269D5 /* CheckToggleStyle.swift */; };
 		E327829828B03C8600690D36 /* QuickstartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829728B03C8600690D36 /* QuickstartView.swift */; };
 		E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829928B03CA900690D36 /* ScorekeepingView.swift */; };
 		E327829C28B03F8F00690D36 /* IntroductionOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */; };
-		E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330F671289C7ACE004B50BF /* ScoringManager.swift */; };
 		E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A393E28B1CC840077A2C2 /* RulesView.swift */; };
 		E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
@@ -35,7 +34,6 @@
 		E3632F9328937A7D00F29D83 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = E3632F9228937A7D00F29D83 /* Realm */; };
 		E3632F9528937A7D00F29D83 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E3632F9428937A7D00F29D83 /* RealmSwift */; };
 		E3632F9728937C2100F29D83 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632F9628937C2100F29D83 /* Match.swift */; };
-		E3632F9B28937C6F00F29D83 /* GameScoreImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632F9A28937C6F00F29D83 /* GameScoreImages.swift */; };
 		E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632F9C28937EC900F29D83 /* HomeView.swift */; };
 		E3632F9F28937EFF00F29D83 /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632F9E28937EFF00F29D83 /* MatchView.swift */; };
 		E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3632FA028937F1E00F29D83 /* MatchSetupView.swift */; };
@@ -83,14 +81,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E319215728AEE277008269D5 /* StoreManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManger.swift; sourceTree = "<group>"; };
+		E319215728AEE277008269D5 /* StoreageManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreageManger.swift; sourceTree = "<group>"; };
 		E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeScoresheetImageView.swift; sourceTree = "<group>"; };
 		E319215B28AFFE39008269D5 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		E319215D28B004D3008269D5 /* CheckToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckToggleStyle.swift; sourceTree = "<group>"; };
 		E327829728B03C8600690D36 /* QuickstartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickstartView.swift; sourceTree = "<group>"; };
 		E327829928B03CA900690D36 /* ScorekeepingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorekeepingView.swift; sourceTree = "<group>"; };
 		E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionOverviewView.swift; sourceTree = "<group>"; };
-		E330F671289C7ACE004B50BF /* ScoringManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringManager.swift; sourceTree = "<group>"; };
 		E33A393E28B1CC840077A2C2 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
@@ -108,7 +105,6 @@
 		E3632F852893775700F29D83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E3632F8F289379EC00F29D83 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		E3632F9628937C2100F29D83 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
-		E3632F9A28937C6F00F29D83 /* GameScoreImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScoreImages.swift; sourceTree = "<group>"; };
 		E3632F9C28937EC900F29D83 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		E3632F9E28937EFF00F29D83 /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
 		E3632FA028937F1E00F29D83 /* MatchSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchSetupView.swift; sourceTree = "<group>"; };
@@ -264,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				E3632F8F289379EC00F29D83 /* Game.swift */,
-				E3632F9A28937C6F00F29D83 /* GameScoreImages.swift */,
 				E3632F9628937C2100F29D83 /* Match.swift */,
 			);
 			path = Model;
@@ -282,11 +277,10 @@
 				E367357528B136F600D18CCC /* PointScoredMatchExtension.swift */,
 				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
 				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
-				E330F671289C7ACE004B50BF /* ScoringManager.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
-				E319215728AEE277008269D5 /* StoreManger.swift */,
+				E319215728AEE277008269D5 /* StoreageManger.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 				E396157928A187C3001D3596 /* ViewExtension.swift */,
 				E319215D28B004D3008269D5 /* CheckToggleStyle.swift */,
@@ -381,15 +375,13 @@
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
-				E330F672289C7ACE004B50BF /* ScoringManager.swift in Sources */,
-				E3632F9B28937C6F00F29D83 /* GameScoreImages.swift in Sources */,
 				E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */,
 				E3961550289F6DDE001D3596 /* AlertItem.swift in Sources */,
 				E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */,
 				E3912AD528985B1200D0DA38 /* WelcomeView.swift in Sources */,
 				E3632FB12893918100F29D83 /* PointsThirdRowTeam2View.swift in Sources */,
 				E3632FB52893922200F29D83 /* ScoringSectionTeam2View.swift in Sources */,
-				E319215828AEE277008269D5 /* StoreManger.swift in Sources */,
+				E319215828AEE277008269D5 /* StoreageManger.swift in Sources */,
 				E396154C289F25EE001D3596 /* PointsFourthRowTeam2View.swift in Sources */,
 				E3961548289F250B001D3596 /* PointsFourthRowTeam1View.swift in Sources */,
 				E3632FAB28938D2100F29D83 /* PointsSecondRowTeam1View.swift in Sources */,

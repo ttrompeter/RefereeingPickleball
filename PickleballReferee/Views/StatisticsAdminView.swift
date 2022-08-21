@@ -14,6 +14,11 @@ struct StatisticAdminView: View {
     @ObservedRealmObject var match: Match
     @State var screenshotMaker: ScreenshotMaker?
     
+    var matchTotalPointsWinningTeam: Int {
+        
+        
+    return 0
+    }
     
     var body: some View {
         
