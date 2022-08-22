@@ -65,7 +65,6 @@ class Match: Object, ObjectKeyIdentifiable {
     
     @Persisted var games = RealmSwift.List<Game>()
     
-    @Persisted var nonesense = 0
     
     var matchTotalPointsWinningTeam: Int {
         var matchTotalPoints = 0
