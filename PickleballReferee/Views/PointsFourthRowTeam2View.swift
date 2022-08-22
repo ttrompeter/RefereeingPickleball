@@ -34,15 +34,15 @@ struct PointsFourthRowTeam2View: View {
                 
                 Group {
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point1Game4ImageTm2)
+                        Image(match.point1Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint0Game1Team2 {
+                        if match.isSideoutPoint0Game4Team2 {
                             Image(Constants.SIDEOUT_LEFT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                         }
-                        if match.games[3].isSideoutPoint1Game1Team2 {
+                        if match.isSideoutPoint1Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -51,10 +51,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point2Game4ImageTm2)
+                        Image(match.point2Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint2Game1Team2 {
+                        if match.isSideoutPoint2Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -63,10 +63,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point3Game4ImageTm2)
+                        Image(match.point3Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint3Game1Team2 {
+                        if match.isSideoutPoint3Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -75,10 +75,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point4Game4ImageTm2)
+                        Image(match.point4Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint4Game1Team2 {
+                        if match.isSideoutPoint4Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -87,10 +87,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point5Game4ImageTm2)
+                        Image(match.point5Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint5Game1Team2 {
+                        if match.isSideoutPoint5Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -99,10 +99,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point6Game4ImageTm2)
+                        Image(match.point6Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint6Game1Team2 {
+                        if match.isSideoutPoint6Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -111,10 +111,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point7Game4ImageTm2)
+                        Image(match.point7Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint7Game1Team2 {
+                        if match.isSideoutPoint7Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -123,10 +123,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point8Game4ImageTm2)
+                        Image(match.point8Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint8Game1Team2 {
+                        if match.isSideoutPoint8Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -135,10 +135,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point9Game4ImageTm2)
+                        Image(match.point9Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint9Game1Team2 {
+                        if match.isSideoutPoint9Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -149,10 +149,10 @@ struct PointsFourthRowTeam2View: View {
                 }
                 Group {
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point10Game4ImageTm2)
+                        Image(match.point10Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint10Game1Team2 {
+                        if match.isSideoutPoint10Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -161,10 +161,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point11Game4ImageTm2)
+                        Image(match.point11Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint11Game1Team2 {
+                        if match.isSideoutPoint11Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -173,10 +173,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point12Game4ImageTm2)
+                        Image(match.point12Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint12Game1Team2 {
+                        if match.isSideoutPoint12Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -185,10 +185,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point13Game4ImageTm2)
+                        Image(match.point13Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint13Game1Team2 {
+                        if match.isSideoutPoint13Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -197,10 +197,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point14Game4ImageTm2)
+                        Image(match.point14Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint14Game1Team2 {
+                        if match.isSideoutPoint14Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -209,10 +209,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point15Game4ImageTm2)
+                        Image(match.point15Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint15Game1Team2 {
+                        if match.isSideoutPoint15Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -221,10 +221,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point16Game4ImageTm2)
+                        Image(match.point16Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint16Game1Team2 {
+                        if match.isSideoutPoint16Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -233,10 +233,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point17Game4ImageTm2)
+                        Image(match.point17Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint17Game1Team2 {
+                        if match.isSideoutPoint17Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -245,10 +245,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point18Game4ImageTm2)
+                        Image(match.point18Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint18Game1Team2 {
+                        if match.isSideoutPoint18Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -257,10 +257,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point19Game4ImageTm2)
+                        Image(match.point19Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint19Game1Team2 {
+                        if match.isSideoutPoint19Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -272,10 +272,10 @@ struct PointsFourthRowTeam2View: View {
                 
                 Group {
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point20Game4ImageTm2)
+                        Image(match.point20Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint20Game1Team2 {
+                        if match.isSideoutPoint20Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -284,10 +284,10 @@ struct PointsFourthRowTeam2View: View {
                             .foregroundColor(Constants.SILVER)
                     }
                     ZStack {
-                        Image(match.games[match.currentGameNumber - 1].point21Game4ImageTm2)
+                        Image(match.point21Game4ImageTm2)
                             .resizable()
                             .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                        if match.games[3].isSideoutPoint21Game1Team2 {
+                        if match.isSideoutPoint21Game4Team2 {
                             Image(Constants.SIDEOUT_RIGHT)
                                 .resizable()
                                 .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
@@ -305,7 +305,7 @@ struct PointsFourthRowTeam2View: View {
                 // Timeouts
                 ZStack {
                     
-                    Image(match.games[match.currentGameNumber - 1].timeOut1Game4ImageTm2)
+                    Image(match.timeOut1Game4ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("1")
@@ -313,7 +313,7 @@ struct PointsFourthRowTeam2View: View {
                 }
                 ZStack {
                     
-                    Image(match.games[match.currentGameNumber - 1].timeOut2Game4ImageTm2)
+                    Image(match.timeOut2Game4ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("2")
@@ -321,7 +321,7 @@ struct PointsFourthRowTeam2View: View {
                 }
                 ZStack {
                     
-                    Image(match.games[match.currentGameNumber - 1].timeOut3Game4ImageTm2)
+                    Image(match.timeOut3Game4ImageTm2)
                         .resizable()
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("3")

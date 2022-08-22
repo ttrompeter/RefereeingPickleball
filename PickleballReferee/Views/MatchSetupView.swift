@@ -443,9 +443,21 @@ struct MatchSetupView: View {
                     .buttonStyle(SheetButtonStyle())
                     
                     Button("Save") {
-                        //print("Inside Save Button of MatchSetupView")
+                        // Set the selectedFirstServers for all games to be the same as that
+                        // selected in the MatchSetup. It can be changed later using Match Setup
+                        // again if a team decides to change the designated first server between games.
+                        $match.games[1].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
+                        $match.games[2].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
+                        $match.games[3].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
+                        $match.games[4].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
+                        
+                        $match.games[1].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
+                        $match.games[2].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
+                        $match.games[3].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
+                        $match.games[4].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
+                        
                         $match.isMatchSetup.wrappedValue = true
-                        print("isMatchSetup fter setting in MatchSetupView save(): \(match.isMatchSetup)")
+                        print("isMatchSetup after setting in MatchSetupView save(): \(match.isMatchSetup)")
                         dismiss()
                     }
                     .buttonStyle(SheetButtonStyle())

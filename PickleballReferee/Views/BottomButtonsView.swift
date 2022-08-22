@@ -28,22 +28,14 @@ struct BottomButtonsView: View {
         
         VStack (spacing: 20) {
             
-//            if !match.games[match.currentGameNumber - 1].isServerSideSet {
-//                Button {
-//                    //$match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
-//                    //showingSetServer.toggle()
-//                    presentServerSideSetAlert.toggle()
-//                } label: {
-//                    Text("Orientation")
-//                }
-//                .buttonStyle(StartMatchButtonStyle())
-// //DO NOT USE THIS                .sheet(isPresented: $showingSetServer) { SelectGameStartingServerView(match: match) }
-//            } else
             if !match.isMatchStarted {
                 Button {
                     $match.isMatchStarted.wrappedValue = true
                     // Start the match timer
                     _ = matchTimer.connect()
+                    
+                    // If fame 1 of match, start the game timer. HOW from here??
+                    
                 } label: {
                     Text("Start Match")
                 }

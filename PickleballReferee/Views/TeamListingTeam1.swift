@@ -17,19 +17,21 @@ struct TeamListingTeam1: View {
         HStack {
             HStack {
                 Text("Team 1:   ")
-                    .font(.headline)
+                    //.font(.headline)
                     .foregroundColor(Constants.DARK_SLATE)
                 
                 if match.games[match.currentGameNumber - 1].selectedFirstServerTeam1 == 1 {
                     Text("   \(match.namePlayer1Team1)   ")
-                        .font(.headline)
+                        //.font(.headline)
                         .foregroundColor(Constants.MINT_LEAF)
                 } else {
                     Text("   \(match.namePlayer1Team1)   ")
-                        .font(.headline)
+                        //.font(.headline)
                         .foregroundColor(Constants.DARK_SLATE)
                 }
             }
+            .font(.headline)
+            
             Text("[ \(match.player1Team1Identifiers) ]")
                 .italic()
                 .font(.subheadline)

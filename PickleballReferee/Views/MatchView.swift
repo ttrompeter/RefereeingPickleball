@@ -136,7 +136,7 @@ struct MatchView: View {
                                     //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchScoringFormatDescription)
                                     //.foregroundColor(Constants.DARK_SLATE)
-                                Text(match.games[match.currentGameNumber - 1].gameStartingServerName)
+                                Text(match.games[match.currentGameNumber - 1].gameFirstServerName)
                             }
                             .foregroundColor(Constants.DARK_SLATE)
                         }
@@ -298,18 +298,20 @@ struct MatchView: View {
                                         .font(.subheadline)
                                         .foregroundColor(Constants.POMAGRANATE)
                                 }
-                                // MARK: - Select Starting Server
+                                // MARK: - Select Starting Server for the match
                                 .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
                                     Button(team1MatchStartingServerName) {
                                         if match.games[0].selectedFirstServerTeam1 == 1 {
                                             $match.servingPlayerNumber.wrappedValue = 1
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer1Team1
-                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 1
+                                            $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer1Team1
+                                            $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 1
                                             $match.isMatchStartingServerSet.wrappedValue = true
                                         } else {
                                             $match.servingPlayerNumber.wrappedValue = 2
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer2Team1
-                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 2
+                                            $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer2Team1
+                                            $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 2
                                             $match.isMatchStartingServerSet.wrappedValue = true
                                         }
                                     }
@@ -317,12 +319,14 @@ struct MatchView: View {
                                         if match.games[0].selectedFirstServerTeam2 == 3 {
                                             $match.servingPlayerNumber.wrappedValue = 3
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer1Team2
-                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 3
+                                            $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer1Team2
+                                            $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 3
                                             $match.isMatchStartingServerSet.wrappedValue = true
                                         } else {
                                             $match.servingPlayerNumber.wrappedValue = 4
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer2Team2
-                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 4
+                                            $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer2Team2
+                                            $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 4
                                             $match.isMatchStartingServerSet.wrappedValue = true
                                         }
                                     }
@@ -525,9 +529,6 @@ struct MatchView: View {
 
 extension MatchView {
     
-    
-    
-    
     func updateScore() {
         
         let tm1Score = (match.games[match.currentGameNumber - 1].player1Team1Points) + (match.games[match.currentGameNumber - 1].player2Team1Points)
@@ -544,48 +545,86 @@ extension MatchView {
         
         if isGameWinner() {
             print("There is a game winner")
+            
+            /*
+             
+             Determine if there is a game winner every time the score is updated.
+             If so, this game is over and, if it is not the last game of the match, set up the next game.
+             If it is the last game of the match, then complete the match.
+             In case where there is another game, complete this game and set up next game:
+                  - Set value of isGameWinner in the current game to true.
+                  - Set the value of isGameCompleted in the currrent game to true.
+                  - 
+             
+             */
+            
+            
             // Set final values in current game
             $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
             $match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
+            
+            // Stop the game timer and save the elapsed game time
             gameTimer.connect().cancel()
             print("elapsedGameTime in isGameWinner(): \(elapsedGameTime)")
             $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTime
             
-            // Set gameStartingServerPlayerNumber for next game
-            print("gameStartingServerPlayerNumber of current game: \(match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber)")
-            print("")
-            switch match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber {
+            // Set gameStartingServerPlayerNumber and gameStartingServerName for next game
+            //print("gameStartingServerPlayerNumber of current game: \(match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber)")
+            print("servingPlayerNumber at end of game: \(match.servingPlayerNumber)")
+            // Determine player number of server at end of game, then set the first server for new game based on that
+            //switch match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber {
+            switch match.servingPlayerNumber {
             case 1, 2:
-                print("In case 1, 2 of isGameWinner()")
-                $match.games[match.currentGameNumber].gameStartingServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber - 1].selectedFirstServerTeam2
+                print("In case players 1 or 2 isGameWinner()")
+                // Set the gameStartingPlayerNumber for the new game as the selectedFirstServer for the team that will be serving first in the new game.
+                $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber].selectedFirstServerTeam2
+                if match.games[match.currentGameNumber].selectedFirstServerTeam2 == 3 {
+                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 3
+                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer1Team2
+                    $match.servingPlayerNumber.wrappedValue = 3
+                } else {
+                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 4
+                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer2Team2
+                    $match.servingPlayerNumber.wrappedValue = 4
+                }
             case 3, 4:
-                print("In case 3, 4 of isGameWinner()")
-                $match.games[match.currentGameNumber].gameStartingServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber - 1].selectedFirstServerTeam1
+                print("In case players 3 or 4 isGameWinner()")
+                $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber].selectedFirstServerTeam1
+                if match.games[match.currentGameNumber].selectedFirstServerTeam1 == 1 {
+                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 1
+                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer1Team1
+                    $match.servingPlayerNumber.wrappedValue = 1
+                } else {
+                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 2
+                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer2Team1
+                    $match.servingPlayerNumber.wrappedValue = 2
+                }
             default:
                 print("Error setting first server for next game in isGameWinner().")
             }
             
-            // Set gameStartingServerName for next game
-            print("match.games[match.currentGameNumber].gameStartingServerPlayerNumber of next game: \(match.games[match.currentGameNumber].gameStartingServerPlayerNumber)")
-            switch match.games[match.currentGameNumber].gameStartingServerPlayerNumber {
-            case 1 :
-                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer1Team1
-            case 2 :
-                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer2Team1
-            case 3 :
-                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer1Team2
-            case 4 :
-                $match.games[match.currentGameNumber].gameStartingServerName.wrappedValue = match.namePlayer2Team2
-            default:
-                print("Error setting first server name for next game in isGameWinner().")
-            }
+            // Set gameFinalScore
+            // Set gameWinner
             
             // Set values for new game
             $match.currentGameNumber.wrappedValue = match.currentGameNumber + 1
             
-            // Teams switch sides so switch layout
-            print("Before toggle isServingLeftSide")
-            $match.isServingLeftSide.wrappedValue.toggle()
+            // Team that won had to be serving so set serving team to other team for next game
+            // This will also put the new serving team on top of scoresheet  WRONG
+            // Since other team takes the side of team that was serving when game ended, the arrow is pointing correctly
+            // So don't need to change orientation of arrow, just the team (that is serving)
+            // Set the isServerSideSet to true
+            $match.isTeam1Serving.wrappedValue.toggle()
+            $match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
+            updateScore()
+            
+            print("")
+            print("isTeam1Serving after set for new game: \(match.isTeam1Serving)")
+            print("whoIsServing after set for new game: \(match.whoIsServingText)")
+            print("servingPlayerNumber after set for new game: \(match.servingPlayerNumber)")
+            print("selectedFirstServerTeam1 after set for new game: \(match.games[match.currentGameNumber - 1].selectedFirstServerTeam1)")
+            print("selectedFirstServerTeam2 after set for new game: \(match.games[match.currentGameNumber - 1].selectedFirstServerTeam2)")
+            print("")
             
             // Start timer for new game
             _ = gameTimer.connect()

@@ -19,7 +19,7 @@ struct TeamListingTeam2: View {
                 Text("Team 2:   ")
                     .font(.headline)
                     .foregroundColor(Constants.DARK_SLATE)
-                if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 1 {
+                if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 3 {
                     Text("   \(match.namePlayer1Team2)   ")
                         .font(.headline)
                         .foregroundColor(Constants.MINT_LEAF)
@@ -37,7 +37,7 @@ struct TeamListingTeam2: View {
             Text("     ||     ")
                 .font(.headline)
                 .foregroundColor(Constants.DARK_SLATE)
-            if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 2 {
+            if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 4 {
                 Text("   \(match.namePlayer2Team2)   ")
                     .font(.headline)
                     .foregroundColor(Constants.MINT_LEAF)

@@ -24,7 +24,8 @@ struct PickleballRefereeApp: App {
                     // Stop layout conflict messages
                     UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
                     
-                    // Save sample_scorsheet.png to fileManager
+                    // Save sample_scorsheet.png to fileManager from the project assets directory
+                    // It will be used in the Admin Scorsheet snapshot page
                     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                     let fileURL = paths[0].appendingPathComponent("sample_scoresheet.png")
                     let pngRepresentation = UIImage(named: "sample_scoresheet.png")!.pngData()

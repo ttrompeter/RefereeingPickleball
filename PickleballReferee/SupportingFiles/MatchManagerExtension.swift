@@ -11,42 +11,98 @@ import SwiftUI
 extension MatchView {
     
     func sideOut() {
-       
+       // TODO: - Add sideouts for games 2-5
         if match.servingPlayerNumber == 1 || match.servingPlayerNumber == 2 {
             // In here Team 1 was serving at sideout
             $match.games[match.currentGameNumber - 1].sideOutsTeam1.wrappedValue += 1
             switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
             case 0:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint0Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint0Game1Team1.wrappedValue = true
                 }
             case 1:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint1Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint1Game1Team1.wrappedValue = true
                 }
             case 2:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint2Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint2Game1Team1.wrappedValue = true
                 }
             case 3:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint3Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint3Game1Team1.wrappedValue = true
                 }
             case 4:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint4Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint4Game1Team1.wrappedValue = true
                 }
             case 5:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint5Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint5Game1Team1.wrappedValue = true
                 }
             case 6:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint6Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint6Game1Team1.wrappedValue = true
                 }
             case 7:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint7Game1Team1.wrappedValue = true
+                    $match.isSideoutPoint7Game1Team1.wrappedValue = true
+                }
+            case 8:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint8Game1Team1.wrappedValue = true
+                }
+            case 9:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint9Game1Team1.wrappedValue = true
+                }
+            case 10:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint10Game1Team1.wrappedValue = true
+                }
+            case 11:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint11Game1Team1.wrappedValue = true
+                }
+            case 12:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint12Game1Team1.wrappedValue = true
+                }
+            case 13:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint13Game1Team1.wrappedValue = true
+                }
+            case 14:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint14Game1Team1.wrappedValue = true
+                }
+            case 15:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint15Game1Team1.wrappedValue = true
+                }
+            case 16:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint16Game1Team1.wrappedValue = true
+                }
+            case 17:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint17Game1Team1.wrappedValue = true
+                }
+            case 18:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint18Game1Team1.wrappedValue = true
+                }
+            case 19:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint19Game1Team1.wrappedValue = true
+                }
+            case 20:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint20Game1Team1.wrappedValue = true
+                }
+            case 21:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint21Game1Team1.wrappedValue = true
                 }
             default:
                 print("Error setting image in switch statement of pointScored()")
@@ -57,35 +113,91 @@ extension MatchView {
             switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
             case 0:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint0Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint0Game1Team2.wrappedValue = true
                 }
             case 1:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint1Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint1Game1Team2.wrappedValue = true
                 }
             case 2:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint2Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint2Game1Team2.wrappedValue = true
                 }
             case 3:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint3Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint3Game1Team2.wrappedValue = true
                 }
             case 4:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint4Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint4Game1Team2.wrappedValue = true
                 }
             case 5:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint5Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint5Game1Team2.wrappedValue = true
                 }
             case 6:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint6Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint6Game1Team2.wrappedValue = true
                 }
             case 7:
                 if match.currentGameNumber == 1 {
-                    $match.games[0].isSideoutPoint7Game1Team2.wrappedValue = true
+                    $match.isSideoutPoint7Game1Team2.wrappedValue = true
+                }
+            case 8:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint8Game1Team2.wrappedValue = true
+                }
+            case 9:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint9Game1Team2.wrappedValue = true
+                }
+            case 10:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint10Game1Team2.wrappedValue = true
+                }
+            case 11:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint11Game1Team2.wrappedValue = true
+                }
+            case 12:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint12Game1Team2.wrappedValue = true
+                }
+            case 13:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint13Game1Team2.wrappedValue = true
+                }
+            case 14:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint14Game1Team2.wrappedValue = true
+                }
+            case 15:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint15Game1Team2.wrappedValue = true
+                }
+            case 16:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint16Game1Team2.wrappedValue = true
+                }
+            case 17:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint17Game1Team2.wrappedValue = true
+                }
+            case 18:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint18Game1Team2.wrappedValue = true
+                }
+            case 19:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint19Game1Team2.wrappedValue = true
+                }
+            case 20:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint20Game1Team2.wrappedValue = true
+                }
+            case 21:
+                if match.currentGameNumber == 1 {
+                    $match.isSideoutPoint21Game1Team2.wrappedValue = true
                 }
             default:
                 print("Error setting image in switch statement of pointScored()")

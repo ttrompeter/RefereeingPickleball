@@ -16,7 +16,7 @@ struct AdminView: View {
     var body: some View {
         
         TabView {
-            SnapshotAdminView(match: match)
+            ScreenshotAdminView(match: match)
                 .tabItem {
                     Label("Screenshot", systemImage: "camera")
                 }

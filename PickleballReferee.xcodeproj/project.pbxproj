@@ -75,7 +75,7 @@
 		E396157828A18771001D3596 /* ScreenshotMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157728A18771001D3596 /* ScreenshotMakerView.swift */; };
 		E396157A28A187C3001D3596 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157928A187C3001D3596 /* ViewExtension.swift */; };
 		E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157B28A18998001D3596 /* ExtensionUIImage.swift */; };
-		E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157D28A19A29001D3596 /* SnapshotAdminView.swift */; };
+		E396157E28A19A29001D3596 /* ScreenshotAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157D28A19A29001D3596 /* ScreenshotAdminView.swift */; };
 		E3BF696928A6D983006FD5E5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */; };
 		E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */; };
 		E3BF696D28A73D47006FD5E5 /* RefereeTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */; };
@@ -150,7 +150,7 @@
 		E396157728A18771001D3596 /* ScreenshotMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMakerView.swift; sourceTree = "<group>"; };
 		E396157928A187C3001D3596 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		E396157B28A18998001D3596 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
-		E396157D28A19A29001D3596 /* SnapshotAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotAdminView.swift; sourceTree = "<group>"; };
+		E396157D28A19A29001D3596 /* ScreenshotAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotAdminView.swift; sourceTree = "<group>"; };
 		E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammerNotes.swift; sourceTree = "<group>"; };
 		E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefereeTimeOutView.swift; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 				E396157728A18771001D3596 /* ScreenshotMakerView.swift */,
 				E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */,
 				E34932802893B8A70087ABB1 /* SettingsAdminView.swift */,
-				E396157D28A19A29001D3596 /* SnapshotAdminView.swift */,
+				E396157D28A19A29001D3596 /* ScreenshotAdminView.swift */,
 				E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */,
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
 				E3632FBA2893A1DE00F29D83 /* TeamListingTeam1.swift */,
@@ -445,7 +445,7 @@
 				E343CB4B28B2E0130030EC20 /* WarningView.swift in Sources */,
 				E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */,
 				E3632FB32893920D00F29D83 /* ScoringSectionTeam1View.swift in Sources */,
-				E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */,
+				E396157E28A19A29001D3596 /* ScreenshotAdminView.swift in Sources */,
 				E3632F9728937C2100F29D83 /* Match.swift in Sources */,
 				E3632FBB2893A1DE00F29D83 /* TeamListingTeam1.swift in Sources */,
 				E319215A28AFEB64008269D5 /* LargeScoresheetImageView.swift in Sources */,

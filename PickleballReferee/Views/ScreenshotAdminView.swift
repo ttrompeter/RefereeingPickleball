@@ -1,5 +1,5 @@
 //
-//  SnapshotAdminView.swift
+//  ScreenshotAdminView.swift
 //  PickleballReferee
 //
 //  Created by Tom Trompeter on 8/8/22.
@@ -10,7 +10,7 @@ import RealmSwift
 import SwiftUI
 import UIKit
 
-struct SnapshotAdminView: View {
+struct ScreenshotAdminView: View {
     
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
@@ -47,7 +47,7 @@ struct SnapshotAdminView: View {
         VStack {
             
             HStack {
-                Text("Administer Snapshot Process")
+                Text("Administer Screenshot Process")
                     .bold()
                     .font(.largeTitle)
             }
@@ -186,9 +186,9 @@ struct SnapshotAdminView: View {
     }
     
 }
-struct SnapshotAdminView_Previews: PreviewProvider {
+struct ScreenshotAdminView_Previews: PreviewProvider {
     static var previews: some View {
-        SnapshotAdminView(match: Match())
+        ScreenshotAdminView(match: Match())
     }
 }
 
