@@ -319,8 +319,8 @@ struct MatchSetupView: View {
                                             Picker(selection: $match.games[match.currentGameNumber - 1].selectedFirstServerTeam2,
                                                    label: Text(" "),
                                                    content:  {
-                                                Text(match.namePlayer1Team2).tag(1)
-                                                Text(match.namePlayer2Team2).tag(2)
+                                                Text(match.namePlayer1Team2).tag(3)
+                                                Text(match.namePlayer2Team2).tag(4)
                                             })
                                             .pickerStyle(MenuPickerStyle())
                                             .fixedSize()
@@ -443,10 +443,9 @@ struct MatchSetupView: View {
                     .buttonStyle(SheetButtonStyle())
                     
                     Button("Save") {
-                        //print("")
                         //print("Inside Save Button of MatchSetupView")
                         $match.isMatchSetup.wrappedValue = true
-                        //print("")
+                        print("isMatchSetup fter setting in MatchSetupView save(): \(match.isMatchSetup)")
                         dismiss()
                     }
                     .buttonStyle(SheetButtonStyle())

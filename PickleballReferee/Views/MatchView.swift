@@ -19,11 +19,14 @@ struct MatchView: View {
     @State private var presentMatchSetupAlert = false
     @State private var presentMatchSetupButtonAlert = false
     @State private var presentStartingServerSetupAlert = false
+    @State private var presentServerSideSetAlert = false
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
     @State private var showingGameStartingServer = false
     @State private var isGameTimerRunning = false
     @State private var elapsedGameTime = 0.0
+    @State private var team1MatchStartingServerName = ""
+    @State private var team2MatchStartingServerName = ""
     
     let gameTimer = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     // let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common).autoconnect()
@@ -57,7 +60,6 @@ struct MatchView: View {
             
             // Heading and Setup Section
             Section  {
-                
                 HStack (alignment: .top, spacing: 40) {
                     Spacer()
                     VStack (alignment: .leading) {
@@ -65,37 +67,39 @@ struct MatchView: View {
                         HStack {
                             VStack (alignment: .leading) {
                                 Text("Event:")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Date:")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Location:")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Game Format:")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Game Number: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Notes: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
-                                Text("Starting Server: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
+                                Text("Match 1st Server: ")
+                                    //.foregroundColor(Constants.DARK_SLATE)
                             }
+                            .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
                                 Text(match.eventTitle)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchDate, format: .dateTime.month().day().year())
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchLocation)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.gameFormatDescription)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("\(match.currentGameNumber)")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchNotes)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchStartingServerName)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                             }
+                            .foregroundColor(Constants.DARK_SLATE)
                         }
                     }
                     Spacer()
@@ -104,33 +108,37 @@ struct MatchView: View {
                         HStack (alignment: .top) {
                             VStack (alignment: .leading) {
                                 Text("Match: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Court: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Referee: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Format: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Style: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Scoring Format: ")
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
+                                Text("Game 1st Server: ")
                             }
+                            .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
                                 Text(match.matchNumber)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.courtNumber)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.games[match.currentGameNumber - 1].refereeName)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchFormatDescription)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchStyleDescription)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchScoringFormatDescription)
-                                    .foregroundColor(Constants.DARK_SLATE)
+                                    //.foregroundColor(Constants.DARK_SLATE)
+                                Text(match.games[match.currentGameNumber - 1].gameStartingServerName)
                             }
+                            .foregroundColor(Constants.DARK_SLATE)
                         }
                     }
                     Spacer()
@@ -138,20 +146,13 @@ struct MatchView: View {
             }
             .padding(.top, 5)
             
-            // Team Information Section
+            // Team & Scoring Information Section Top of screen
             Section {
                 if match.isTeam1Serving {
                     TeamListingTeam1(match: match)
-                } else {
-                    TeamListingTeam2(match: match)
-                }
-            }
-            
-            //Scoring for Team 1 Section
-            Section {
-                if match.isTeam1Serving {
                     ScoringSectionTeam1View(match: match)
                 } else {
+                    TeamListingTeam2(match: match)
                     ScoringSectionTeam2View(match: match)
                 }
             }
@@ -187,7 +188,9 @@ struct MatchView: View {
                         }
                         
                         
-                        
+// ======================================================================================================================
+
+//                        Alerts regardng game and match winners
                         
                         
                         //                        .alert("", isPresented: $presentGameWinnerAlert, actions: {
@@ -203,15 +206,17 @@ struct MatchView: View {
                         //                            //}), secondaryButton: .cancel()  )
                         //                            }
                         //                        })
+// ======================================================================================================================
                         
                         
                         
-                        
-                        
+                        // Shows Game 1 of 3 games etc
                         Text(currentMatchStatusDisplay)
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
                         
+                        
+// ======================================================================================================================
                         // TODO: - This is temporary until get working - allowing two alerts for game over and match over
                         Button(action: {
                             
@@ -242,54 +247,123 @@ struct MatchView: View {
                             return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
                         }
                     }
+// ======================================================================================================================
                     
                     // Match Setup Warning
                     if !match.isMatchSetup {
+                        
                         ZStack {
                             Rectangle()
-                                .frame(width: CGFloat(120), height: CGFloat(80))
-                                .foregroundColor(Constants.CRIMSON)
+                                .frame(width: CGFloat(150), height: CGFloat(70))
+                                .foregroundColor(Constants.BRIGHT_YARROW)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
-                            
+
                             Button {
-                                presentMatchSetupButtonAlert.toggle()
+                                presentMatchSetupAlert.toggle()
                             } label: {
-                                Text("Complete\nMatch Setup")
-                                    .foregroundColor(.white)
+                                Text("Must Complete\nMatch Setup")
+                                    .font(.subheadline)
+                                    .foregroundColor(Constants.POMAGRANATE)
                             }
-                            .sheet(isPresented: $presentMatchSetupButtonAlert) { MatchSetupView(match:match) }
+                            .alert("Complete Match Setup", isPresented: $presentMatchSetupAlert) {
+                                Button("OK", role: .cancel) {  }
+                            } message: {
+                                Text("Tap Match Setup Button and Enter Match Information.")
+                            }
                         }
                     } else if match.isMatchSetup {
-                        if (match.servingPlayerNumber == 0) {
+                        if !match.isMatchStartingServerSet {
                             ZStack {
                                 Rectangle()
-                                    .frame(width: CGFloat(120), height: CGFloat(80))
+                                    .frame(width: CGFloat(150), height: CGFloat(70))
                                     .foregroundColor(Constants.BRIGHT_YARROW)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
-                                
-                                Button("Must Set\nStarting Server") {
-                                    presentStartingServerSetupAlert = true
-                                }
-                                .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
-                                    Button(match.namePlayer1Team1) {
-                                        $match.servingPlayerNumber.wrappedValue = 1
-                                        //TODO: - Fix setStartingServerName()
-                                        $match.matchStartingServerName.wrappedValue = setStartingServerName()
-                                        $match.matchStartingServerNumber.wrappedValue = 1
-                                        presentStartingServerSetupAlert.toggle()
+
+                                Button {
+                                    if match.games[0].selectedFirstServerTeam1 == 1 {
+                                        team1MatchStartingServerName = match.namePlayer1Team1
+                                    } else if match.games[0].selectedFirstServerTeam1 == 2 {
+                                        team1MatchStartingServerName = match.namePlayer2Team1
                                     }
-                                    Button(match.namePlayer1Team2) {
-                                        $match.servingPlayerNumber.wrappedValue = 3
-                                        //TODO: - Fix setStartingServerName()
-                                        $match.matchStartingServerName.wrappedValue = setStartingServerName()
-                                        $match.matchStartingServerNumber.wrappedValue = 2
-                                        $match.isTeam1Serving.wrappedValue = false
-                                        presentStartingServerSetupAlert.toggle()
+                                    if match.games[0].selectedFirstServerTeam2 == 3 {
+                                        team2MatchStartingServerName = match.namePlayer1Team2
+                                    } else if match.games[0].selectedFirstServerTeam2 == 4 {
+                                        team2MatchStartingServerName = match.namePlayer2Team2
+                                    }
+                                    presentStartingServerSetupAlert = true
+                                } label: {
+                                    Text("Must Set\nStarting Server")
+                                        .font(.subheadline)
+                                        .foregroundColor(Constants.POMAGRANATE)
+                                }
+                                // MARK: - Select Starting Server
+                                .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
+                                    Button(team1MatchStartingServerName) {
+                                        if match.games[0].selectedFirstServerTeam1 == 1 {
+                                            $match.servingPlayerNumber.wrappedValue = 1
+                                            $match.matchStartingServerName.wrappedValue = match.namePlayer1Team1
+                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 1
+                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                        } else {
+                                            $match.servingPlayerNumber.wrappedValue = 2
+                                            $match.matchStartingServerName.wrappedValue = match.namePlayer2Team1
+                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 2
+                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                        }
+                                    }
+                                    Button(team2MatchStartingServerName) {
+                                        if match.games[0].selectedFirstServerTeam2 == 3 {
+                                            $match.servingPlayerNumber.wrappedValue = 3
+                                            $match.matchStartingServerName.wrappedValue = match.namePlayer1Team2
+                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 3
+                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                        } else {
+                                            $match.servingPlayerNumber.wrappedValue = 4
+                                            $match.matchStartingServerName.wrappedValue = match.namePlayer2Team2
+                                            $match.games[0].gameStartingServerPlayerNumber.wrappedValue = 4
+                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                        }
                                     }
                                 }
                             }
+                        } else if !match.games[match.currentGameNumber - 1].isServerSideSet {
+                            
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: CGFloat(150), height: CGFloat(70))
+                                    .foregroundColor(Constants.BRIGHT_YARROW)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+
+                                Button {
+                                    presentStartingServerSetupAlert.toggle()
+                                } label: {
+                                    Text("Check Orientation\nof Scoresheet")
+                                        .font(.subheadline)
+                                        .foregroundColor(Constants.POMAGRANATE)
+                                }
+                                .alert("Reorient Scoresheet", isPresented: $presentStartingServerSetupAlert) {
+                                    Button("Orientation is Correct", role: .cancel) {
+                                        $match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
+                                        
+                                    }
+                                    Button("Change Serving Team") {
+                                        $match.isTeam1Serving.wrappedValue.toggle()
+                                    }
+                                    Button("Change Arrow's Side") {
+                                        $match.isServingLeftSide.wrappedValue.toggle()
+                                    }
+                                    Button("Change Both") {
+                                        $match.isTeam1Serving.wrappedValue.toggle()
+                                        $match.isServingLeftSide.wrappedValue.toggle()
+                                    }
+                                } message: {
+                                    Text("Chsnge orientation of scoresheet if neeeded both for serving team and arrow direction.")
+                                }
+                            }
+                            
                         } else {
                             // MARK: - Score Display
                             VStack (spacing: 5) {
@@ -350,6 +424,8 @@ struct MatchView: View {
                         }
                         .buttonStyle(PointsSideoutButtonStyle())
                         .disabled(!match.isMatchStarted)
+                        
+                        // Shows 2d Server is serving etc
                         Text("\(match.whoIsServingText) is Serving")
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
@@ -399,23 +475,16 @@ struct MatchView: View {
                 }
             }
             
-            // Scoring For Team 2 Section
+            // Team & Scoring Information Section Bottom of screen
             Section {
                 if match.isTeam1Serving {
                     ScoringSectionTeam2View(match: match)
-                        .rotationEffect(.degrees(180))
+                    TeamListingTeam2(match: match)
+                        //.rotationEffect(.degrees(180))
                 } else {
                     ScoringSectionTeam1View(match: match)
-                        .rotationEffect(.degrees(180))
-                }
-            }
-            
-            // Team 2 Information
-            Section {
-                if match.isTeam1Serving {
-                    TeamListingTeam2(match: match)
-                } else {
                     TeamListingTeam1(match: match)
+                        //.rotationEffect(.degrees(180))
                 }
             }
             .rotationEffect(.degrees(180))
@@ -432,23 +501,13 @@ struct MatchView: View {
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        //        .onAppear {
-        //            if !match.isMatchSetup {
-        //                presentMatchSetupAlert.toggle()
-        //            }
-        ////            else {
-        ////                presentFirstServerAlert.toggle()
-        ////            }
-        //        }
         .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
-        .alert("Please set up Match before trying to start Match. The application will not run unless the Match has been set up first.", isPresented: $presentMatchSetupAlert, actions: {})
         .onReceive(gameTimer) { time in
             print("time in onReceive: \(time), elapsedGameTime: \(elapsedGameTime)")
             $elapsedGameTime.wrappedValue += 30.0
         }
         
     }
-    
     
 }
 

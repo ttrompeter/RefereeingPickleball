@@ -29,7 +29,6 @@ struct HomeView: View {
         VStack (alignment: .leading) {
             
             ZStack {
-                //if match.isTeam1Serving {
                 if !match.isServingLeftSide {
                     HStack {
                         MatchView(match: match)
@@ -40,7 +39,6 @@ struct HomeView: View {
                         }
                     }
                 } else if match.isServingLeftSide {
-                    //else if !match.isTeam1Serving {
                     HStack {
                         VStack {
                             // Far left column for spacing
@@ -50,20 +48,6 @@ struct HomeView: View {
                         MatchView(match: match)
                     }
                 }
-//                else if match.isTeam1Serving && match.isServingLeftSide {
-//                    HStack {
-//
-//                        VStack {
-//                            // Far right column for spacing
-//                            Text("     ")
-//                        }
-//                        FunctionalityButtonsView(match: match)
-//                        MatchView(match: match)
-//                    }
-//
-//                } else if !match.isTeam1Serving && match.isServingLeftSide {
-//
-//                }
             }
         }
     }

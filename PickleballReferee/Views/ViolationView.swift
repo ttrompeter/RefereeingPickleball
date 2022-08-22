@@ -15,7 +15,21 @@ struct ViolationView: View {
     @ObservedRealmObject var match: Match
     
     var body: some View {
-        Text("Violation")
+        
+        TabView {
+            WarningView(match: match)
+                .tabItem {
+                    Label("Warning", systemImage: "exclamationmark.octagon")
+                }
+            TechnicalFoulView(match: match)
+                .tabItem {
+                    Label("Foul", systemImage: "flag")
+                }
+            ViolationReferenceView()
+                .tabItem {
+                    Label("Reference", systemImage: "list.bullet.circle")
+                }
+        }
     }
 }
 

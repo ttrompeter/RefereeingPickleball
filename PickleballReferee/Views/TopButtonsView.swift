@@ -39,13 +39,26 @@ struct TopButtonsView: View {
             .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingPreMatchBriefing) { PreMatchBriefingView() }
             
-            Button {
-                showingMatchSetup.toggle()
-            } label: {
-                Text("Match Setup")
+            
+            
+            if !match.isMatchSetup {
+                Button {
+                    showingMatchSetup.toggle()
+                } label: {
+                    Text("Match Setup")
+                }
+                .buttonStyle(FunctionsButtonStyleMandatory())
+                .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
+            } else {
+                Button {
+                    showingMatchSetup.toggle()
+                } label: {
+                    Text("Match Setup")
+                }
+                .buttonStyle(FunctionsButtonStyle())
+                .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }.buttonStyle(FunctionsButtonStyle())
             }
-            .buttonStyle(FunctionsButtonStyle())
-            .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
+            
             
             Button {
                 showingEdit.toggle()

@@ -18,6 +18,9 @@
 		E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */; };
 		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
 		E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4828B2DE1D0030EC20 /* ViolationView.swift */; };
+		E343CB4B28B2E0130030EC20 /* WarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4A28B2E0130030EC20 /* WarningView.swift */; };
+		E343CB4D28B2E0970030EC20 /* TechnicalFoulView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */; };
+		E343CB4F28B2E0EF0030EC20 /* ViolationReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4E28B2E0EF0030EC20 /* ViolationReferenceView.swift */; };
 		E34932732893B62D0087ABB1 /* PreMatchBriefingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */; };
 		E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* RegularTimeOutView.swift */; };
 		E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932782893B6710087ABB1 /* StopwatchView.swift */; };
@@ -93,6 +96,9 @@
 		E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
 		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
 		E343CB4828B2DE1D0030EC20 /* ViolationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationView.swift; sourceTree = "<group>"; };
+		E343CB4A28B2E0130030EC20 /* WarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningView.swift; sourceTree = "<group>"; };
+		E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnicalFoulView.swift; sourceTree = "<group>"; };
+		E343CB4E28B2E0EF0030EC20 /* ViolationReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationReferenceView.swift; sourceTree = "<group>"; };
 		E34932722893B62D0087ABB1 /* PreMatchBriefingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMatchBriefingView.swift; sourceTree = "<group>"; };
 		E34932742893B6450087ABB1 /* RegularTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularTimeOutView.swift; sourceTree = "<group>"; };
 		E34932782893B6710087ABB1 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
@@ -251,9 +257,12 @@
 				E34932782893B6710087ABB1 /* StopwatchView.swift */,
 				E3632FBA2893A1DE00F29D83 /* TeamListingTeam1.swift */,
 				E3632FBC2893A1F400F29D83 /* TeamListingTeam2.swift */,
+				E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */,
 				E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */,
 				E3632FBE2893A23800F29D83 /* TopButtonsView.swift */,
 				E343CB4828B2DE1D0030EC20 /* ViolationView.swift */,
+				E343CB4E28B2E0EF0030EC20 /* ViolationReferenceView.swift */,
+				E343CB4A28B2E0130030EC20 /* WarningView.swift */,
 				E3912AD428985B1200D0DA38 /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -374,10 +383,12 @@
 			files = (
 				E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */,
 				E327829828B03C8600690D36 /* QuickstartView.swift in Sources */,
+				E343CB4D28B2E0970030EC20 /* TechnicalFoulView.swift in Sources */,
 				E39058D628A40B1E0067A536 /* PopupView.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
+				E343CB4F28B2E0EF0030EC20 /* ViolationReferenceView.swift in Sources */,
 				E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */,
 				E3961550289F6DDE001D3596 /* AlertItem.swift in Sources */,
 				E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */,
@@ -431,6 +442,7 @@
 				E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */,
 				E3632FA128937F1E00F29D83 /* MatchSetupView.swift in Sources */,
 				E3632F7F2893775600F29D83 /* PickleballRefereeApp.swift in Sources */,
+				E343CB4B28B2E0130030EC20 /* WarningView.swift in Sources */,
 				E39058FA28A44D620067A536 /* PopupViewModifier.swift in Sources */,
 				E3632FB32893920D00F29D83 /* ScoringSectionTeam1View.swift in Sources */,
 				E396157E28A19A29001D3596 /* SnapshotAdminView.swift in Sources */,

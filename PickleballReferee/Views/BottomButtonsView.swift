@@ -20,6 +20,7 @@ struct BottomButtonsView: View {
     @State private var showingSetServer = false
     @State private var elapsedMatchTime = 0.0
     @State private var presentStopMatchAlert = false
+    @State private var presentServerSideSetAlert = false
     
     @State var matchTimer: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     
@@ -30,12 +31,13 @@ struct BottomButtonsView: View {
 //            if !match.games[match.currentGameNumber - 1].isServerSideSet {
 //                Button {
 //                    //$match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
-//                    showingSetServer.toggle()
+//                    //showingSetServer.toggle()
+//                    presentServerSideSetAlert.toggle()
 //                } label: {
-//                    Text("Server Setup")
+//                    Text("Orientation")
 //                }
 //                .buttonStyle(StartMatchButtonStyle())
-//                .sheet(isPresented: $showingSetServer) { SelectGameStartingServerView(match: match) }
+// //DO NOT USE THIS                .sheet(isPresented: $showingSetServer) { SelectGameStartingServerView(match: match) }
 //            } else
             if !match.isMatchStarted {
                 Button {
@@ -46,9 +48,11 @@ struct BottomButtonsView: View {
                     Text("Start Match")
                 }
                 .buttonStyle(StartMatchButtonStyle())
+                .disabled(!match.isMatchStartingServerSet)
             } else if !match.isMatchCompleted {
                 Button {
-                    $presentStopMatchAlert.wrappedValue = true
+                    //$presentStopMatchAlert.wrappedValue = true
+                    presentStopMatchAlert.toggle()
                 } label: {
                     Text("Stop Match")
                 }
