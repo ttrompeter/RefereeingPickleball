@@ -18,9 +18,15 @@ struct WarningView: View {
         
         VStack (spacing: 30) {
             
-            Text("Warning")
-                .bold()
-                .font(.largeTitle)
+            HStack {
+                Text("Warning")
+                    .bold()
+                    .font(.largeTitle)
+                Image("yellowcard")
+                    .resizable()
+                    .frame(width: 60, height: 80)
+                    .clipped()
+            }
             
             ZStack {
                 Rectangle()

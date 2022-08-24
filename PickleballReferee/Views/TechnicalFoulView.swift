@@ -18,9 +18,15 @@ struct TechnicalFoulView: View {
         
         VStack (spacing: 30) {
             
-            Text("Technical Foul")
-                .bold()
-                .font(.largeTitle)
+            HStack {
+                Text("Technical Foul")
+                    .bold()
+                    .font(.largeTitle)
+                Image("penaltyflag")
+                    .resizable()
+                    .frame(width: 60, height: 80)
+                    .clipped()
+            }
             
             ZStack {
                 Rectangle()

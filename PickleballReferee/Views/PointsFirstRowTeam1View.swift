@@ -17,12 +17,21 @@ struct PointsFirstRowTeam1View: View {
         VStack (spacing: 0) {
             HStack (alignment: .top, spacing: 0) {
                 
-                Rectangle()
-                    .foregroundColor(.white)
-                    .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
-                    .border(.black, width: 1.0)
-                    .overlay(Text(match.firstServerDesignationGame1Team1).font(.caption).italic())
-                    
+                if match.currentGameNumber == 1 {
+                    Rectangle()
+                        .foregroundColor(Constants.MINT_LEAF)
+                        .opacity(0.1)
+                        .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                        .border(.black, width: 1.0)
+                        .overlay(Text(match.firstServerDesignationGame1Team1).font(.caption).italic())
+                }else {
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                        .border(.black, width: 1.0)
+                        .overlay(Text(match.firstServerDesignationGame1Team1).font(.caption).italic())
+                }
+                
                 
                 //Empty space column
                 VStack (spacing: 0) {

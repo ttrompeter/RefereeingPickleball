@@ -31,11 +31,11 @@ struct BottomButtonsView: View {
             if !match.isMatchStarted {
                 Button {
                     $match.isMatchStarted.wrappedValue = true
+                    // Set startGame1Timer to true so that gameTimer will start in onAppear of MatchView
+                    $match.startGame1Timer.wrappedValue = true
                     // Start the match timer
                     _ = matchTimer.connect()
-                    
-                    // If fame 1 of match, start the game timer. HOW from here??
-                    
+                    // TODO: - Start game 1 timer gameTimer1 at the same time as match starts
                 } label: {
                     Text("Start Match")
                 }
@@ -43,7 +43,6 @@ struct BottomButtonsView: View {
                 .disabled(!match.isMatchStartingServerSet)
             } else if !match.isMatchCompleted {
                 Button {
-                    //$presentStopMatchAlert.wrappedValue = true
                     presentStopMatchAlert.toggle()
                 } label: {
                     Text("Stop Match")
@@ -56,7 +55,7 @@ struct BottomButtonsView: View {
                 } message: {
                     Text("Are you sure you want to stop now? Ending Game or Match CAN'T BE UNDONE!")
                 }
-            } else {
+            } else if match.isMatchCompleted {
                 Button {
                     $match.isMatchStarted.wrappedValue = false
                     $match.isMatchCompleted.wrappedValue = false
@@ -102,15 +101,15 @@ struct BottomButtonsView: View {
         .padding(10)
         .background(Constants.CLOUDS)
         .onReceive(matchTimer) { time in
-            $elapsedMatchTime.wrappedValue += 30.0
+            $elapsedMatchTime.wrappedValue += 30
+            //print("Match Time (should update every 30 seconds): \(time), elapsedMatchTime: \(elapsedMatchTime)")
         }
     }
     
     func endGame() {
         print("Starting endGame() in BottomButtonsView")
-        //$match.isMatchStarted.wrappedValue = false
     }
-    
+
     func endMatch() {
         print("Starting endMatch() in BottomButtonsView")
         matchTimer.connect().cancel()

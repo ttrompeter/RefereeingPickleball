@@ -21,7 +21,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam1 in pointScored()[1]: \(match.gameScoreTeam1)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
                 case 1:
-                    print("Starting case 1 Player 1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -38,7 +37,6 @@ extension MatchView {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -55,7 +53,6 @@ extension MatchView {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -72,7 +69,6 @@ extension MatchView {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -89,7 +85,6 @@ extension MatchView {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -330,7 +325,6 @@ extension MatchView {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 20:
-                    print("Starting case 20 Player1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -347,7 +341,6 @@ extension MatchView {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 21:
-                    print("Starting case 21 Player1 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -372,7 +365,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam1 in pointScored() [2]: \(match.gameScoreTeam1)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
                 case 1:
-                    print("Starting case 1 Player 1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -389,7 +381,6 @@ extension MatchView {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -406,7 +397,6 @@ extension MatchView {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -423,7 +413,6 @@ extension MatchView {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -440,7 +429,6 @@ extension MatchView {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -681,7 +669,6 @@ extension MatchView {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 20:
-                    print("Starting case 20 Player1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -698,7 +685,6 @@ extension MatchView {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
                 case 21:
-                    print("Starting case 21 Player1 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -728,7 +714,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam1 in pointScored()[3]: \(match.gameScoreTeam1)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
                 case 1:
-                    print("Starting case 1 Player 2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -745,7 +730,6 @@ extension MatchView {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -762,7 +746,6 @@ extension MatchView {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -781,7 +764,6 @@ extension MatchView {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -798,7 +780,6 @@ extension MatchView {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1041,7 +1022,6 @@ extension MatchView {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 20:
-                    print("Starting case 21 Player2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1058,7 +1038,6 @@ extension MatchView {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 21:
-                    print("Starting case 21 Player2 Team1 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1083,7 +1062,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam1 in pointScored() [4]: \(match.gameScoreTeam1)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
                 case 1:
-                    print("Starting case 1 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1100,7 +1078,6 @@ extension MatchView {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1117,7 +1094,6 @@ extension MatchView {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1134,7 +1110,6 @@ extension MatchView {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1151,7 +1126,6 @@ extension MatchView {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1392,7 +1366,6 @@ extension MatchView {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 20:
-                    print("Starting case 20 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point20Game1ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1409,7 +1382,6 @@ extension MatchView {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 21:
-                    print("Starting case 21 Player 2 Team1 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point21Game1ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1439,7 +1411,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam2 in pointScored()[5]: \(match.gameScoreTeam2)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
                 case 1:
-                    print("Starting case 1 Player 1 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1456,7 +1427,6 @@ extension MatchView {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 1 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1474,7 +1444,6 @@ extension MatchView {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 1 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1491,7 +1460,6 @@ extension MatchView {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 1 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1508,7 +1476,6 @@ extension MatchView {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 1 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1792,7 +1759,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam2 in pointScored() [6]: \(match.gameScoreTeam2)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
                 case 1:
-                    print("Starting case 1 Player 1 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1809,7 +1775,6 @@ extension MatchView {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 1 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1826,7 +1791,6 @@ extension MatchView {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 1 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1844,7 +1808,6 @@ extension MatchView {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 1 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -1861,7 +1824,6 @@ extension MatchView {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 1 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -2150,65 +2112,60 @@ extension MatchView {
                 //print("    > > > gameScoreTeam2 in pointScored()[7]: \(match.gameScoreTeam2)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
                 case 1:
-                    print("Starting case 1 Player 2 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
                         $match.point1Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point1Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 2 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
                         $match.point2Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point2Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 2 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
                         $match.point3Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point3Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 2 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
                         $match.point4Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point4Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 2 Team2 as second server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 2 {
                         $match.point5Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point5Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2220,7 +2177,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point6Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point6Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2232,7 +2189,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point7Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point7Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2244,7 +2201,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point8Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point8Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2256,7 +2213,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point9Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point9Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2268,7 +2225,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point10Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point10Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2280,7 +2237,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point11Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point11Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2292,7 +2249,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point12Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point12Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2304,7 +2261,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point13Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point13Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2316,7 +2273,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point14Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point14Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2328,7 +2285,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point15Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point15Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2340,7 +2297,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point16Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point16Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2352,7 +2309,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point17Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point17Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2364,7 +2321,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point18Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point18Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2376,7 +2333,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point19Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point19Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2388,7 +2345,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point20Game2ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point20Game3ImageTm2.wrappedValue = "squareleftbackslash"
+                        $match.point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2400,7 +2357,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 2 {
                         $match.point21Game2ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
                     } else if match.currentGameNumber == 3 {
-                        $match.point21Game3ImageTm2.wrappedValue = "squarerightfwdslash"
+                        $match.point21Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
                         $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
@@ -2416,7 +2373,6 @@ extension MatchView {
                 //print("    > > > gameScoreTeam2 in pointScored() [8]: \(match.gameScoreTeam2)")
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
                 case 1:
-                    print("Starting case 1 Player 2 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point1Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -2433,7 +2389,6 @@ extension MatchView {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 2:
-                    print("Starting case 2 Player 2 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point2Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -2450,7 +2405,6 @@ extension MatchView {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 3:
-                    print("Starting case 3 Player 2 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point3Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -2467,7 +2421,6 @@ extension MatchView {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 4:
-                    print("Starting case 4 Player 2 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point4Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {
@@ -2484,7 +2437,6 @@ extension MatchView {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
                 case 5:
-                    print("Starting case 5 Player 2 Team2 as first server")
                     if match.currentGameNumber == 1 {
                         $match.point5Game1ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
                     } else if match.currentGameNumber == 2 {

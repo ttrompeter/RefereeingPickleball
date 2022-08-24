@@ -16,9 +16,15 @@ struct ViolationReferenceView: View {
         
         VStack (spacing: 30) {
             
-            Text("Violation Reference ")
-                .bold()
-                .font(.largeTitle)
+            HStack {
+                Text("Violation Reference")
+                    .bold()
+                    .font(.largeTitle)
+                Image("violation")
+                    .resizable()
+                    .frame(width: 80, height: 60)
+                    .clipped()
+            }
             
             ZStack {
                 Rectangle()

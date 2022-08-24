@@ -10,27 +10,37 @@ import SwiftUI
 
 struct MatchView: View {
     
-    @Environment(\.realm) var realm
     @Environment(\.dismiss) var dismiss
+    @Environment(\.realm) var realm
     @ObservedRealmObject var match: Match
     
-    @State private var screenshotMaker: ScreenshotMaker?
     @State private var alertItem: AlertItem?
-    @State private var presentMatchSetupAlert = false
-    @State private var presentMatchSetupButtonAlert = false
-    @State private var presentStartingServerSetupAlert = false
-    @State private var presentServerSideSetAlert = false
+    @State private var elapsedGameTimeGame1 = 0.0
+    @State private var elapsedGameTimeGame2 = 0.0
+    @State private var elapsedGameTimeGame3 = 0.0
+    @State private var elapsedGameTimeGame4 = 0.0
+    @State private var elapsedGameTimeGame5 = 0.0
+    @State private var gameTimer1: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer2: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer3: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer4: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer5: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
+    @State private var isGameTimerRunning = false
+    @State private var isStartNewMatch = false
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
+    @State private var presentMatchOverAlert = false
+    @State private var presentMatchSetupAlert = false
+    @State private var presentMatchSetupButtonAlert = false
+    @State private var presentStartedNewGameAlert = false
+    @State private var presentStartingServerSetupAlert = false
+    @State private var presentServerSideSetAlert = false
+    @State private var screenshotMaker: ScreenshotMaker?
+    @State private var showingMatchOver = false
     @State private var showingGameStartingServer = false
-    @State private var isGameTimerRunning = false
-    @State private var elapsedGameTime = 0.0
     @State private var team1MatchStartingServerName = ""
     @State private var team2MatchStartingServerName = ""
     
-    let gameTimer = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-    // let gameTimer = Timer.publish(every: 60, tolerance: 0.5, on: .main, in: .common).autoconnect()
-    // timer.upstream.connect().cancel() // stop timer
     
     var currentMatchStatusDisplay: String {
         switch match.selectedMatchFormat {
@@ -67,37 +77,23 @@ struct MatchView: View {
                         HStack {
                             VStack (alignment: .leading) {
                                 Text("Event:")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Date:")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Location:")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Game Format:")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Game Number: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Notes: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Match 1st Server: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                             }
                             .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
                                 Text(match.eventTitle)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchDate, format: .dateTime.month().day().year())
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchLocation)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.gameFormatDescription)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("\(match.currentGameNumber)")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchNotes)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchStartingServerName)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                             }
                             .foregroundColor(Constants.DARK_SLATE)
                         }
@@ -108,34 +104,22 @@ struct MatchView: View {
                         HStack (alignment: .top) {
                             VStack (alignment: .leading) {
                                 Text("Match: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Court: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Referee: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Format: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Match Style: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Scoring Format: ")
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text("Game 1st Server: ")
                             }
                             .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
                                 Text(match.matchNumber)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.courtNumber)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.games[match.currentGameNumber - 1].refereeName)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchFormatDescription)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchStyleDescription)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.matchScoringFormatDescription)
-                                    //.foregroundColor(Constants.DARK_SLATE)
                                 Text(match.games[match.currentGameNumber - 1].gameFirstServerName)
                             }
                             .foregroundColor(Constants.DARK_SLATE)
@@ -167,87 +151,121 @@ struct MatchView: View {
                         Button {
                             pointScored()
                             updateScore()
+                            // The game is over, and the game has been closed in closeGame() called by updateScore function where there is a game winner.
+                            // Now stop the game timer for the game that ended and set the elapsed time of the game in gameElapsedTime.
+                            if match.games[match.currentGameNumber - 1].isGameWinner {
+                                print("isGameWinner is true in Point Button action in MatchView. Will present game winner alert")
+                                switch match.currentGameNumber {
+                                case 1:
+                                    gameTimer1.connect().cancel()
+                                    print("\n     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
+                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame1
+                                    //$elapsedGameTimeGame1.wrappedValue = 0.0
+                                    print("     Stopped gameTimer1 in Point Button if gameWinner in MatchView")
+                                    print("     currentGameNumber value: \(match.currentGameNumber)")
+                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                case 2:
+                                    gameTimer2.connect().cancel()
+                                    print("\n     elapsedGameTimeGame2 before entered in gameElapsedTime: \(elapsedGameTimeGame2)")
+                                    print("     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
+                                    print("     elapsedGameTimeGame3 before entered in gameElapsedTime: \(elapsedGameTimeGame3)")
+                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame2
+                                    //$elapsedGameTimeGame2.wrappedValue = 0.0
+                                    print("     Stopped gameTimer2 in Point Button if gameWinner in MatchView")
+                                    print("     currentGameNumber value: \(match.currentGameNumber)")
+                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                case 3:
+                                    gameTimer3.connect().cancel()
+                                    print("\n     elapsedGameTimeGame3 before entered in gameElapsedTime: \(elapsedGameTimeGame3)")
+                                    print("     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
+                                    print("     elapsedGameTimeGame2 before entered in gameElapsedTime: \(elapsedGameTimeGame2)")
+                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame3
+                                    //$elapsedGameTimeGame3.wrappedValue = 0.0
+                                    print("     Stopped gameTimer3 in Point Button if gameWinner in MatchView")
+                                    print("     currentGameNumber value: \(match.currentGameNumber)")
+                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                case 4:
+                                    gameTimer4.connect().cancel()
+                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame4
+                                    //$elapsedGameTimeGame4.wrappedValue = 0.0
+                                case 5:
+                                    gameTimer5.connect().cancel()
+                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame5
+                                    //$elapsedGameTimeGame5.wrappedValue = 0.0
+                                default:
+                                    print("Error stopping game timer ")
+                                }
+                                // Present the gameWinnerAlert to notify the user that the game is over and to be able to set up the new game.
+                                presentGameWinnerAlert.toggle()
+                            }
                         } label: {
                             Text("Point")
                         }
                         .buttonStyle(PointsSideoutButtonStyle())
-                        .disabled(!match.isMatchStarted)
-                        
-                        // TODO: - Fix this for handling game over - done in isGameWinner
+                        .disabled(!match.isMatchStarted || match.isMatchCompleted)
+                        .sheet(isPresented: $showingMatchOver) { MatchOverView(match: match) }
                         .alert("Game Over", isPresented: $presentGameWinnerAlert) {
                             Button("OK", role: .cancel) {
-                                //$match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
-                                print("isGameCompleted after set in alert: \(match.games[match.currentGameNumber - 1].isGameCompleted)")
-                                if !match.isMatchCompleted {
-                                    //$match.currentGameNumber.wrappedValue += 1
-                                    print("currentGameNumber after set in alert: \(match.currentGameNumber)")
+                                // At this point the game is over and has been closed by the closeMatch() fucntion called from
+                                // updateScore when ifGameWinner is true.
+                                // If the match is not over, set up the new game by calling the setUpNewGame() function.
+                                // Present the startedNewGameAlert to notify the user that the new game is ready for play.
+                                if !isMatchWinner() {
+                                    setUpNewGame()
+                                    presentStartedNewGameAlert.toggle()
+                                } else {
+                                    // There is a match winner so the match is over.
+                                    print("")
+                                    print("The match is over per isMatchWinner() in Game Over alert action in MatchView")
+                                    print("")
+                                    presentMatchOverAlert.toggle()
+                                    closeMatch()
+                                    $isStartNewMatch.wrappedValue = true
                                 }
                             }
                         } message: {
                             Text("Game Winner is\n \(match.games[match.currentGameNumber - 1].gameWinner)")
                         }
+                        .alert("New Game Started", isPresented: $presentStartedNewGameAlert) {
+                            Button("OK", role: .cancel) {
+                               // Start gameTimer for new game
+                               
+                                switch match.currentGameNumber {
+                                case 1:
+                                    _ = gameTimer1.connect()
+                                    print("Started gameTimer1 in New Game Started Alert in MatchView")
+                                case 2:
+                                    _ = gameTimer2.connect()
+                                    print("Started gameTimer2 in New Game Started Alert in MatchView")
+                                case 3:
+                                    _ = gameTimer3.connect()
+                                    print("Started gameTimer3 in New Game Started Alert in MatchView")
+                                case 4:
+                                    _ = gameTimer4.connect()
+                                case 5:
+                                    _ = gameTimer5.connect()
+                                default:
+                                    print("Error stopping game timer ")
+                                }
+                            }
+                        } message: {
+                            Text("Game # \(match.games[match.currentGameNumber - 1].gameNumber) is ready for play.")
+                        }
+                        .alert("Match Over", isPresented: $presentMatchOverAlert) {
+                            Button("OK", role: .cancel) {
+                                // Need to activate isStartNewMatch
+                                NavigationLink(destination: HomeView(match: match), isActive: $isStartNewMatch) { }
+                            }
+                        } message: {
+                            Text("Match Winner is\n \(match.matchWinner)")
+                        }
                         
-                        
-// ======================================================================================================================
-
-//                        Alerts regardng game and match winners
-                        
-                        
-                        //                        .alert("", isPresented: $presentGameWinnerAlert, actions: {
-                        //                            self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: {
-                        //
-                        //                                if match.isMatchCompleted {
-                        //                                    /// trigger second alert
-                        //                                    DispatchQueue.main.async {
-                        //                                        self.alertItem = AlertItem(title: Text("Match Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: self.closeMatch))
-                        //                                    }
-                        //                                }
-                        //
-                        //                            //}), secondaryButton: .cancel()  )
-                        //                            }
-                        //                        })
-// ======================================================================================================================
-                        
-                        
-                        
-                        // Shows Game 1 of 3 games etc
+                        // Shows Game 1 of 3 games etc below Point button
                         Text(currentMatchStatusDisplay)
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
-                        
-                        
-// ======================================================================================================================
-                        // TODO: - This is temporary until get working - allowing two alerts for game over and match over
-                        Button(action: {
-                            
-                            //self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), primaryButton: .default(Text("OK"), action: {
-                            self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: {
-                                
-                                if match.isMatchCompleted {
-                                    /// trigger second alert
-                                    DispatchQueue.main.async {
-                                        self.alertItem = AlertItem(title: Text("Match Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: self.closeMatch))
-                                    }
-                                }
-                                
-                                //}), secondaryButton: .cancel()  )
-                            }))
-                        }, label: {
-                            Text("SHOW ALERT")
-                                .font(.body)
-                                .foregroundColor(Constants.MINT_LEAF)
-                        }).alert(item: $alertItem) { alertItem in
-                            
-                            //guard let primaryButton = alertItem.primaryButton, let secondaryButton = alertItem.secondaryButton else {
-                            //                                    guard let dismissButton = alertItem.dismissButton else {
-                            //                                        return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
-                            //                                    }
-                            print("Got here")
-                            //return Alert(title: alertItem.title, message: alertItem.message, primaryButton: primaryButton, secondaryButton: secondaryButton)
-                            return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
-                        }
+
                     }
-// ======================================================================================================================
                     
                     // Match Setup Warning
                     if !match.isMatchSetup {
@@ -351,7 +369,6 @@ struct MatchView: View {
                                 .alert("Reorient Scoresheet", isPresented: $presentStartingServerSetupAlert) {
                                     Button("Orientation is Correct", role: .cancel) {
                                         $match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
-                                        
                                     }
                                     Button("Change Serving Team") {
                                         $match.isTeam1Serving.wrappedValue.toggle()
@@ -371,14 +388,38 @@ struct MatchView: View {
                         } else {
                             // MARK: - Score Display
                             VStack (spacing: 5) {
-                                HStack {
-                                    Text("Score: ")
-                                        .font(.title)
-                                        .foregroundColor(Constants.DARK_SLATE)
+                                VStack {
+                                    HStack {
+                                        Text("Score: ")
+                                            .font(.title)
+                                            .foregroundColor(Constants.DARK_SLATE)
+                                        
+                                        Text(match.scoreDisplay)
+                                            .font(.largeTitle)
+                                            .foregroundColor(Constants.CRIMSON)
+                                    }
                                     
-                                    Text(match.scoreDisplay)
-                                        .font(.largeTitle)
-                                        .foregroundColor(Constants.CRIMSON)
+                                    HStack {
+                                        if match.games[0].isGameCompleted {
+                                            Text("Game 1: \(match.games[0].gameFinalScore)")
+                                        }
+                                        if match.games[1].isGameCompleted {
+                                            Text("Game 2: \(match.games[1].gameFinalScore)")
+                                        }
+                                        // this likely will not show in 2 of 3 games match since match ended
+                                        if match.games[2].isGameCompleted {
+                                            Text("Game 3: \(match.games[2].gameFinalScore)")
+                                        }
+                                        if match.games[3].isGameCompleted {
+                                            Text("Game 4: \(match.games[3].gameFinalScore)")
+                                        }
+                                        // This will never show since game is over and match ended
+                                        if match.games[4].isGameCompleted {
+                                            Text("Game 5: \(match.games[4].gameFinalScore)")
+                                        }
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(Constants.MINT_LEAF)
                                 }
                                 .padding(10)
                                 .background(Constants.CLOUDS)
@@ -427,9 +468,9 @@ struct MatchView: View {
                             }
                         }
                         .buttonStyle(PointsSideoutButtonStyle())
-                        .disabled(!match.isMatchStarted)
+                        .disabled(!match.isMatchStarted || match.isMatchCompleted)
                         
-                        // Shows 2d Server is serving etc
+                        // Shows 2d Server is serving etc below 2nd Server / Sideout button
                         Text("\(match.whoIsServingText) is Serving")
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
@@ -496,24 +537,51 @@ struct MatchView: View {
             // Empty text field for spacing
             Text(" ")
                 .padding()
-                // This is monitoring the timer
-                .onReceive(gameTimer) { time in
-                        // print("The time is now \(time)")
-                    }
+
             
         }  // Top VStack
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
-        .onReceive(gameTimer) { time in
-            print("time in onReceive: \(time), elapsedGameTime: \(elapsedGameTime)")
-            $elapsedGameTime.wrappedValue += 30.0
+        .onAppear {
+            // TODO: - Fix this so game timer for first game starts at the same time as the match starts in BottomButtonsView
+            // Start game timer if this is the first game of the match
+            if match.startGame1Timer {
+                print("Starting gameTimer1 on onAppear of MatchView")
+                _ = gameTimer1.connect()
+                $match.startGame1Timer.wrappedValue = false
+            }
         }
-        
+        .onReceive(gameTimer1) { time in
+            print("Game Time of gameTimer1 (should update every 5 seconds): \(time), elapsedGameTime for gameRTimer: \(elapsedGameTimeGame1)")
+            $elapsedGameTimeGame1.wrappedValue += 5.0
+            print("elapsedGameTime gameTimer1 in onReceive of MatchView: \(Int(elapsedGameTimeGame1 / 60)) minutes , \(elapsedGameTimeGame1.truncatingRemainder(dividingBy: 60)) seconds")
+        }
+        .onReceive(gameTimer2) { time in
+            print("Game Time of gameTimer2 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer2: \(elapsedGameTimeGame2)")
+            $elapsedGameTimeGame2.wrappedValue += 5.0
+            print("elapsedGameTime gameTimer2 in onReceive of MatchView: \(Int(elapsedGameTimeGame2 / 60)) minutes , \(elapsedGameTimeGame2.truncatingRemainder(dividingBy: 60)) seconds")
+        }
+        .onReceive(gameTimer3) { time in
+            print("Game Time of gameTimer3 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer3: \(elapsedGameTimeGame3)")
+            $elapsedGameTimeGame3.wrappedValue += 5.0
+            print("elapsedGameTime gameTimer3 in onReceive of MatchView: \(Int(elapsedGameTimeGame3 / 60)) minutes , \(elapsedGameTimeGame3.truncatingRemainder(dividingBy: 60)) seconds")
+        }
+        .onReceive(gameTimer4) { time in
+            print("Game Time of gameTimer4 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer4: \(elapsedGameTimeGame4)")
+            $elapsedGameTimeGame4.wrappedValue += 30.0
+            print("elapsedGameTime gameTimer4 in onReceive of MatchView: \(Int(elapsedGameTimeGame4 / 60)) minutes , \(elapsedGameTimeGame4.truncatingRemainder(dividingBy: 60)) seconds")
+        }
+        .onReceive(gameTimer5) { time in
+            print("Game Time of gameTimer5 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer5: \(elapsedGameTimeGame5)")
+            $elapsedGameTimeGame5.wrappedValue += 30.0
+            print("elapsedGameTime gameTimer5 in onReceive of MatchView: \(Int(elapsedGameTimeGame5 / 60)) minutes , \(elapsedGameTimeGame5.truncatingRemainder(dividingBy: 60)) seconds")
+        }
     }
     
 }
+
 
 //struct MatchView_Previews: PreviewProvider {
 //    static var previews: some View {
@@ -522,155 +590,5 @@ struct MatchView: View {
 //}
 
 
-
-// ============================================================================================
-
-// MARK: - MatchView Extension - Functions
-
-extension MatchView {
-    
-    func updateScore() {
-        
-        let tm1Score = (match.games[match.currentGameNumber - 1].player1Team1Points) + (match.games[match.currentGameNumber - 1].player2Team1Points)
-        let tm2Score = (match.games[match.currentGameNumber - 1].player1Team2Points) + (match.games[match.currentGameNumber - 1].player2Team2Points)
-        let server = match.isSecondServer == true ? "2" : "1"
-        
-        
-        if match.isTeam1Serving {
-            $match.scoreDisplay.wrappedValue = "\(tm1Score) - \(tm2Score) - \(server)"
-        } else {
-            $match.scoreDisplay.wrappedValue = "\(tm2Score) - \(tm1Score) - \(server)"
-        }
-        
-        
-        if isGameWinner() {
-            print("There is a game winner")
-            
-            /*
-             
-             Determine if there is a game winner every time the score is updated.
-             If so, this game is over and, if it is not the last game of the match, set up the next game.
-             If it is the last game of the match, then complete the match.
-             In case where there is another game, complete this game and set up next game:
-                  - Set value of isGameWinner in the current game to true.
-                  - Set the value of isGameCompleted in the currrent game to true.
-                  - 
-             
-             */
-            
-            
-            // Set final values in current game
-            $match.games[match.currentGameNumber - 1].isGameWinner.wrappedValue = true
-            $match.games[match.currentGameNumber - 1].isGameCompleted.wrappedValue = true
-            
-            // Stop the game timer and save the elapsed game time
-            gameTimer.connect().cancel()
-            print("elapsedGameTime in isGameWinner(): \(elapsedGameTime)")
-            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTime
-            
-            // Set gameStartingServerPlayerNumber and gameStartingServerName for next game
-            //print("gameStartingServerPlayerNumber of current game: \(match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber)")
-            print("servingPlayerNumber at end of game: \(match.servingPlayerNumber)")
-            // Determine player number of server at end of game, then set the first server for new game based on that
-            //switch match.games[match.currentGameNumber - 1].gameStartingServerPlayerNumber {
-            switch match.servingPlayerNumber {
-            case 1, 2:
-                print("In case players 1 or 2 isGameWinner()")
-                // Set the gameStartingPlayerNumber for the new game as the selectedFirstServer for the team that will be serving first in the new game.
-                $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber].selectedFirstServerTeam2
-                if match.games[match.currentGameNumber].selectedFirstServerTeam2 == 3 {
-                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 3
-                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer1Team2
-                    $match.servingPlayerNumber.wrappedValue = 3
-                } else {
-                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 4
-                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer2Team2
-                    $match.servingPlayerNumber.wrappedValue = 4
-                }
-            case 3, 4:
-                print("In case players 3 or 4 isGameWinner()")
-                $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = match.games[match.currentGameNumber].selectedFirstServerTeam1
-                if match.games[match.currentGameNumber].selectedFirstServerTeam1 == 1 {
-                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 1
-                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer1Team1
-                    $match.servingPlayerNumber.wrappedValue = 1
-                } else {
-                    $match.games[match.currentGameNumber].gameFirstServerPlayerNumber.wrappedValue = 2
-                    $match.games[match.currentGameNumber].gameFirstServerName.wrappedValue = match.namePlayer2Team1
-                    $match.servingPlayerNumber.wrappedValue = 2
-                }
-            default:
-                print("Error setting first server for next game in isGameWinner().")
-            }
-            
-            // Set gameFinalScore
-            // Set gameWinner
-            
-            // Set values for new game
-            $match.currentGameNumber.wrappedValue = match.currentGameNumber + 1
-            
-            // Team that won had to be serving so set serving team to other team for next game
-            // This will also put the new serving team on top of scoresheet  WRONG
-            // Since other team takes the side of team that was serving when game ended, the arrow is pointing correctly
-            // So don't need to change orientation of arrow, just the team (that is serving)
-            // Set the isServerSideSet to true
-            $match.isTeam1Serving.wrappedValue.toggle()
-            $match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
-            updateScore()
-            
-            print("")
-            print("isTeam1Serving after set for new game: \(match.isTeam1Serving)")
-            print("whoIsServing after set for new game: \(match.whoIsServingText)")
-            print("servingPlayerNumber after set for new game: \(match.servingPlayerNumber)")
-            print("selectedFirstServerTeam1 after set for new game: \(match.games[match.currentGameNumber - 1].selectedFirstServerTeam1)")
-            print("selectedFirstServerTeam2 after set for new game: \(match.games[match.currentGameNumber - 1].selectedFirstServerTeam2)")
-            print("")
-            
-            // Start timer for new game
-            _ = gameTimer.connect()
-            
-            
-            //        /*
-            //         -- Set isGameWinner for current game [= false]
-            //         -- Set isGameCompleted for current game  [= false]
-            //         -- Set gameElapsedTime for current game (stop Timer)  [= 0.0]
-            //
-            //         -- Set first server for next game
-            //         -- Set court orientation for next game - players change sides
-            //         -- Change current game number of match to next game number
-            //         -- Set gameStartingServerName for next game  [ = "Adam Rockafeller" ]
-            //         -- Set gameStartingServerPlayerNumber for next game [ = 0 ]
-            //
-            //         // Already done IN isGameWinner()
-            //         Set gameWinner = ""  IN isGameWinner()
-            //         Set gameWinnerTeam  [= 0]   IN isGameWinner()
-            //         Set gameFinalScore = "" IN isGameWinner()
-            //
-            //         // This can be done in MatchSetupView
-            //         Set selectedFirstServerTeam1 for next game  [ = 0 ]
-            //         Set selectedFirstServerTeam2 for next game  [ = 0 ]
-            //         team first server can change if players choose
-            //         Update referee if needed
-            //         Update asst referee if needed
-            //         Update line judges if needed
-            //         update trainee if needed
-            //         */
-            
-        
-            if isMatchWinner() {
-                print("There is a match winner")
-                
-                
-                closeMatch()
-            }
-            // TODO: - Activate the isGameWinner alert message
-//            presentGameWinnerAlert = true
-        }
-        
-        
-    }
-    
-    
-}
 
 

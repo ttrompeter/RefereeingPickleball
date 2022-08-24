@@ -12,6 +12,7 @@ struct PickleballRefereeApp: App {
     
     // Object so can pass it using environmentObject
     @StateObject var sheetManager = SheetManager()
+
     
     var body: some Scene {
         WindowGroup {
