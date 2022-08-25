@@ -11,6 +11,7 @@ import SwiftUI
 
 struct BottomButtonsView: View {
     
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     
     @State private var showingHelp = false
@@ -35,6 +36,8 @@ struct BottomButtonsView: View {
                     $match.startGame1Timer.wrappedValue = true
                     // Start the match timer
                     _ = matchTimer.connect()
+                    scoresheetManager.isMatchRunning = true
+                    scoresheetManager.matchTimerStartDate = Date.now
                     // TODO: - Start game 1 timer gameTimer1 at the same time as match starts
                 } label: {
                     Text("Start Match")
@@ -101,8 +104,8 @@ struct BottomButtonsView: View {
         .padding(10)
         .background(Constants.CLOUDS)
         .onReceive(matchTimer) { time in
-            $elapsedMatchTime.wrappedValue += 30
-            //print("Match Time (should update every 30 seconds): \(time), elapsedMatchTime: \(elapsedMatchTime)")
+            $elapsedMatchTime.wrappedValue += 20.0
+            scoresheetManager.matchElapsedTime += 20.0
         }
     }
     

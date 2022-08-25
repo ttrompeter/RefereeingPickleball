@@ -12,6 +12,7 @@ struct HomeView: View {
     @Environment(\.realm) var realm
     @ObservedRealmObject var match: Match
     @EnvironmentObject var sheetManager: SheetManager
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     
     
     // **********************************************************************************************
@@ -61,7 +62,7 @@ struct HomeView: View {
 
 // Button(" + ") {
 //   withAnimation (.spring()) {
-//       sheetManager.present(with: .init(systemName: "info", title: "Title Text", content: "Some text to show the user in the popup so that they can be inofrmed and learn something from the whole process."))
+//       sheetManager.present(with: .init(systemName: "info", title: "Title Text", content: "Some text to show the user in the popup so that they can be informed and learn something from the whole process."))
 //   }
 // }
 //            .popup(with: sheetManager)

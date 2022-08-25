@@ -77,6 +77,8 @@
 		E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157B28A18998001D3596 /* ExtensionUIImage.swift */; };
 		E396157E28A19A29001D3596 /* ScreenshotAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396157D28A19A29001D3596 /* ScreenshotAdminView.swift */; };
 		E3980F4928B59EAB00E72BD3 /* MatchOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3980F4828B59EAB00E72BD3 /* MatchOverView.swift */; };
+		E3980F4B28B6781000E72BD3 /* ScoresheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */; };
+		E3980F4D28B6CF2A00E72BD3 /* TimerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */; };
 		E3B46A2C28B3D79D002F54FA /* SideOutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */; };
 		E3BF696928A6D983006FD5E5 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */; };
 		E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */; };
@@ -154,6 +156,8 @@
 		E396157B28A18998001D3596 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		E396157D28A19A29001D3596 /* ScreenshotAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotAdminView.swift; sourceTree = "<group>"; };
 		E3980F4828B59EAB00E72BD3 /* MatchOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchOverView.swift; sourceTree = "<group>"; };
+		E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoresheetManager.swift; sourceTree = "<group>"; };
+		E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWrapper.swift; sourceTree = "<group>"; };
 		E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideOutExtension.swift; sourceTree = "<group>"; };
 		E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammerNotes.swift; sourceTree = "<group>"; };
@@ -278,6 +282,9 @@
 			children = (
 				E3632F8F289379EC00F29D83 /* Game.swift */,
 				E3632F9628937C2100F29D83 /* Match.swift */,
+				E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */,
+				E39058D728A424440067A536 /* SheetManager.swift */,
+				E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,9 +292,10 @@
 		E3632F8E2893796F00F29D83 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */,
-				E3632FA22893871900F29D83 /* Constants.swift */,
 				E396154F289F6DDE001D3596 /* AlertItem.swift */,
+				E3BF696828A6D983006FD5E5 /* ActivityViewController.swift */,
+				E319215D28B004D3008269D5 /* CheckToggleStyle.swift */,
+				E3632FA22893871900F29D83 /* Constants.swift */,
 				E396157B28A18998001D3596 /* ExtensionUIImage.swift */,
 				E390590028A4842C0067A536 /* MailView.swift */,
 				E367357328B1343600D18CCC /* MatchManagerExtension.swift */,
@@ -295,13 +303,11 @@
 				E367357528B136F600D18CCC /* PointScoredExtension.swift */,
 				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
-				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
 				E319215728AEE277008269D5 /* StorageManger.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 				E396157928A187C3001D3596 /* ViewExtension.swift */,
-				E319215D28B004D3008269D5 /* CheckToggleStyle.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -394,6 +400,7 @@
 				E3B46A2C28B3D79D002F54FA /* SideOutExtension.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
+				E3980F4D28B6CF2A00E72BD3 /* TimerWrapper.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
 				E343CB4F28B2E0EF0030EC20 /* ViolationReferenceView.swift in Sources */,
 				E3632F9D28937EC900F29D83 /* HomeView.swift in Sources */,
@@ -443,6 +450,7 @@
 				E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */,
 				E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */,
 				E349327D2893B8490087ABB1 /* EditView.swift in Sources */,
+				E3980F4B28B6781000E72BD3 /* ScoresheetManager.swift in Sources */,
 				E3632FAF2893915C00F29D83 /* PointsThirdRowTeam1View.swift in Sources */,
 				E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */,
 				E3632FB928939E0E00F29D83 /* Styles.swift in Sources */,

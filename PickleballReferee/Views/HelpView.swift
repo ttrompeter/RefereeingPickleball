@@ -27,20 +27,11 @@ struct HelpView: View {
                     .cornerRadius(10)
                     .shadow(radius: 5)
                 VStack (alignment: .leading) {
-    
+                    
                     Text("Help Information Goes Here")
-                            .font(.headline)
+                        .font(.headline)
                     Text("Help For You")
-                       
                 }
-                
-            }
-          
-            VStack {
-                Button("Close") {
-                    dismiss()
-                }
-                .buttonStyle(SheetButtonStyle())
             }
             
         }  // Top VStack

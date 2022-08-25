@@ -11,6 +11,7 @@ import SwiftUI
 struct WelcomeView: View {
     
     @Environment(\.realm) var realm
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @AppStorage("stop_showing_welcome", store: .standard) var stopShowingWelcome: Bool = false
     
@@ -25,7 +26,7 @@ struct WelcomeView: View {
             VStack {
                 if stopShowingWelcome {
                     // Go directly to HomeView. UserDefaults has stopShowingWelcome set to true
-                    NavigationLink(destination: HomeView(match: match), isActive: $stopShowingWelcome) { }
+                    NavigationLink(destination: HomeView(match: match).environmentObject(scoresheetManager), isActive: $stopShowingWelcome) { }
                     
                 } else {
                     ZStack {
@@ -47,7 +48,7 @@ struct WelcomeView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    NavigationLink (destination: HomeView(match: match), isActive: $isStartApp) {
+                                    NavigationLink (destination: HomeView(match: match).environmentObject(scoresheetManager), isActive: $isStartApp) {
                                     }
                                     Button("Start  App") {
                                         isStartApp = true

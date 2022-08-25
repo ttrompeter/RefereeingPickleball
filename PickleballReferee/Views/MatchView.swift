@@ -12,6 +12,7 @@ struct MatchView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.realm) var realm
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     
     @State private var alertItem: AlertItem?
@@ -20,9 +21,9 @@ struct MatchView: View {
     @State private var elapsedGameTimeGame3 = 0.0
     @State private var elapsedGameTimeGame4 = 0.0
     @State private var elapsedGameTimeGame5 = 0.0
-    @State private var gameTimer1: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
-    @State private var gameTimer2: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
-    @State private var gameTimer3: Timer.TimerPublisher = Timer.publish(every: 5, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer1: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer2: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
+    @State private var gameTimer3: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     @State private var gameTimer4: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     @State private var gameTimer5: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     @State private var isGameTimerRunning = false
@@ -41,6 +42,7 @@ struct MatchView: View {
     @State private var team1MatchStartingServerName = ""
     @State private var team2MatchStartingServerName = ""
     
+    @State private var timeStartDate = Date.now
     
     var currentMatchStatusDisplay: String {
         switch match.selectedMatchFormat {
@@ -158,40 +160,32 @@ struct MatchView: View {
                                 switch match.currentGameNumber {
                                 case 1:
                                     gameTimer1.connect().cancel()
-                                    print("\n     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
-                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame1
-                                    //$elapsedGameTimeGame1.wrappedValue = 0.0
-                                    print("     Stopped gameTimer1 in Point Button if gameWinner in MatchView")
-                                    print("     currentGameNumber value: \(match.currentGameNumber)")
-                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                    scoresheetManager.gameTimerEndDate = Date.now
+                                    scoresheetManager.gameElapsedTime = 0.0
+                                    scoresheetManager.secondsElapsedInGame = 0.0
+                                    print("     > > > gameElapsedTime value: \(match.games[match.currentGameNumber - 1].gameElapsedTime)")
                                 case 2:
                                     gameTimer2.connect().cancel()
-                                    print("\n     elapsedGameTimeGame2 before entered in gameElapsedTime: \(elapsedGameTimeGame2)")
-                                    print("     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
-                                    print("     elapsedGameTimeGame3 before entered in gameElapsedTime: \(elapsedGameTimeGame3)")
-                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame2
-                                    //$elapsedGameTimeGame2.wrappedValue = 0.0
-                                    print("     Stopped gameTimer2 in Point Button if gameWinner in MatchView")
-                                    print("     currentGameNumber value: \(match.currentGameNumber)")
-                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                    scoresheetManager.gameTimerEndDate = Date.now
+                                    scoresheetManager.gameElapsedTime = 0.0
+                                    scoresheetManager.secondsElapsedInGame = 0.0
+                                    print("     > > > gameElapsedTime value: \(match.games[match.currentGameNumber - 1].gameElapsedTime)")
                                 case 3:
                                     gameTimer3.connect().cancel()
-                                    print("\n     elapsedGameTimeGame3 before entered in gameElapsedTime: \(elapsedGameTimeGame3)")
-                                    print("     elapsedGameTimeGame1 before entered in gameElapsedTime: \(elapsedGameTimeGame1)")
-                                    print("     elapsedGameTimeGame2 before entered in gameElapsedTime: \(elapsedGameTimeGame2)")
-                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame3
-                                    //$elapsedGameTimeGame3.wrappedValue = 0.0
-                                    print("     Stopped gameTimer3 in Point Button if gameWinner in MatchView")
-                                    print("     currentGameNumber value: \(match.currentGameNumber)")
-                                    print("     gameElapsedTime in Point Button if gameWinner in MatchView: \(match.games[match.currentGameNumber - 1].gameElapsedTime)\n")
+                                    scoresheetManager.gameTimerEndDate = Date.now
+                                    scoresheetManager.gameElapsedTime = 0.0
+                                    scoresheetManager.secondsElapsedInGame = 0.0
+                                    print("          > > > gameElapsedTime value: \(match.games[match.currentGameNumber - 1].gameElapsedTime)")
                                 case 4:
                                     gameTimer4.connect().cancel()
-                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame4
-                                    //$elapsedGameTimeGame4.wrappedValue = 0.0
+                                    scoresheetManager.gameTimerEndDate = Date.now
+                                    scoresheetManager.gameElapsedTime = 0.0
+                                    scoresheetManager.secondsElapsedInGame = 0.0
                                 case 5:
                                     gameTimer5.connect().cancel()
-                                    $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue = elapsedGameTimeGame5
-                                    //$elapsedGameTimeGame5.wrappedValue = 0.0
+                                    scoresheetManager.gameTimerEndDate = Date.now
+                                    scoresheetManager.gameElapsedTime = 0.0
+                                    scoresheetManager.secondsElapsedInGame = 0.0
                                 default:
                                     print("Error stopping game timer ")
                                 }
@@ -233,17 +227,22 @@ struct MatchView: View {
                                 switch match.currentGameNumber {
                                 case 1:
                                     _ = gameTimer1.connect()
+                                    scoresheetManager.gameTimerStartDate = Date.now
                                     print("Started gameTimer1 in New Game Started Alert in MatchView")
                                 case 2:
                                     _ = gameTimer2.connect()
+                                    scoresheetManager.gameTimerStartDate = Date.now
                                     print("Started gameTimer2 in New Game Started Alert in MatchView")
                                 case 3:
                                     _ = gameTimer3.connect()
+                                    scoresheetManager.gameTimerStartDate = Date.now
                                     print("Started gameTimer3 in New Game Started Alert in MatchView")
                                 case 4:
                                     _ = gameTimer4.connect()
+                                    scoresheetManager.gameTimerStartDate = Date.now
                                 case 5:
                                     _ = gameTimer5.connect()
+                                    scoresheetManager.gameTimerStartDate = Date.now
                                 default:
                                     print("Error stopping game timer ")
                                 }
@@ -264,6 +263,11 @@ struct MatchView: View {
                         Text(currentMatchStatusDisplay)
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
+                        
+                        // TODO: - Delete - this is temporary for development testing
+                        Text("matchElapsedTime: \(String(scoresheetManager.matchElapsedTime))")
+                            .font(.caption)
+                            .foregroundColor(Constants.DARK_RED)
 
                     }
                     
@@ -450,7 +454,7 @@ struct MatchView: View {
                                 // 2nd Server Button label is showing and 1st server is serving
                                 // Button is pushed when 2nd Server label is showing
                                 // Set server to the next server
-                                setWhoIsServing()
+                                setWhichServer()
                                 $match.isSecondServer.wrappedValue.toggle()
                                 $match.whoIsServingText.wrappedValue = "2nd Server"
                                 updateScore()
@@ -474,6 +478,11 @@ struct MatchView: View {
                         Text("\(match.whoIsServingText) is Serving")
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
+                        
+                        // TODO: - Delete - this is temporary for development testing
+                        Text("gameElapsedTime: \(scoresheetManager.gameElapsedTime)")
+                            .font(.caption)
+                            .foregroundColor(Constants.DARK_RED)
                     }
                 }
             }
@@ -551,32 +560,30 @@ struct MatchView: View {
                 print("Starting gameTimer1 on onAppear of MatchView")
                 _ = gameTimer1.connect()
                 $match.startGame1Timer.wrappedValue = false
+                $timeStartDate.wrappedValue = Date.now
+                print("timeStartDate in onAppear value: \(timeStartDate)")
+                print("timeStartDate plus 30 seconds: \(timeStartDate.addingTimeInterval(30))")
             }
         }
         .onReceive(gameTimer1) { time in
-            print("Game Time of gameTimer1 (should update every 5 seconds): \(time), elapsedGameTime for gameRTimer: \(elapsedGameTimeGame1)")
-            $elapsedGameTimeGame1.wrappedValue += 5.0
-            print("elapsedGameTime gameTimer1 in onReceive of MatchView: \(Int(elapsedGameTimeGame1 / 60)) minutes , \(elapsedGameTimeGame1.truncatingRemainder(dividingBy: 60)) seconds")
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue += 30.0
+            scoresheetManager.gameElapsedTime += 30.0
         }
         .onReceive(gameTimer2) { time in
-            print("Game Time of gameTimer2 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer2: \(elapsedGameTimeGame2)")
-            $elapsedGameTimeGame2.wrappedValue += 5.0
-            print("elapsedGameTime gameTimer2 in onReceive of MatchView: \(Int(elapsedGameTimeGame2 / 60)) minutes , \(elapsedGameTimeGame2.truncatingRemainder(dividingBy: 60)) seconds")
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue += 30.0
+            scoresheetManager.gameElapsedTime += 30.0
         }
         .onReceive(gameTimer3) { time in
-            print("Game Time of gameTimer3 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer3: \(elapsedGameTimeGame3)")
-            $elapsedGameTimeGame3.wrappedValue += 5.0
-            print("elapsedGameTime gameTimer3 in onReceive of MatchView: \(Int(elapsedGameTimeGame3 / 60)) minutes , \(elapsedGameTimeGame3.truncatingRemainder(dividingBy: 60)) seconds")
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue += 30.0
+            scoresheetManager.gameElapsedTime += 30.0
         }
         .onReceive(gameTimer4) { time in
-            print("Game Time of gameTimer4 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer4: \(elapsedGameTimeGame4)")
-            $elapsedGameTimeGame4.wrappedValue += 30.0
-            print("elapsedGameTime gameTimer4 in onReceive of MatchView: \(Int(elapsedGameTimeGame4 / 60)) minutes , \(elapsedGameTimeGame4.truncatingRemainder(dividingBy: 60)) seconds")
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue += 30.0
+            scoresheetManager.gameElapsedTime += 30.0
         }
         .onReceive(gameTimer5) { time in
-            print("Game Time of gameTimer5 (should update every 5 seconds): \(time), elapsedGameTime for gameTimer5: \(elapsedGameTimeGame5)")
-            $elapsedGameTimeGame5.wrappedValue += 30.0
-            print("elapsedGameTime gameTimer5 in onReceive of MatchView: \(Int(elapsedGameTimeGame5 / 60)) minutes , \(elapsedGameTimeGame5.truncatingRemainder(dividingBy: 60)) seconds")
+            $match.games[match.currentGameNumber - 1].gameElapsedTime.wrappedValue += 30.0
+            scoresheetManager.gameElapsedTime += 30.0
         }
     }
     

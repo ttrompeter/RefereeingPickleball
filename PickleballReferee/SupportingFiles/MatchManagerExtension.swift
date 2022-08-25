@@ -387,7 +387,7 @@ extension MatchView {
     }
     
     
-    func setWhoIsServing() {
+    func setWhichServer() {
         
         switch match.servingPlayerNumber {
         case 1:

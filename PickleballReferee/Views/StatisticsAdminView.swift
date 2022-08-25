@@ -302,33 +302,33 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Match")
                                         Divider()
-                                        Text("\(formatElapsedTime(value: (match.matchElapsedTime / 60))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.matchElapsedTime))) minutes")
                                     }
                                     VStack {
                                         Text("Game 1")
                                         Divider()
-                                        Text("\(formatElapsedTime(value: (match.games[0].gameElapsedTime / 60))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[0].gameElapsedTime))) minutes")
                                     }
                                     VStack {
                                         Text("Game 2")
                                         Divider()
-                                        Text("\(formatElapsedTime(value: (match.games[1].gameElapsedTime / 60))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[1].gameElapsedTime))) minutes")
                                     }
                                     VStack {
                                         Text("Game 3")
                                         Divider()
-                                        Text("\(formatElapsedTime(value: (match.games[2].gameElapsedTime / 60))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[2].gameElapsedTime))) minutes")
                                     }
                                     if match.selectedGameFormat == 3 {
                                         Text("Game 4")
                                         Divider()
                                         VStack {
-                                            Text("\(formatElapsedTime(value: (match.games[3].gameElapsedTime / 60))) minutes")
+                                            Text("\(formatElapsedTimeMinutes(value: (match.games[3].gameElapsedTime))) minutes")
                                         }
                                         VStack {
                                             Text("Game 5")
                                             Divider()
-                                            Text("\(formatElapsedTime(value: (match.games[4].gameElapsedTime / 60))) minutes")
+                                            Text("\(formatElapsedTimeMinutes(value: (match.games[4].gameElapsedTime))) minutes")
                                         }
                                     }
                                 }
@@ -369,13 +369,13 @@ struct StatisticAdminView: View {
         }
     }
     
-    func formatElapsedTime(value: Double) -> String {
+    func formatElapsedTimeMinutes(value: Double) -> String {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = 0
 
-        let number = NSNumber(value: value)
+        let number = NSNumber(value: value / 60)
         let formattedValue = formatter.string(from: number)!
         return formattedValue
     }

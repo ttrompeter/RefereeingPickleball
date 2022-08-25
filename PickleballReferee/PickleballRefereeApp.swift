@@ -10,14 +10,16 @@ import SwiftUI
 @main
 struct PickleballRefereeApp: App {
     
-    // Object so can pass it using environmentObject
+    // Environment Objects so can pass throughout project using environmentObject
     @StateObject var sheetManager = SheetManager()
-
+    var scoresheetManager = ScoresheetManager()
+    @StateObject var timeWrapper = TimerWrapper()
     
     var body: some Scene {
         WindowGroup {
             WelcomeView(match: Match())
                 .environmentObject(sheetManager)
+                .environmentObject(scoresheetManager)
                 .onAppear {
                     // Get path to Realm database in SwiftUI
                     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)

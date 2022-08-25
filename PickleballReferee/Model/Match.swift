@@ -78,7 +78,7 @@ class Match: Object, ObjectKeyIdentifiable {
                 print("Error calculating matchTotalPointsWinningTeam")
             }
         } else {
-            print("isMatchCompleted is false in matrchTotalPointsWinningTeam")
+            //print("isMatchCompleted is false in computed property matchTotalPointsWinningTeam in MatchView")
         }
         return matchTotalPoints
     }

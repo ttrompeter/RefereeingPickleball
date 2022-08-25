@@ -558,7 +558,7 @@ extension MatchView {
         
         
         // Set server to the next server
-        setWhoIsServing()
+        setWhichServer()
         $match.isSecondServer.wrappedValue.toggle()
         $match.whoIsServingText.wrappedValue = "1st Server"
         

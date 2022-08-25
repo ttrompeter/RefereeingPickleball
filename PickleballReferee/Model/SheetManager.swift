@@ -4,6 +4,10 @@
 //
 //  Created by Tom Trompeter on 8/10/22.
 //
+// From tunsdev tutorial
+// Build a Csutom Popup in SwiftUI: https://www.youtube.com/watch?v=OaIn7HBlCSk
+//  tundsdev YouTube channel: https://www.youtube.com/c/tundsdev?su...
+//
 
 import Foundation
 
