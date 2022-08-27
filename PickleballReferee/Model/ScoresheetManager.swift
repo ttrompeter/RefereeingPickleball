@@ -26,17 +26,17 @@ final class ScoresheetManager: ObservableObject {
     
    
     var gameComputedDuration: Double {
-        // Returns milliseconds
-        let diff = Date().timeIntervalSince(gameTimerStartDate)
+        // Gets milliseconds
+        let gameDuration = gameTimerEndDate.timeIntervalSince(gameTimerStartDate)
         // Return game duration in minutes
-        return (diff.truncatingRemainder(dividingBy: 3600)) / 60
+        return (gameDuration.truncatingRemainder(dividingBy: 3600)) / 60
     }
     
     var matchComputedDuration: Double {
-        // Returns milliseconds
-        let diff = Date().timeIntervalSince(matchTimerStartDate)
+        // Gets milliseconds
+        let matchDuration = matchTimerEndDate.timeIntervalSince(matchTimerStartDate)
         // Return match duration in minutes
-        return (diff.truncatingRemainder(dividingBy: 3600)) / 60
+        return (matchDuration.truncatingRemainder(dividingBy: 3600)) / 60
     }
 }
 

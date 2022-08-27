@@ -22,7 +22,7 @@ extension UIImage {
     
     func saveToDocuments() {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        //let name = "match-\(Date().timeIntervalSince1970).png"
+        //let name = "match-\(Date.now.timeIntervalSince1970).png"
         let fileURL = paths[0].appendingPathComponent("scoresheet.png")
         saveToFile(atURL: fileURL)
     }

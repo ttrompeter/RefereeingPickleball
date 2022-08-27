@@ -11,7 +11,7 @@ import SwiftUI
 struct PointsFirstRowTeam1View: View {
     
     @ObservedRealmObject var match: Match
-    
+    // match.player1FirstName
     var body: some View {
         
         VStack (spacing: 0) {
@@ -319,9 +319,6 @@ struct PointsFirstRowTeam1View: View {
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
                     Text("1")
                         .foregroundColor(Constants.DARK_SLATE)
-                }
-                if match.selectedMatchFormat != 3 {
-                    
                 }
                 if match.selectedMatchFormat == 3 {
                     ZStack {

@@ -15,21 +15,36 @@ struct TeamListingTeam2: View {
     var body: some View {
         
         HStack {
+            
             HStack {
                 Text("Team 2:   ")
-                    .font(.headline)
-                    .foregroundColor(Constants.DARK_SLATE)
-                if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 3 {
-                    Text("   \(match.namePlayer1Team2)   ")
-                        .font(.headline)
-                        .foregroundColor(Constants.MINT_LEAF)
+                    //.foregroundColor(Constants.DARK_SLATE)
+                
+                if match.games[match.currentGameArrayIndex].selectedFirstServerTeam2 == 3 {
+                    HStack {
+                        if match.servingPlayerNumber == 3 {
+                            Image("exclamation")
+                                .resizable()
+                                .frame(width: 4, height: 20)
+                                .clipped()
+                        }
+                        Text("   \(match.namePlayer1Team2)   ")
+                            .foregroundColor(Constants.MINT_LEAF)
+                    }
                 } else {
-                    Text("   \(match.namePlayer1Team2)   ")
-                        .font(.headline)
-                        .foregroundColor(Constants.DARK_SLATE)
+                    HStack {
+                        if match.servingPlayerNumber == 3 {
+                            Image("exclamation")
+                                .resizable()
+                                .frame(width: 4, height: 20)
+                                .clipped()
+                        }
+                        Text("   \(match.namePlayer1Team2)   ")
+                            .foregroundColor(Constants.DARK_SLATE)
+                    }
                 }
             }
-            
+            .font(.headline)
             Text("[ \(match.player1Team2Identifiers) ]")
                 .italic()
                 .font(.subheadline)
@@ -37,14 +52,31 @@ struct TeamListingTeam2: View {
             Text("     ||     ")
                 .font(.headline)
                 .foregroundColor(Constants.DARK_SLATE)
-            if match.games[match.currentGameNumber - 1].selectedFirstServerTeam2 == 4 {
-                Text("   \(match.namePlayer2Team2)   ")
-                    .font(.headline)
-                    .foregroundColor(Constants.MINT_LEAF)
+            
+            if match.games[match.currentGameArrayIndex].selectedFirstServerTeam2 == 4 {
+                HStack {
+                    if match.servingPlayerNumber == 4 {
+                        Image("exclamation")
+                            .resizable()
+                            .frame(width: 4, height: 20)
+                            .clipped()
+                    }
+                    Text("\(match.namePlayer2Team2)   ")
+                        .font(.headline)
+                        .foregroundColor(Constants.MINT_LEAF)
+                }
             } else {
-                Text("   \(match.namePlayer2Team2)   ")
-                    .font(.headline)
-                    .foregroundColor(Constants.DARK_SLATE)
+                HStack {
+                    if match.servingPlayerNumber == 4 {
+                        Image("exclamation")
+                            .resizable()
+                            .frame(width: 4, height: 20)
+                            .clipped()
+                    }
+                    Text("\(match.namePlayer2Team2)   ")
+                        .font(.headline)
+                        .foregroundColor(Constants.DARK_SLATE)
+                }
             }
             Text("[ \(match.player2Team2Identifiers) ]")
                 .italic()

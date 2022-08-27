@@ -19,11 +19,9 @@ struct BottomButtonsView: View {
     @State private var showingRules = false
     @State private var showingAdmin = false
     @State private var showingSetServer = false
-    @State private var elapsedMatchTime = 0.0
     @State private var presentStopMatchAlert = false
     @State private var presentServerSideSetAlert = false
     
-    @State var matchTimer: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
     
     var body: some View {
         
@@ -32,13 +30,12 @@ struct BottomButtonsView: View {
             if !match.isMatchStarted {
                 Button {
                     $match.isMatchStarted.wrappedValue = true
-                    // Set startGame1Timer to true so that gameTimer will start in onAppear of MatchView
-                    $match.startGame1Timer.wrappedValue = true
-                    // Start the match timer
-                    _ = matchTimer.connect()
-                    scoresheetManager.isMatchRunning = true
-                    scoresheetManager.matchTimerStartDate = Date.now
-                    // TODO: - Start game 1 timer gameTimer1 at the same time as match starts
+                    $match.matchStartDateValue.wrappedValue = Date.now
+//                    $match.setGameStartDateValue.wrappedValue = true
+                    // If playing game 1 then set the gameStartDateValue so game can be "timed"
+                    if match.currentGameArrayIndex == 0 {
+                        $match.games[0].gameStartDateValue.wrappedValue = Date.now
+                    }
                 } label: {
                     Text("Start Match")
                 }
@@ -48,10 +45,10 @@ struct BottomButtonsView: View {
                 Button {
                     presentStopMatchAlert.toggle()
                 } label: {
-                    Text("Stop Match")
+                    Text("Stop")
                 }
                 .buttonStyle(EndMatchButtonStyle())
-                .alert("Stop Match Now", isPresented: $presentStopMatchAlert) {
+                .alert("Stop Match Now?", isPresented: $presentStopMatchAlert) {
                     Button("End Game") { endGame() }
                     Button("End Match") { endMatch() }
                     Button("Cancel", role: .cancel) { }
@@ -60,8 +57,7 @@ struct BottomButtonsView: View {
                 }
             } else if match.isMatchCompleted {
                 Button {
-                    $match.isMatchStarted.wrappedValue = false
-                    $match.isMatchCompleted.wrappedValue = false
+                    print("Tapped New Match button")
                 } label: {
                     Text("New Match")
                 }
@@ -76,21 +72,13 @@ struct BottomButtonsView: View {
             .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingHelp) { HelpView() }
             
-            Button {
-                showingStopwatch.toggle()
-            } label: {
-                Text("Stopwatch")
-            }
-            .buttonStyle(FunctionsButtonStyle())
-            .sheet(isPresented: $showingStopwatch) { StopwatchView() }
-            
-            Button {
-                showingRules.toggle()
-            }label: {
-                Text("USAPA Rules")
-            }
-            .buttonStyle(FunctionsButtonStyle())
-            .sheet(isPresented: $showingRules) { RulesView() }
+//            Button {
+//                showingStopwatch.toggle()
+//            } label: {
+//                Text("Stopwatch")
+//            }
+//            .buttonStyle(FunctionsButtonStyle())
+//            .sheet(isPresented: $showingStopwatch) { StopwatchView() }
             
             Button {
                 showingAdmin.toggle()
@@ -100,13 +88,18 @@ struct BottomButtonsView: View {
             .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingAdmin) { AdminView(match: match) }
             
+            Button {
+                showingRules.toggle()
+            }label: {
+                Text("USAPA Rules")
+            }
+            .buttonStyle(FunctionsButtonStyle())
+            .sheet(isPresented: $showingRules) { RulesView() }
+
+            StopwatchMS()
         }
         .padding(10)
         .background(Constants.CLOUDS)
-        .onReceive(matchTimer) { time in
-            $elapsedMatchTime.wrappedValue += 20.0
-            scoresheetManager.matchElapsedTime += 20.0
-        }
     }
     
     func endGame() {
@@ -115,9 +108,6 @@ struct BottomButtonsView: View {
 
     func endMatch() {
         print("Starting endMatch() in BottomButtonsView")
-        matchTimer.connect().cancel()
-        $match.matchElapsedTime.wrappedValue = elapsedMatchTime
-        print("matchElapsedTime in endMatch() of BottomButtonsView: \(elapsedMatchTime / 60) minutes , \(elapsedMatchTime.truncatingRemainder(dividingBy: 60)) seconds")
         $match.isMatchStarted.wrappedValue = false
     }
 }

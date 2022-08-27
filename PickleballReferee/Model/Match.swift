@@ -12,6 +12,7 @@ class Match: Object, ObjectKeyIdentifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var courtNumber = "1"
+    @Persisted var currentGameArrayIndex = 0
     @Persisted var currentGameNumber = 1
     @Persisted var emailAddressForScoresheetSnaphot = ""
     @Persisted var eventTitle = "Fun Games At Oceana"
@@ -34,12 +35,17 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var isServingLeftSide = false
     @Persisted var isTeam1Serving = true
     @Persisted var isTimeOutTaken = false
-    @Persisted var matchDate = Date()
-    @Persisted var matchElapsedTime = 0.0
+    @Persisted var isViolation1 = true
+    @Persisted var isViolation2 = false
+    @Persisted var matchDate = Date.now
+    @Persisted var matchDuration = 0.0
+    @Persisted var matchElapsedTime = 0.0       // Get rid of this
+    @Persisted var matchEndDateValue = Date.now
     @Persisted var matchLocation = "Carol's Court"
     @Persisted var matchNotes = "Water breaks every 30 minutes"
     @Persisted var matchNumber = "13"
     @Persisted var matchRefereeRemarks = ""
+    @Persisted var matchStartDateValue = Date.now
     @Persisted var matchStartingServerName = "Adam Rocafeller"    // Should be Undetermined
     @Persisted var matchStartingServerNumber = 1     // Should be 0
     @Persisted var matchWinner = ""
@@ -59,7 +65,6 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var selectedMatchFormat = 2
     @Persisted var selectedScoringFormat = 1
     @Persisted var servingPlayerNumber = 1           // Should be 0
-    @Persisted var startGame1Timer = false
     @Persisted var teamTakingTimeout = 0
     @Persisted var whoIsServingText = "2nd Server"
     
@@ -101,15 +106,26 @@ class Match: Object, ObjectKeyIdentifiable {
         return matchTotalPoints
     }
     
+    var matchComputedDuration: Double {
+        if isMatchCompleted {
+            print("match start: \(matchStartDateValue),   match end: \(matchEndDateValue)")
+            let matchDurationSeconds = matchStartDateValue.distance(to: matchEndDateValue)
+            return (matchDurationSeconds / 60)
+        } else {
+            print("isMatchCompleted is false in matchComputedDuration so can't provide useful result.")
+            return 0.0
+        }
+        
+    }
+    
     var player1FirstName: String {
         var firstName = ""
         let fullName = namePlayer1Team1
         var components = fullName.components(separatedBy: " ")
         if components.count > 0 {
             firstName = components.removeFirst()
-            //let lastName = components.joined(separator: " ")
         } else {
-            firstName = fullName
+            print("Error determining playerFirstName in Match object.")
         }
         return firstName
     }

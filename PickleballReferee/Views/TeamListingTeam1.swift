@@ -19,24 +19,23 @@ struct TeamListingTeam1: View {
                 Text("Team 1:   ")
                     .foregroundColor(Constants.DARK_SLATE)
                 
-                if match.games[match.currentGameNumber - 1].selectedFirstServerTeam1 == 1 {
+                if match.games[match.currentGameArrayIndex].selectedFirstServerTeam1 == 1 {
                     HStack {
                         if match.servingPlayerNumber == 1 {
-                            Image("exclamationred")
+                            Image("exclamation")
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .frame(width: 4, height: 20)
                                 .clipped()
                         }
                         Text("   \(match.namePlayer1Team1)   ")
                             .foregroundColor(Constants.MINT_LEAF)
                     }
-                    
                 } else {
                     HStack {
-                        if match.servingPlayerNumber == 2 {
-                            Image("exclamationred")
+                        if match.servingPlayerNumber == 1 {
+                            Image("exclamation")
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .frame(width: 4, height: 20)
                                 .clipped()
                         }
                         Text("   \(match.namePlayer1Team1)   ")
@@ -54,12 +53,12 @@ struct TeamListingTeam1: View {
                 .font(.headline)
                 .foregroundColor(Constants.DARK_SLATE)
             
-            if match.games[match.currentGameNumber - 1].selectedFirstServerTeam1 == 2 {
+            if match.games[match.currentGameArrayIndex].selectedFirstServerTeam1 == 2 {
                 HStack {
-                    if match.servingPlayerNumber == 3 {
-                        Image("exclamationred")
+                    if match.servingPlayerNumber == 2 {
+                        Image("exclamation")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 4, height: 20)
                             .clipped()
                     }
                     Text("\(match.namePlayer2Team1)   ")
@@ -68,10 +67,10 @@ struct TeamListingTeam1: View {
                 }
             } else {
                 HStack {
-                    if match.servingPlayerNumber == 4 {
-                        Image("exclamationred")
+                    if match.servingPlayerNumber == 2 {
+                        Image("exclamation")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 4, height: 20)
                             .clipped()
                     }
                     Text("\(match.namePlayer2Team1)   ")

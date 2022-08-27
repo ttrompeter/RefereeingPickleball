@@ -29,7 +29,7 @@ struct ScoringSectionTeam1View: View {
                         PointsFourthRowTeam1View(match: match)
                         PointsFifthRowTeam1View(match: match)
                     }
-                    ChangeSidesMarkSideView(match: match)
+                    ChangeSidesTm1View(match: match)
                 }
             }
         }

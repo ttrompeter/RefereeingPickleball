@@ -45,7 +45,11 @@ struct TopButtonsView: View {
                 Button {
                     showingMatchSetup.toggle()
                 } label: {
-                    Text("Match Setup")
+                    if match.isMatchSetup {
+                        Text("Edit Match")
+                    } else {
+                        Text("Match Setup")
+                    }
                 }
                 .buttonStyle(FunctionsButtonStyleMandatory())
                 .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
@@ -63,7 +67,7 @@ struct TopButtonsView: View {
             Button {
                 showingEdit.toggle()
             } label: {
-                Text("Edit Match")
+                Text("Violation")
             }
             .buttonStyle(FunctionsButtonStyle())
             .disabled(!match.isMatchStarted)

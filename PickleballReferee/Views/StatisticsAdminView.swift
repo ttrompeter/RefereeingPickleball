@@ -15,30 +15,22 @@ struct StatisticAdminView: View {
     @State var screenshotMaker: ScreenshotMaker?
 
     private var totalMatchTimeoutsTeam1: String {
-        
         let totalTimeouts = match.games[0].timeOutsTeam1 + match.games[1].timeOutsTeam1 + match.games[2].timeOutsTeam1 + match.games[3].timeOutsTeam1 + match.games[4].timeOutsTeam1
-        
         return String(totalTimeouts)
     }
     
     private var totalMatchTimeoutsTeam2: String {
-        
         let totalTimeouts = match.games[0].timeOutsTeam2 + match.games[1].timeOutsTeam2 + match.games[2].timeOutsTeam2 + match.games[3].timeOutsTeam2 + match.games[4].timeOutsTeam2
-        
         return String(totalTimeouts)
     }
     
     private var totalMatchSideoutsTeam1: String {
-        
         let totalSideouts = match.games[0].sideOutsTeam1 + match.games[1].sideOutsTeam1 + match.games[2].sideOutsTeam1 + match.games[3].sideOutsTeam1 + match.games[4].sideOutsTeam1
-        
         return String(totalSideouts)
     }
     
     private var totalMatchSideoutsTeam2: String {
-        
         let totalSideouts = match.games[0].sideOutsTeam2 + match.games[1].sideOutsTeam2 + match.games[2].sideOutsTeam2 + match.games[3].sideOutsTeam2 + match.games[4].sideOutsTeam2
-        
         return String(totalSideouts)
     }
     
@@ -302,33 +294,33 @@ struct StatisticAdminView: View {
                                     VStack {
                                         Text("Match")
                                         Divider()
-                                        Text("\(formatElapsedTimeMinutes(value: (match.matchElapsedTime))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.matchDuration))) minutes")
                                     }
                                     VStack {
                                         Text("Game 1")
                                         Divider()
-                                        Text("\(formatElapsedTimeMinutes(value: (match.games[0].gameElapsedTime))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[0].gameDuration))) min")
                                     }
                                     VStack {
                                         Text("Game 2")
                                         Divider()
-                                        Text("\(formatElapsedTimeMinutes(value: (match.games[1].gameElapsedTime))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[1].gameDuration))) min")
                                     }
                                     VStack {
                                         Text("Game 3")
                                         Divider()
-                                        Text("\(formatElapsedTimeMinutes(value: (match.games[2].gameElapsedTime))) minutes")
+                                        Text("\(formatElapsedTimeMinutes(value: (match.games[2].gameDuration))) min")
                                     }
                                     if match.selectedGameFormat == 3 {
-                                        Text("Game 4")
-                                        Divider()
                                         VStack {
-                                            Text("\(formatElapsedTimeMinutes(value: (match.games[3].gameElapsedTime))) minutes")
+                                            Text("Game 4")
+                                            Divider()
+                                            Text("\(formatElapsedTimeMinutes(value: (match.games[3].gameDuration))) min")
                                         }
                                         VStack {
                                             Text("Game 5")
                                             Divider()
-                                            Text("\(formatElapsedTimeMinutes(value: (match.games[4].gameElapsedTime))) minutes")
+                                            Text("\(formatElapsedTimeMinutes(value: (match.games[4].gameDuration))) min")
                                         }
                                     }
                                 }
@@ -375,7 +367,7 @@ struct StatisticAdminView: View {
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 0
 
-        let number = NSNumber(value: value / 60)
+        let number = NSNumber(value: value)
         let formattedValue = formatter.string(from: number)!
         return formattedValue
     }

@@ -7,6 +7,18 @@
 
 
 //******************************************************************
+
+/*
+ TODO Items
+ 1. Single game to 15 points. Change sides after 8 points to one team.
+ 2. In best 3 of 5 games, set timeouts to 3.
+ 3. If single game, how many timeouts are there? Don't see in rules. My guess is 1.
+ 4. If game to 21 points, how to handle when goes past 21 to win by 2 points. What to display. Ponibnts end at 21.
+ 
+ */
+
+//******************************************************************
+
 /*
  
  Change of side by teams during match. In the third or fifth game
@@ -45,6 +57,7 @@
  */
 
 //******************************************************************
+
 /*
  
  Timeouts
@@ -80,7 +93,6 @@
  
  
  */
-
 
 //******************************************************************
 
@@ -136,3 +148,5 @@
 //                            return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
 //                        }
 //                    }
+//
+//****************************************************************************************

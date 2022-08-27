@@ -85,7 +85,7 @@ struct MedicalTimeOutView: View {
             VStack {
                 HStack (alignment: .center) {
                     
-                    Stopwatch(isShowHour: false)
+                    StopwatchMS()
                     
                     VStack {
                         Spacer()

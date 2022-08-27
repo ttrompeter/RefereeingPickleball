@@ -28,6 +28,8 @@ struct StopwatchView: View {
                     .shadow(radius: 5)
                 VStack {
                     
+                    StopwatchMS()
+                    Text("")
                     Stopwatch()
                     
                     // Create space between objects

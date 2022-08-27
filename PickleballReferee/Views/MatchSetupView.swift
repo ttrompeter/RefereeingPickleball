@@ -44,8 +44,8 @@ struct MatchSetupView: View {
     
     // Closed range for DatePicker for Match Date
     var closedRange: ClosedRange<Date> {
-        let today = Calendar.current.date(byAdding: .day, value: 0, to: Date())!
-        let thirtyDaysAhead = Calendar.current.date(byAdding: .day, value: +30, to: Date())!
+        let today = Calendar.current.date(byAdding: .day, value: 0, to: Date.now)!
+        let thirtyDaysAhead = Calendar.current.date(byAdding: .day, value: +30, to: Date.now)!
         return today...thirtyDaysAhead
     }
     
@@ -443,9 +443,8 @@ struct MatchSetupView: View {
 //                        .buttonStyle(SheetButtonStyle())
                         
                         Button("Save") {
-                            // Set the selectedFirstServers for all games to be the same as that
-                            // selected in the MatchSetup. It can be changed later using Match Setup
-                            // again if a team decides to change the designated first server between games.
+                            // Set the selectedFirstServers for all games to be the same as that selected in the MatchSetup
+                            // It can be changed later using Match Setup again if a team decides to change the designated first server between games
                             $match.games[1].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
                             $match.games[2].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1
                             $match.games[3].selectedFirstServerTeam1.wrappedValue = match.games[0].selectedFirstServerTeam1

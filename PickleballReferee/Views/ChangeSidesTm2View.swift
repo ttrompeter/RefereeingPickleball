@@ -8,7 +8,7 @@
 import RealmSwift
 import SwiftUI
 
-struct ChangeSidesMarkSideView: View {
+struct ChangeSidesTm2View: View {
     
     @ObservedRealmObject var match: Match
     
@@ -146,18 +146,33 @@ struct ChangeSidesMarkSideView: View {
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
                 }
                 // Timeouts
-                
-                Image(Constants.BOX_BLANK)
-                    .resizable()
-                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                
-                Image(Constants.BOX_BLANK)
-                    .resizable()
-                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                
-                Image(Constants.BOX_BLANK)
-                    .resizable()
-                    .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                ZStack {
+                    
+                    Image(Constants.BOX_BLANK)
+                        .resizable()
+                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                    Image("red_yellow_cards")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                }
+                ZStack {
+                    
+                    Image(Constants.BOX_BLANK)
+                        .resizable()
+                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                    Image("yellowcard")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                }
+                ZStack {
+                    
+                    Image(Constants.BOX_BLANK)
+                        .resizable()
+                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                    Image("penaltyflag")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                }
             }
         }
     }
@@ -165,6 +180,6 @@ struct ChangeSidesMarkSideView: View {
 
 struct ChangeSidesMarkSideView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeSidesMarkSideView(match: Match())
+        ChangeSidesTm2View(match: Match())
     }
 }

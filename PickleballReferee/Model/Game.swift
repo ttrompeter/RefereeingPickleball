@@ -13,11 +13,13 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var id: ObjectId
     
     @Persisted var asstRefereeName = ""
-    @Persisted var gameElapsedTime = 0.0
+    @Persisted var gameDuration = 0.0
+    @Persisted var gameEndDateValue = Date.now
     @Persisted var gameFinalScore = "N/A"
     @Persisted var gameFirstServerName = "Adam Rocafeller"  // Should be Undetermined
-    @Persisted var gameFirstServerPlayerNumber = 1  // Should be 0
+    @Persisted var gameFirstServerPlayerNumber = 1  // Should be 0 as default
     @Persisted var gameNumber = 0
+    @Persisted var gameStartDateValue = Date.now
     @Persisted var gameWinner = ""
     @Persisted var gameWinningTeam = 0
     @Persisted var isGameCompleted = false
@@ -32,8 +34,8 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var player1Team2Points = 0
     @Persisted var player2Team2Points = 0
     @Persisted var refereeName = "Buddy Vistok"  // Should be ""
-    @Persisted var selectedFirstServerTeam1 = 1     // Should be 0
-    @Persisted var selectedFirstServerTeam2 = 4     // Should be 0
+    @Persisted var selectedFirstServerTeam1 = 1     // Should be 0 as default
+    @Persisted var selectedFirstServerTeam2 = 4     // Should be 0 as default
     @Persisted var sideOutsTeam1 = 0
     @Persisted var sideOutsTeam2 = 0
     @Persisted var timeOutsTeam1 = 0
@@ -42,6 +44,16 @@ class Game: Object, ObjectKeyIdentifiable {
     
     @Persisted(originProperty: "games") var match: LinkingObjects<Match>
     
+    var gameComputedDuration: Double {
+        if isGameCompleted {
+            let gameDurationSeconds = gameStartDateValue.distance(to: gameEndDateValue)
+            return (gameDurationSeconds / 60)
+        } else {
+            print("isMatchCompleted is false in matchComputedDuration so can't provide useful result.")
+            return 0.0
+        }
+        
+    }
     
     var gameScoreTeam1: Int {
         player1Team1Points + player2Team1Points
@@ -71,6 +83,18 @@ class Game: Object, ObjectKeyIdentifiable {
             }
         }
         return 0
+    }
+    
+    var winningPointValue: Int {
+        var winningPointStr = "0"
+        let fullScore = gameFinalScore
+        var components = fullScore.components(separatedBy: " - ")
+        if components.count > 0 {
+            winningPointStr = components.removeFirst()
+        } else {
+            print("Error determining winningPointValuein Game object.")
+        }
+        return Int(winningPointStr)!
     }
     
     // Add Example Data

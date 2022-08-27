@@ -11,12 +11,15 @@
 		E319215A28AFEB64008269D5 /* LargeScoresheetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */; };
 		E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215B28AFFE39008269D5 /* IntroductionView.swift */; };
 		E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215D28B004D3008269D5 /* CheckToggleStyle.swift */; };
+		E323EB3E28B8EC630040170F /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3D28B8EC630040170F /* Archive.swift */; };
+		E323EB4028B936360040170F /* StopwatchMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3F28B936360040170F /* StopwatchMS.swift */; };
 		E327829828B03C8600690D36 /* QuickstartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829728B03C8600690D36 /* QuickstartView.swift */; };
 		E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829928B03CA900690D36 /* ScorekeepingView.swift */; };
 		E327829C28B03F8F00690D36 /* IntroductionOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */; };
+		E32C2EA328B9C24000BBA503 /* ChangeSidesTm1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32C2EA228B9C24000BBA503 /* ChangeSidesTm1View.swift */; };
 		E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A393E28B1CC840077A2C2 /* RulesView.swift */; };
 		E33A394128B1CD840077A2C2 /* PointsFifthRowTeam1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */; };
-		E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */; };
+		E33D1D002899D9DD00B68F61 /* ChangeSidesTm2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D1CFF2899D9DD00B68F61 /* ChangeSidesTm2View.swift */; };
 		E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4828B2DE1D0030EC20 /* ViolationView.swift */; };
 		E343CB4B28B2E0130030EC20 /* WarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4A28B2E0130030EC20 /* WarningView.swift */; };
 		E343CB4D28B2E0970030EC20 /* TechnicalFoulView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */; };
@@ -93,12 +96,15 @@
 		E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeScoresheetImageView.swift; sourceTree = "<group>"; };
 		E319215B28AFFE39008269D5 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		E319215D28B004D3008269D5 /* CheckToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckToggleStyle.swift; sourceTree = "<group>"; };
+		E323EB3D28B8EC630040170F /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
+		E323EB3F28B936360040170F /* StopwatchMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchMS.swift; sourceTree = "<group>"; };
 		E327829728B03C8600690D36 /* QuickstartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickstartView.swift; sourceTree = "<group>"; };
 		E327829928B03CA900690D36 /* ScorekeepingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorekeepingView.swift; sourceTree = "<group>"; };
 		E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionOverviewView.swift; sourceTree = "<group>"; };
+		E32C2EA228B9C24000BBA503 /* ChangeSidesTm1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesTm1View.swift; sourceTree = "<group>"; };
 		E33A393E28B1CC840077A2C2 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		E33A394028B1CD840077A2C2 /* PointsFifthRowTeam1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsFifthRowTeam1View.swift; sourceTree = "<group>"; };
-		E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesMarkSideView.swift; sourceTree = "<group>"; };
+		E33D1CFF2899D9DD00B68F61 /* ChangeSidesTm2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSidesTm2View.swift; sourceTree = "<group>"; };
 		E343CB4828B2DE1D0030EC20 /* ViolationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationView.swift; sourceTree = "<group>"; };
 		E343CB4A28B2E0130030EC20 /* WarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningView.swift; sourceTree = "<group>"; };
 		E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnicalFoulView.swift; sourceTree = "<group>"; };
@@ -225,7 +231,8 @@
 			children = (
 				E34932822893B8CF0087ABB1 /* AdminView.swift */,
 				E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */,
-				E33D1CFF2899D9DD00B68F61 /* ChangeSidesMarkSideView.swift */,
+				E32C2EA228B9C24000BBA503 /* ChangeSidesTm1View.swift */,
+				E33D1CFF2899D9DD00B68F61 /* ChangeSidesTm2View.swift */,
 				E349327C2893B8490087ABB1 /* EditView.swift */,
 				E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */,
 				E349327A2893B7FC0087ABB1 /* HelpView.swift */,
@@ -285,6 +292,7 @@
 				E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */,
 				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */,
+				E323EB3D28B8EC630040170F /* Archive.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,6 +313,7 @@
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
+				E323EB3F28B936360040170F /* StopwatchMS.swift */,
 				E319215728AEE277008269D5 /* StorageManger.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 				E396157928A187C3001D3596 /* ViewExtension.swift */,
@@ -400,6 +409,7 @@
 				E3B46A2C28B3D79D002F54FA /* SideOutExtension.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
+				E323EB4028B936360040170F /* StopwatchMS.swift in Sources */,
 				E3980F4D28B6CF2A00E72BD3 /* TimerWrapper.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
 				E343CB4F28B2E0EF0030EC20 /* ViolationReferenceView.swift in Sources */,
@@ -417,11 +427,12 @@
 				E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */,
 				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
+				E323EB3E28B8EC630040170F /* Archive.swift in Sources */,
 				E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */,
 				E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,
 				E396154E289F262D001D3596 /* PointsFifthRowTeam2View.swift in Sources */,
-				E33D1D002899D9DD00B68F61 /* ChangeSidesMarkSideView.swift in Sources */,
+				E33D1D002899D9DD00B68F61 /* ChangeSidesTm2View.swift in Sources */,
 				E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */,
 				E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */,
 				E3632FB728939DD500F29D83 /* Stopwatch.swift in Sources */,
@@ -437,6 +448,7 @@
 				E33A393F28B1CC840077A2C2 /* RulesView.swift in Sources */,
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */,
+				E32C2EA328B9C24000BBA503 /* ChangeSidesTm1View.swift in Sources */,
 				E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */,
 				E3632FA32893871900F29D83 /* Constants.swift in Sources */,
 				E396157628A186F6001D3596 /* ScreenshotMaker.swift in Sources */,

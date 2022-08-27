@@ -14,23 +14,12 @@ struct HomeView: View {
     @EnvironmentObject var sheetManager: SheetManager
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     
-    
-    // **********************************************************************************************
-    // This section gets path to realm database for use by Realm Studio
-    // Display the path to the Realm database files in the console
-    //let realmPath: () = print("Realm database files path: \(Realm.Configuration.defaultConfiguration.fileURL!)")
-    
-    // Find path another way
-    // po Realm.Configuration.defaultConfiguration.fileURL
-    // **********************************************************************************************
-    
-    
     var body: some View {
         
         VStack (alignment: .leading) {
             
-            ZStack {
-                if !match.isServingLeftSide {
+//            ZStack {
+//                if !match.isServingLeftSide {
                     HStack {
                         MatchView(match: match)
                         FunctionalityButtonsView(match: match)
@@ -39,17 +28,17 @@ struct HomeView: View {
                             Text("     ")
                         }
                     }
-                } else if match.isServingLeftSide {
-                    HStack {
-                        VStack {
-                            // Far left column for spacing
-                            Text("     ")
-                        }
-                        FunctionalityButtonsView(match: match)
-                        MatchView(match: match)
-                    }
-                }
-            }
+//                } else if match.isServingLeftSide {
+//                    HStack {
+//                        VStack {
+//                            // Far left column for spacing
+//                            Text("     ")
+//                        }
+//                        FunctionalityButtonsView(match: match)
+//                        MatchView(match: match)
+//                    }
+//                }
+//            }
         }
     }
 }
