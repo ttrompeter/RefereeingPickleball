@@ -11,7 +11,7 @@ import SwiftUI
 class Archive: Object, ObjectKeyIdentifiable {
     /*
      Saving information on last 10 matches to archive so can be recalled in App
-     // Save location of image of matdch scorehsheet screenshot so image can be obtained
+     // Save location of image of match scorehsheet screenshot so image can be obtained
      // NOTE: Currently only the last screenshot taken is saved to file in Match code
      // Save date of match so data can be orderd and sorted and updated so only last 10 matches are archived
      // Save actual Match and Game data so it can be recalled and manipulated if desired

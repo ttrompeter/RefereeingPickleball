@@ -16,32 +16,23 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var currentGameNumber = 1
     @Persisted var emailAddressForScoresheetSnaphot = ""
     @Persisted var eventTitle = "Fun Games At Oceana"
-    @Persisted var firstServerDesignationGame1Team1 = "Team 1"
-    @Persisted var firstServerDesignationGame2Team1 = "X"
-    @Persisted var firstServerDesignationGame3Team1 = "Team 1"
-    @Persisted var firstServerDesignationGame4Team1 = "X"
-    @Persisted var firstServerDesignationGame5Team1 = "Team 1"
-    @Persisted var firstServerDesignationGame1Team2 = "X"
-    @Persisted var firstServerDesignationGame2Team2 = "Team 2"
-    @Persisted var firstServerDesignationGame3Team2 = "X"
-    @Persisted var firstServerDesignationGame4Team2 = "Team 2"
-    @Persisted var firstServerDesignationGame5Team2 = "X"
+    @Persisted var firstServerDesignationGame1Team1 = "?"
+    @Persisted var firstServerDesignationGame2Team1 = "?"
+    @Persisted var firstServerDesignationGame3Team1 = "?"
+    @Persisted var firstServerDesignationGame4Team1 = "?"
+    @Persisted var firstServerDesignationGame5Team1 = "?"
+    @Persisted var firstServerDesignationGame1Team2 = "?"
+    @Persisted var firstServerDesignationGame2Team2 = "?"
+    @Persisted var firstServerDesignationGame3Team2 = "?"
+    @Persisted var firstServerDesignationGame4Team2 = "?"
+    @Persisted var firstServerDesignationGame5Team2 = "?"
     @Persisted var isMatchCompleted = false
-    @Persisted var isMatchSetup = true               // Should be false
-    @Persisted var isMatchStarted = false
-    @Persisted var isMatchStartingServerSet = true   // Should be false
-    @Persisted var isMatchWinner = false
-    @Persisted var isSecondServer = true
-    @Persisted var isServingLeftSide = false
-    @Persisted var isTeam1Serving = true
-    @Persisted var isTimeOutTaken = false
-    @Persisted var isViolation1 = true
-    @Persisted var isViolation2 = false
     @Persisted var matchDate = Date.now
     @Persisted var matchDuration = 0.0
-    @Persisted var matchElapsedTime = 0.0       // Get rid of this
     @Persisted var matchEndDateValue = Date.now
+    @Persisted var matchFinalScore = "N/A"
     @Persisted var matchLocation = "Carol's Court"
+    @Persisted var matchLoser = ""
     @Persisted var matchNotes = "Water breaks every 30 minutes"
     @Persisted var matchNumber = "13"
     @Persisted var matchRefereeRemarks = ""
@@ -62,9 +53,11 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var scoreDisplay = "0 - 0 - 2"
     @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 7
-    @Persisted var selectedMatchFormat = 2
+    @Persisted var selectedMatchFormat = 1     //Should be 2 as default
     @Persisted var selectedScoringFormat = 1
     @Persisted var servingPlayerNumber = 1           // Should be 0
+    @Persisted var specialTeam1 = "SpecialTm1"
+    @Persisted var specialTeam2 = "SpecialTm2"
     @Persisted var teamTakingTimeout = 0
     @Persisted var whoIsServingText = "2nd Server"
     
@@ -76,9 +69,9 @@ class Match: Object, ObjectKeyIdentifiable {
         if isMatchCompleted {
             switch matchWinningTeam {
             case 1:
-                matchTotalPoints = games[0].player1Team1Points + games[0].player2Team1Points + games[1].player1Team1Points + games[1].player2Team1Points + games[2].player1Team1Points + games[2].player2Team1Points + games[3].player1Team1Points + games[3].player2Team1Points + games[4].player1Team1Points + games[4].player2Team1Points
+                matchTotalPoints = games[0].player1Points + games[0].player2Points + games[1].player1Points + games[1].player2Points + games[2].player1Points + games[2].player2Points + games[3].player1Points + games[3].player2Points + games[4].player1Points + games[4].player2Points
             case 2:
-                matchTotalPoints = games[0].player1Team2Points + games[0].player2Team2Points + games[1].player1Team2Points + games[1].player2Team2Points + games[2].player1Team2Points + games[2].player2Team2Points + games[3].player1Team2Points + games[3].player2Team2Points + games[4].player1Team2Points + games[4].player2Team2Points
+                matchTotalPoints = games[0].player3Points + games[0].player4Points + games[1].player3Points + games[1].player4Points + games[2].player3Points + games[2].player4Points + games[3].player3Points + games[3].player4Points + games[4].player3Points + games[4].player4Points
             default:
                 print("Error calculating matchTotalPointsWinningTeam")
             }
@@ -93,9 +86,9 @@ class Match: Object, ObjectKeyIdentifiable {
         if isMatchCompleted {
             switch matchWinningTeam {
             case 1:
-                matchTotalPoints = games[0].player1Team2Points + games[0].player2Team2Points + games[1].player1Team2Points + games[1].player2Team2Points + games[2].player1Team2Points + games[2].player2Team2Points + games[3].player1Team2Points + games[3].player2Team2Points + games[4].player1Team2Points + games[4].player2Team2Points
+                matchTotalPoints = games[0].player3Points + games[0].player4Points + games[1].player3Points + games[1].player4Points + games[2].player3Points + games[2].player4Points + games[3].player3Points + games[3].player4Points + games[4].player3Points + games[4].player4Points
             case 2:
-                matchTotalPoints = games[0].player1Team1Points + games[0].player2Team1Points + games[1].player1Team1Points + games[1].player2Team1Points + games[2].player1Team1Points + games[2].player2Team1Points + games[3].player1Team1Points + games[3].player2Team1Points + games[4].player1Team1Points + games[4].player2Team1Points
+                matchTotalPoints = games[0].player1Points + games[0].player2Points + games[1].player1Points + games[1].player2Points + games[2].player1Points + games[2].player2Points + games[3].player1Points + games[3].player2Points + games[4].player1Points + games[4].player2Points
             default:
                 print("Error calculating matchTotalPointsLosgTeam")
             }
@@ -223,6 +216,7 @@ class Match: Object, ObjectKeyIdentifiable {
         }
     }
     
+    
     override class func primaryKey() -> String? {
         return "id"
     }
@@ -230,6 +224,10 @@ class Match: Object, ObjectKeyIdentifiable {
     
     
  //===============================================================================
+    
+    // Blank image for server listing boxes
+    @Persisted var serverFullBoxImage = Constants.BOX
+    @Persisted var serverMiddleBoxImage = Constants.BOX_RIGHT_ONLY_END
     
     // Images for game 1 Team 1 points boxes - default values
     @Persisted var point1Game1ImageTm1 = Constants.BOX_LEFT
@@ -301,27 +299,27 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var point21Game3ImageTm1 = Constants.BOX
     
     // Images for game 4 Team 1 points boxes - default values
-    @Persisted var point1Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point2Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point3Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point4Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point5Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point6Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point7Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point8Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point9Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point10Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point11Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point12Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point13Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point14Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point15Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point16Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point17Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point18Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point19Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point20Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var point21Game4ImageTm1 = Constants.BOX_RIGHT_END
+    @Persisted var point1Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point2Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point3Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point4Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point5Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point6Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point7Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point8Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point9Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point10Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point11Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point12Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point13Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point14Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point15Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point16Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point17Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point18Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point19Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point20Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var point21Game4ImageTm1 = Constants.BOX_RIGHT_ONLY_END
     
     // Images for game 5 Team 1 points boxes - default values
     @Persisted var point1Game5ImageTm1 = Constants.BOX_BOTTOM_LEFT
@@ -416,27 +414,27 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var point21Game3ImageTm2 = Constants.BOX
     
     // Images for game 4 Team 2 points boxes - default values
-    @Persisted var point1Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point2Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point3Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point4Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point5Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point6Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point7Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point8Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point9Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point10Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point11Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point12Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point13Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point14Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point15Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point16Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point17Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point18Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point19Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point20Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var point21Game4ImageTm2 = Constants.BOX_RIGHT_END
+    @Persisted var point1Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point2Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point3Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point4Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point5Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point6Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point7Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point8Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point9Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point10Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point11Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point12Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point13Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point14Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point15Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point16Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point17Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point18Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point19Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point20Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var point21Game4ImageTm2 = Constants.BOX_RIGHT_ONLY_END
     
     // Images for game 5 Team 2 points boxes - default values
     @Persisted var point1Game5ImageTm2 = Constants.BOX_BOTTOM_LEFT
@@ -475,12 +473,12 @@ class Match: Object, ObjectKeyIdentifiable {
     
     @Persisted var timeOut1Game3ImageTm1 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut2Game3ImageTm1 = Constants.BOX
-    @Persisted var timeOut2_5Game3ImageTm1 = Constants.BOX_LEFT
-    @Persisted var timeOut3Game3ImageTm1 = Constants.BOX_RIGHT_END
+    @Persisted var timeOut2_5Game3ImageTm1 = Constants.BOX_BOTTOM_LEFT
+    @Persisted var timeOut3Game3ImageTm1 = Constants.BOX
     
-    @Persisted var timeOut1Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var timeOut2Game4ImageTm1 = Constants.BOX_LEFT
-    @Persisted var timeOut3Game4ImageTm1 = Constants.BOX_RIGHT_END
+    @Persisted var timeOut1Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var timeOut2Game4ImageTm1 = Constants.BOX_LEFT_ONLY
+    @Persisted var timeOut3Game4ImageTm1 = Constants.BOX_RIGHT_ONLY_END
     @Persisted var timeOut1Game5ImageTm1 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut2Game5ImageTm1 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut3Game5ImageTm1 = Constants.BOX
@@ -497,12 +495,12 @@ class Match: Object, ObjectKeyIdentifiable {
     
     @Persisted var timeOut1Game3ImageTm2 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut2Game3ImageTm2 = Constants.BOX
-    @Persisted var timeOut2_5Game3ImageTm2 = Constants.BOX_LEFT
-    @Persisted var timeOut3Game3ImageTm2 = Constants.BOX_RIGHT_END
+    @Persisted var timeOut2_5Game3ImageTm2 = Constants.BOX_BOTTOM_LEFT
+    @Persisted var timeOut3Game3ImageTm2 = Constants.BOX
     
-    @Persisted var timeOut1Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var timeOut2Game4ImageTm2 = Constants.BOX_LEFT
-    @Persisted var timeOut3Game4ImageTm2 = Constants.BOX_RIGHT_END
+    @Persisted var timeOut1Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var timeOut2Game4ImageTm2 = Constants.BOX_LEFT_ONLY
+    @Persisted var timeOut3Game4ImageTm2 = Constants.BOX_RIGHT_ONLY_END
     @Persisted var timeOut1Game5ImageTm2 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut2Game5ImageTm2 = Constants.BOX_BOTTOM_LEFT
     @Persisted var timeOut3Game5ImageTm2 = Constants.BOX

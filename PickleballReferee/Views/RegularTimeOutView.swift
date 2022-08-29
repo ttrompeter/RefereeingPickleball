@@ -11,6 +11,8 @@ import SwiftUI
 struct RegularTimeOutView: View {
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
+    
     @ObservedRealmObject var match: Match
     @State private var isServingTeamButtonSelected = false
     @State private var isReceivingTeamButtonSelected = false
@@ -56,7 +58,7 @@ struct RegularTimeOutView: View {
                             Text("\u{2022}") + Text(" Warning: 15 Seconds")
                             Text("\u{2022}") + Text(" Move back to your referee position")
                             Text("\u{2022}") + Text(" Announce:")
-                            if match.isTeam1Serving {
+                            if scoresheetManager.isTeam1Serving {
                                 Text("     Serving team you have ") + Text("\(3 - match.games[match.currentGameNumber - 1].timeOutsTeam1)  timeouts remaining")
                                     .font(.title3)
                                     .foregroundColor(Constants.CRIMSON)
@@ -85,7 +87,7 @@ struct RegularTimeOutView: View {
             VStack {
                 HStack (alignment: .center) {
                     
-                    StopwatchMS()
+                    StopwatchMinSec()
                     
                     VStack {
                         Spacer()
@@ -105,7 +107,7 @@ struct RegularTimeOutView: View {
                         .buttonStyle(TimeoutsButtonStyle())
                         .disabled(isButtonTapped)
                         .alert("Receiving Team has no Time Outs available.", isPresented: $presentServingTeamNoTimeOutsAvailableAlert, actions: {})
-                        if match.isTeam1Serving {
+                        if scoresheetManager.isTeam1Serving {
                             Text("\(match.namePlayer1Team1) | \(match.namePlayer2Team1)")
                                 .font(.body).italic()
                                 .foregroundColor(Constants.MINT_LEAF)
@@ -130,7 +132,7 @@ struct RegularTimeOutView: View {
                         .buttonStyle(TimeoutsButtonStyle())
                         .disabled(isButtonTapped)
                         .alert("Receiving Team has no Time Outs available.", isPresented: $presentReceivingTeamNoTimeOutsAvailableAlert, actions: {})
-                        if match.isTeam1Serving {
+                        if scoresheetManager.isTeam1Serving {
                             Text("\(match.namePlayer1Team2) | \(match.namePlayer2Team2)")
                                 .font(.body).italic()
                                 .foregroundColor(Constants.MINT_LEAF)
@@ -162,7 +164,7 @@ struct RegularTimeOutView: View {
         
         if team == servingTeam {
             // Time Out by Serving Team
-            if match.isTeam1Serving {
+            if scoresheetManager.isTeam1Serving {
                 if match.selectedMatchFormat == 3 {
                     if match.games[match.currentGameNumber - 1].timeOutsTeam1 > 2 {
                         // No timeouts avaiable
@@ -190,7 +192,7 @@ struct RegularTimeOutView: View {
             }
         } else {  // team == 2 == receiving team
             // Time Out by Receiving Team
-            if match.isTeam1Serving {
+            if scoresheetManager.isTeam1Serving {
                 if match.selectedMatchFormat == 3 {
                     if match.games[match.currentGameNumber - 1].timeOutsTeam2 > 2 {
                         // No timeouts avaiable
@@ -224,29 +226,29 @@ struct RegularTimeOutView: View {
         
         if teamTakingTimeOut == servingTeam {
             // Time Out by Serving Team
-            if match.isTeam1Serving {
+            if scoresheetManager.isTeam1Serving {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam1.wrappedValue += 1
                 setTimeoutImage(team: team1)
-                $match.isTimeOutTaken.wrappedValue = true
+                $scoresheetManager.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 1
             } else {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam2.wrappedValue += 1
                 setTimeoutImage(team: team2)
-                $match.isTimeOutTaken.wrappedValue = true
+                $scoresheetManager.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 2
             }
             
         } else {
             // Time Out by Receiving Team
-            if match.isTeam1Serving {
+            if scoresheetManager.isTeam1Serving {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam2.wrappedValue += 1
                 setTimeoutImage(team: team2)
-                $match.isTimeOutTaken.wrappedValue = true
+                $scoresheetManager.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 2
             } else {
                 $match.games[match.currentGameNumber - 1].timeOutsTeam1.wrappedValue += 1
                 setTimeoutImage(team: team1)
-                $match.isTimeOutTaken.wrappedValue = true
+                $scoresheetManager.isTimeOutTaken.wrappedValue = true
                 $match.teamTakingTimeout.wrappedValue = 1
             }
         }

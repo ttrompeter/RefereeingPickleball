@@ -17,28 +17,14 @@ struct HomeView: View {
     var body: some View {
         
         VStack (alignment: .leading) {
-            
-//            ZStack {
-//                if !match.isServingLeftSide {
-                    HStack {
-                        MatchView(match: match)
-                        FunctionalityButtonsView(match: match)
-                        VStack {
-                            // Far right column for spacing
-                            Text("     ")
-                        }
-                    }
-//                } else if match.isServingLeftSide {
-//                    HStack {
-//                        VStack {
-//                            // Far left column for spacing
-//                            Text("     ")
-//                        }
-//                        FunctionalityButtonsView(match: match)
-//                        MatchView(match: match)
-//                    }
-//                }
-//            }
+            HStack {
+                MatchView(match: match)
+                FunctionalityButtonsView(match: match)
+                VStack {
+                    // Far right column for spacing
+                    Text("     ")
+                }
+            }
         }
     }
 }

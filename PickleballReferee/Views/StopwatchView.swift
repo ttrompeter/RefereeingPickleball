@@ -28,7 +28,7 @@ struct StopwatchView: View {
                     .shadow(radius: 5)
                 VStack {
                     
-                    StopwatchMS()
+                    StopwatchMinSec()
                     Text("")
                     Stopwatch()
                     

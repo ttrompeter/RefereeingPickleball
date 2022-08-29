@@ -23,16 +23,19 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var gameWinner = ""
     @Persisted var gameWinningTeam = 0
     @Persisted var isGameCompleted = false
-    @Persisted var isGameWinner = false
-    @Persisted var isServerSideSet = true    // Should be false
     @Persisted var lineJudge1Name = ""
     @Persisted var lineJudge2Name = ""
     @Persisted var lineJudge3Name = ""
     @Persisted var lineJudge4Name = ""
-    @Persisted var player1Team1Points = 0
-    @Persisted var player2Team1Points = 0
-    @Persisted var player1Team2Points = 0
-    @Persisted var player2Team2Points = 0
+    @Persisted var penaltiessTeam1 = 0
+    @Persisted var penaltiessTeam2 = 0
+    //@Persisted var player2Points = 0
+    //@Persisted var player3Points = 0
+    //@Persisted var player4Points = 0
+    @Persisted var player1Points = 0
+    @Persisted var player2Points = 0
+    @Persisted var player3Points = 0
+    @Persisted var player4Points = 0
     @Persisted var refereeName = "Buddy Vistok"  // Should be ""
     @Persisted var selectedFirstServerTeam1 = 1     // Should be 0 as default
     @Persisted var selectedFirstServerTeam2 = 4     // Should be 0 as default
@@ -41,6 +44,8 @@ class Game: Object, ObjectKeyIdentifiable {
     @Persisted var timeOutsTeam1 = 0
     @Persisted var timeOutsTeam2 = 0
     @Persisted var traineeName = ""
+    @Persisted var warningsTeam1 = 0
+    @Persisted var warningsTeam2 = 0
     
     @Persisted(originProperty: "games") var match: LinkingObjects<Match>
     
@@ -56,11 +61,11 @@ class Game: Object, ObjectKeyIdentifiable {
     }
     
     var gameScoreTeam1: Int {
-        player1Team1Points + player2Team1Points
+        player1Points + player2Points
     }
     
     var gameScoreTeam2: Int {
-        player1Team2Points + player2Team2Points
+        player3Points + player4Points
     }
     
     var finalScoreWinningTeam: Int {

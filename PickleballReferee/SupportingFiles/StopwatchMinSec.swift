@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StopwatchMS: View {
+struct StopwatchMinSec: View {
 
     @State private var elapsedTime = 0
     @State private var isRunning = false
@@ -103,7 +103,7 @@ struct StopwatchMSUnit: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 12.0)
-                    .stroke(style: StrokeStyle(lineWidth: 1, lineCap: .round))
+                    .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round))
                     .frame(width: 40, height: 40, alignment: .center)
 
                 HStack(spacing: 2) {
@@ -120,7 +120,7 @@ struct StopwatchMSUnit: View {
 }
 
 // TRT Commented out
-//struct Stopwatch_Previews: PreviewProvider {
+//struct StopwatchMinSec_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ZStack {
 //            // TRT Commented Out:    darkGray.edgesIgnoringSafeArea(.all)

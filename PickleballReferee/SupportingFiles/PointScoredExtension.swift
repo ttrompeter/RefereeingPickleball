@@ -14,11 +14,10 @@ extension MatchView {
         
         // TODO: - Need to handle game to 21 points if it goes past 21 points
         if match.servingPlayerNumber == 1 {
-            $match.games[match.currentGameNumber - 1].player1Team1Points.wrappedValue += 1
+            $match.games[match.currentGameNumber - 1].player1Points.wrappedValue += 1
             // Player 1 Team 1 is serving as second server on Team 1
-            if match.isSecondServer {
-                // Second server uses backslash to mark points - "squareleftbackslash"
-                //print("    > > > gameScoreTeam1 in pointScored()[1]: \(match.gameScoreTeam1)")
+            if scoresheetManager.isSecondServer {
+                // Second server uses backslash to mark points
                 switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
                 case 1:
                     if match.currentGameNumber == 1 {
@@ -32,7 +31,7 @@ extension MatchView {
                             $match.point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -48,7 +47,7 @@ extension MatchView {
                             $match.point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -64,7 +63,7 @@ extension MatchView {
                             $match.point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -80,7 +79,7 @@ extension MatchView {
                             $match.point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -96,7 +95,7 @@ extension MatchView {
                             $match.point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -112,7 +111,7 @@ extension MatchView {
                             $match.point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -128,7 +127,7 @@ extension MatchView {
                             $match.point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -144,7 +143,7 @@ extension MatchView {
                             $match.point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -160,7 +159,7 @@ extension MatchView {
                             $match.point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -176,7 +175,7 @@ extension MatchView {
                             $match.point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -192,7 +191,7 @@ extension MatchView {
                             $match.point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -208,7 +207,7 @@ extension MatchView {
                             $match.point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -224,7 +223,7 @@ extension MatchView {
                             $match.point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -240,7 +239,7 @@ extension MatchView {
                             $match.point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -256,7 +255,7 @@ extension MatchView {
                             $match.point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -272,7 +271,7 @@ extension MatchView {
                             $match.point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -288,7 +287,7 @@ extension MatchView {
                             $match.point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -304,7 +303,7 @@ extension MatchView {
                             $match.point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -320,7 +319,7 @@ extension MatchView {
                             $match.point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -336,7 +335,7 @@ extension MatchView {
                             $match.point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -352,7 +351,7 @@ extension MatchView {
                             $match.point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_ONLY_END_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
                     }
@@ -376,7 +375,7 @@ extension MatchView {
                             $match.point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -392,7 +391,7 @@ extension MatchView {
                             $match.point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -408,7 +407,7 @@ extension MatchView {
                             $match.point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -424,7 +423,7 @@ extension MatchView {
                             $match.point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -440,7 +439,7 @@ extension MatchView {
                             $match.point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -456,7 +455,7 @@ extension MatchView {
                             $match.point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -472,7 +471,7 @@ extension MatchView {
                             $match.point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -488,7 +487,7 @@ extension MatchView {
                             $match.point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -504,7 +503,7 @@ extension MatchView {
                             $match.point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -520,7 +519,7 @@ extension MatchView {
                             $match.point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -536,7 +535,7 @@ extension MatchView {
                             $match.point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -552,7 +551,7 @@ extension MatchView {
                             $match.point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -568,7 +567,7 @@ extension MatchView {
                             $match.point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -584,7 +583,7 @@ extension MatchView {
                             $match.point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -600,7 +599,7 @@ extension MatchView {
                             $match.point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -616,7 +615,7 @@ extension MatchView {
                             $match.point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -632,7 +631,7 @@ extension MatchView {
                             $match.point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -648,7 +647,7 @@ extension MatchView {
                             $match.point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -664,7 +663,7 @@ extension MatchView {
                             $match.point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -680,7 +679,7 @@ extension MatchView {
                             $match.point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -696,7 +695,7 @@ extension MatchView {
                             $match.point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_ONLY_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -706,9 +705,9 @@ extension MatchView {
             }
             // End if player 1 serving
         } else if  match.servingPlayerNumber == 2 {
-            $match.games[match.currentGameNumber - 1].player2Team1Points.wrappedValue += 1
+            $match.games[match.currentGameNumber - 1].player2Points.wrappedValue += 1
             // Player 2 Team 1 is serving as second server on Team 1
-            if match.isSecondServer {
+            if scoresheetManager.isSecondServer {
                 // Second server uses backslash to mark points - "squareleftbackslash"
                 
                 //print("    > > > gameScoreTeam1 in pointScored()[3]: \(match.gameScoreTeam1)")
@@ -725,7 +724,7 @@ extension MatchView {
                             $match.point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -741,7 +740,7 @@ extension MatchView {
                             $match.point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -758,7 +757,7 @@ extension MatchView {
                         }
                     }
                     else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     }
                     else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
@@ -775,7 +774,7 @@ extension MatchView {
                             $match.point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -791,7 +790,7 @@ extension MatchView {
                             $match.point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -807,7 +806,7 @@ extension MatchView {
                             $match.point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -823,7 +822,7 @@ extension MatchView {
                             $match.point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -839,7 +838,7 @@ extension MatchView {
                             $match.point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -856,7 +855,7 @@ extension MatchView {
                         }
                     }
                     else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     }
                     else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
@@ -873,7 +872,7 @@ extension MatchView {
                             $match.point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -889,7 +888,7 @@ extension MatchView {
                             $match.point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -905,7 +904,7 @@ extension MatchView {
                             $match.point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -921,7 +920,7 @@ extension MatchView {
                             $match.point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -937,7 +936,7 @@ extension MatchView {
                             $match.point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -953,7 +952,7 @@ extension MatchView {
                             $match.point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -969,7 +968,7 @@ extension MatchView {
                             $match.point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -985,7 +984,7 @@ extension MatchView {
                             $match.point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1001,7 +1000,7 @@ extension MatchView {
                             $match.point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1017,7 +1016,7 @@ extension MatchView {
                             $match.point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1033,7 +1032,7 @@ extension MatchView {
                             $match.point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1049,7 +1048,7 @@ extension MatchView {
                             $match.point21Game3ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_ONLY_END_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm1.wrappedValue = Constants.BOX_BACK_SLASH
                     }
@@ -1073,7 +1072,7 @@ extension MatchView {
                             $match.point1Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point1Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1089,7 +1088,7 @@ extension MatchView {
                             $match.point2Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point2Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1105,7 +1104,7 @@ extension MatchView {
                             $match.point3Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point3Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1121,7 +1120,7 @@ extension MatchView {
                             $match.point4Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point4Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1137,7 +1136,7 @@ extension MatchView {
                             $match.point5Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point5Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1153,7 +1152,7 @@ extension MatchView {
                             $match.point6Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point6Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1169,7 +1168,7 @@ extension MatchView {
                             $match.point7Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point7Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1185,7 +1184,7 @@ extension MatchView {
                             $match.point8Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point8Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1201,7 +1200,7 @@ extension MatchView {
                             $match.point9Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point9Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1217,7 +1216,7 @@ extension MatchView {
                             $match.point10Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point10Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1233,7 +1232,7 @@ extension MatchView {
                             $match.point11Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point11Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1249,7 +1248,7 @@ extension MatchView {
                             $match.point12Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point12Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1265,7 +1264,7 @@ extension MatchView {
                             $match.point13Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point13Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1281,7 +1280,7 @@ extension MatchView {
                             $match.point14Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point14Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1297,7 +1296,7 @@ extension MatchView {
                             $match.point15Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point15Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1313,7 +1312,7 @@ extension MatchView {
                             $match.point16Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point16Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1329,7 +1328,7 @@ extension MatchView {
                             $match.point17Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point17Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1345,7 +1344,7 @@ extension MatchView {
                             $match.point18Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point18Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1361,7 +1360,7 @@ extension MatchView {
                             $match.point19Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point19Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1377,7 +1376,7 @@ extension MatchView {
                             $match.point20Game3ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point20Game4ImageTm1.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm1.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1393,7 +1392,7 @@ extension MatchView {
                             $match.point21Game3ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+                        $match.point21Game4ImageTm1.wrappedValue = Constants.BOX_RIGHT_ONLY_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm1.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -1403,9 +1402,9 @@ extension MatchView {
             }
             // End if player 2 serving
         } else if  match.servingPlayerNumber == 3 {
-            $match.games[match.currentGameNumber - 1].player1Team2Points.wrappedValue += 1
+            $match.games[match.currentGameNumber - 1].player3Points.wrappedValue += 1
             // Player 1 Team 2 is serving as second server on Team 2
-            if match.isSecondServer {
+            if scoresheetManager.isSecondServer {
                 // Second server uses backslash to mark points - "squareleftbackslash"
                 
                 //print("    > > > gameScoreTeam2 in pointScored()[5]: \(match.gameScoreTeam2)")
@@ -1422,7 +1421,7 @@ extension MatchView {
                             $match.point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1439,7 +1438,7 @@ extension MatchView {
                         }
                     }
                     else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1455,7 +1454,7 @@ extension MatchView {
                             $match.point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1471,7 +1470,7 @@ extension MatchView {
                             $match.point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1487,7 +1486,7 @@ extension MatchView {
                             $match.point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1503,7 +1502,7 @@ extension MatchView {
                             $match.point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1519,7 +1518,7 @@ extension MatchView {
                             $match.point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1535,7 +1534,7 @@ extension MatchView {
                             $match.point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1551,7 +1550,7 @@ extension MatchView {
                             $match.point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1567,7 +1566,7 @@ extension MatchView {
                             $match.point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1583,7 +1582,7 @@ extension MatchView {
                             $match.point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1599,7 +1598,7 @@ extension MatchView {
                             $match.point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1615,7 +1614,7 @@ extension MatchView {
                             $match.point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1631,7 +1630,7 @@ extension MatchView {
                             $match.point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1647,7 +1646,7 @@ extension MatchView {
                             $match.point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1663,7 +1662,7 @@ extension MatchView {
                             $match.point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     }
                     else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
@@ -1680,7 +1679,7 @@ extension MatchView {
                             $match.point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     }
                     else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
@@ -1697,7 +1696,7 @@ extension MatchView {
                             $match.point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1713,7 +1712,7 @@ extension MatchView {
                             $match.point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1729,7 +1728,7 @@ extension MatchView {
                             $match.point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -1745,7 +1744,7 @@ extension MatchView {
                             $match.point21Game3ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_ONLY_END_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
                     }
@@ -1770,7 +1769,7 @@ extension MatchView {
                             $match.point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1786,7 +1785,7 @@ extension MatchView {
                             $match.point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1803,7 +1802,7 @@ extension MatchView {
                         }
                     }
                     else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1819,7 +1818,7 @@ extension MatchView {
                             $match.point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1835,7 +1834,7 @@ extension MatchView {
                             $match.point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1851,7 +1850,7 @@ extension MatchView {
                             $match.point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1867,7 +1866,7 @@ extension MatchView {
                             $match.point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1883,7 +1882,7 @@ extension MatchView {
                             $match.point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1899,7 +1898,7 @@ extension MatchView {
                             $match.point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1915,7 +1914,7 @@ extension MatchView {
                             $match.point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1931,7 +1930,7 @@ extension MatchView {
                             $match.point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1947,7 +1946,7 @@ extension MatchView {
                             $match.point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1963,7 +1962,7 @@ extension MatchView {
                             $match.point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1979,7 +1978,7 @@ extension MatchView {
                             $match.point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -1995,7 +1994,7 @@ extension MatchView {
                             $match.point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2011,7 +2010,7 @@ extension MatchView {
                             $match.point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2027,7 +2026,7 @@ extension MatchView {
                             $match.point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2043,7 +2042,7 @@ extension MatchView {
                             $match.point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2059,7 +2058,7 @@ extension MatchView {
                             $match.point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2075,7 +2074,7 @@ extension MatchView {
                             $match.point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2091,7 +2090,7 @@ extension MatchView {
                             $match.point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_ONLY_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }
@@ -2104,9 +2103,9 @@ extension MatchView {
         }
         
         else if  match.servingPlayerNumber == 4 {
-            $match.games[match.currentGameNumber - 1].player2Team2Points.wrappedValue += 1
+            $match.games[match.currentGameNumber - 1].player4Points.wrappedValue += 1
             // Player 2 Team 2 is serving as second server on Team 2
-            if match.isSecondServer {
+            if scoresheetManager.isSecondServer {
                 // Second server uses backslash to mark points - "squareleftbackslash"
                 
                 //print("    > > > gameScoreTeam2 in pointScored()[7]: \(match.gameScoreTeam2)")
@@ -2119,7 +2118,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2131,7 +2130,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2143,7 +2142,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2155,7 +2154,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2167,7 +2166,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2179,7 +2178,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2191,7 +2190,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2203,7 +2202,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2215,7 +2214,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2227,7 +2226,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2239,7 +2238,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2251,7 +2250,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2263,7 +2262,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2275,7 +2274,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2287,7 +2286,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2299,7 +2298,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2311,7 +2310,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2323,7 +2322,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2335,7 +2334,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2347,7 +2346,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_BACK_SLASH
+                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2359,7 +2358,7 @@ extension MatchView {
                     } else if match.currentGameNumber == 3 {
                         $match.point21Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_BACK_SLASH
+                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_ONLY_END_BACK_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm2.wrappedValue = Constants.BOX_BACK_SLASH
                     }
@@ -2384,7 +2383,7 @@ extension MatchView {
                             $match.point1Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point1Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point1Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2400,7 +2399,7 @@ extension MatchView {
                             $match.point2Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point2Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point2Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2416,7 +2415,7 @@ extension MatchView {
                             $match.point3Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point3Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point3Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2432,7 +2431,7 @@ extension MatchView {
                             $match.point4Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point4Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point4Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2448,7 +2447,7 @@ extension MatchView {
                             $match.point5Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point5Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point5Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2464,7 +2463,7 @@ extension MatchView {
                             $match.point6Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point6Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point6Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2480,7 +2479,7 @@ extension MatchView {
                             $match.point7Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point7Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point7Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2496,7 +2495,7 @@ extension MatchView {
                             $match.point8Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point8Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point8Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2512,7 +2511,7 @@ extension MatchView {
                             $match.point9Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point9Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point9Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2528,7 +2527,7 @@ extension MatchView {
                             $match.point10Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point10Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point10Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2544,7 +2543,7 @@ extension MatchView {
                             $match.point11Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point11Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point11Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_BACK_SLASH
                     }
@@ -2560,7 +2559,7 @@ extension MatchView {
                             $match.point12Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point12Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point12Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2576,7 +2575,7 @@ extension MatchView {
                             $match.point13Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point13Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point13Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2592,7 +2591,7 @@ extension MatchView {
                             $match.point14Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point14Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point14Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2608,7 +2607,7 @@ extension MatchView {
                             $match.point15Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point15Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point15Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2624,7 +2623,7 @@ extension MatchView {
                             $match.point16Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point16Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point16Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2640,7 +2639,7 @@ extension MatchView {
                             $match.point17Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point17Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point17Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2656,7 +2655,7 @@ extension MatchView {
                             $match.point18Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point18Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point18Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2672,7 +2671,7 @@ extension MatchView {
                             $match.point19Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point19Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point19Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2688,7 +2687,7 @@ extension MatchView {
                             $match.point20Game3ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_FORWARD_SLASH
+                        $match.point20Game4ImageTm2.wrappedValue = Constants.BOX_LEFT_ONLY_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point20Game5ImageTm2.wrappedValue = Constants.BOX_BOTTOM_LEFT_FORWARD_SLASH
                     }
@@ -2704,7 +2703,7 @@ extension MatchView {
                             $match.point21Game3ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
                         }
                     } else if match.currentGameNumber == 4 {
-                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_END_FORWARD_SLASH
+                        $match.point21Game4ImageTm2.wrappedValue = Constants.BOX_RIGHT_ONLY_END_FORWARD_SLASH
                     } else if match.currentGameNumber == 5 {
                         $match.point21Game5ImageTm2.wrappedValue = Constants.BOX_FORWARD_SLASH
                     }

@@ -18,15 +18,19 @@ struct AdminView: View {
         TabView {
             ScreenshotAdminView(match: match)
                 .tabItem {
-                    Label("Screenshot", systemImage: "camera")
+                    Label("Screenshot", systemImage: "camera.fill")
                 }
             SettingsAdminView()
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
+                    Label("Settings", systemImage: "gearshape.fill")
                 }
             StatisticAdminView(match: match)
                 .tabItem {
-                    Label("Statistics", systemImage: "list.bullet")
+                    Label("Statistics", systemImage: "list.bullet.rectangle.fill")
+                }
+            UserManualView()
+                .tabItem {
+                    Label("User Manual", systemImage: "character.book.closed")
                 }
         }
     }

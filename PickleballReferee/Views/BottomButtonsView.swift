@@ -21,26 +21,27 @@ struct BottomButtonsView: View {
     @State private var showingSetServer = false
     @State private var presentStopMatchAlert = false
     @State private var presentServerSideSetAlert = false
-    
+    @State private var screenshotMaker: ScreenshotMaker?
     
     var body: some View {
         
         VStack (spacing: 20) {
-            
-            if !match.isMatchStarted {
+            if !scoresheetManager.isMatchStarted {
                 Button {
-                    $match.isMatchStarted.wrappedValue = true
+                    $scoresheetManager.isMatchStarted.wrappedValue = true
                     $match.matchStartDateValue.wrappedValue = Date.now
-//                    $match.setGameStartDateValue.wrappedValue = true
-                    // If playing game 1 then set the gameStartDateValue so game can be "timed"
+                    // If playing game 1 then set the gameStartDateValue so game duration can be "timed"
+                    // Timing for other games is started in setUpNewGame
                     if match.currentGameArrayIndex == 0 {
                         $match.games[0].gameStartDateValue.wrappedValue = Date.now
                     }
+                    scoresheetManager.isGameStarted = true
+                    scoresheetManager.isMatchStarted = true
                 } label: {
                     Text("Start Match")
                 }
-                .buttonStyle(StartMatchButtonStyle())
-                .disabled(!match.isMatchStartingServerSet)
+                .buttonStyle(FunctionsButtonStyleGreen())
+                .disabled(!scoresheetManager.isMatchStartingServerSet || !scoresheetManager.isGameStartReady)
             } else if !match.isMatchCompleted {
                 Button {
                     presentStopMatchAlert.toggle()
@@ -57,11 +58,13 @@ struct BottomButtonsView: View {
                 }
             } else if match.isMatchCompleted {
                 Button {
-                    print("Tapped New Match button")
+                    if let screenshotMaker = screenshotMaker {
+                        screenshotMaker.screenshot()?.saveToDocuments()
+                    }
                 } label: {
-                    Text("New Match")
+                    Text("Screenshot")
                 }
-                .buttonStyle(FunctionsButtonStyle())
+                .buttonStyle(FunctionsButtonStyleGreen())
             }
             
             Button {
@@ -96,10 +99,11 @@ struct BottomButtonsView: View {
             .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingRules) { RulesView() }
 
-            StopwatchMS()
+            StopwatchMinSec()
         }
         .padding(10)
         .background(Constants.CLOUDS)
+        .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
     }
     
     func endGame() {
@@ -108,7 +112,7 @@ struct BottomButtonsView: View {
 
     func endMatch() {
         print("Starting endMatch() in BottomButtonsView")
-        $match.isMatchStarted.wrappedValue = false
+        $scoresheetManager.isMatchStarted.wrappedValue = false
     }
 }
 

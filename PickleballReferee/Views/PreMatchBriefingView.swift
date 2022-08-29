@@ -50,13 +50,14 @@ struct PreMatchBriefingView: View {
                     
                 }
             }
-            
+            Spacer()
             VStack {
                 Button("Close") {
                     dismiss()
                 }
                 .buttonStyle(SheetButtonStyle())
             }
+            .padding(.bottom, 20)
             
         }
     }

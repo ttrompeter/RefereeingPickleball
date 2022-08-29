@@ -14,8 +14,8 @@ extension MatchView {
        // TODO: - Add sideouts for games 2-5
         if match.servingPlayerNumber == 1 || match.servingPlayerNumber == 2 {
             // In here Team 1 was serving at sideout
-            $match.games[match.currentGameNumber - 1].sideOutsTeam1.wrappedValue += 1
-            switch match.games[match.currentGameNumber - 1].gameScoreTeam1 {
+            $match.games[match.currentGameArrayIndex].sideOutsTeam1.wrappedValue += 1
+            switch match.games[match.currentGameArrayIndex].gameScoreTeam1 {
             case 0:
                 if match.currentGameNumber == 1 {
                     $match.isSideoutPoint0Game1Team1.wrappedValue = true
@@ -285,8 +285,8 @@ extension MatchView {
             }
         } else if match.servingPlayerNumber == 3 || match.servingPlayerNumber == 4 {
             // In here Team 2 was serving at sideout
-            $match.games[match.currentGameNumber - 1].sideOutsTeam2.wrappedValue += 1
-            switch match.games[match.currentGameNumber - 1].gameScoreTeam2 {
+            $match.games[match.currentGameArrayIndex].sideOutsTeam2.wrappedValue += 1
+            switch match.games[match.currentGameArrayIndex].gameScoreTeam2 {
             case 0:
                 if match.currentGameNumber == 1 {
                     $match.isSideoutPoint0Game1Team2.wrappedValue = true
@@ -559,12 +559,12 @@ extension MatchView {
         
         // Set server to the next server
         setServingPlayerNumber()
-        $match.isSecondServer.wrappedValue.toggle()
+        $scoresheetManager.isSecondServer.wrappedValue.toggle()
         $match.whoIsServingText.wrappedValue = "1st Server"
         
         // Team service game is over so change values for isTeam1Serving and isServingLeftSide
-        $match.isTeam1Serving.wrappedValue.toggle()
-        $match.isServingLeftSide.wrappedValue.toggle()
+        $scoresheetManager.isTeam1Serving.wrappedValue.toggle()
+        $scoresheetManager.isServingLeftSide.wrappedValue.toggle()
         
         updateScore()
     }

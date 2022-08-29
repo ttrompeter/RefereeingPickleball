@@ -12,7 +12,7 @@
 		E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215B28AFFE39008269D5 /* IntroductionView.swift */; };
 		E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215D28B004D3008269D5 /* CheckToggleStyle.swift */; };
 		E323EB3E28B8EC630040170F /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3D28B8EC630040170F /* Archive.swift */; };
-		E323EB4028B936360040170F /* StopwatchMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3F28B936360040170F /* StopwatchMS.swift */; };
+		E323EB4028B936360040170F /* StopwatchMinSec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3F28B936360040170F /* StopwatchMinSec.swift */; };
 		E327829828B03C8600690D36 /* QuickstartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829728B03C8600690D36 /* QuickstartView.swift */; };
 		E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829928B03CA900690D36 /* ScorekeepingView.swift */; };
 		E327829C28B03F8F00690D36 /* IntroductionOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */; };
@@ -28,7 +28,7 @@
 		E34932752893B6450087ABB1 /* RegularTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932742893B6450087ABB1 /* RegularTimeOutView.swift */; };
 		E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932782893B6710087ABB1 /* StopwatchView.swift */; };
 		E349327B2893B7FC0087ABB1 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327A2893B7FC0087ABB1 /* HelpView.swift */; };
-		E349327D2893B8490087ABB1 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327C2893B8490087ABB1 /* EditView.swift */; };
+		E349327D2893B8490087ABB1 /* CorrectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327C2893B8490087ABB1 /* CorrectionView.swift */; };
 		E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */; };
 		E34932812893B8A70087ABB1 /* SettingsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932802893B8A70087ABB1 /* SettingsAdminView.swift */; };
 		E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34932822893B8CF0087ABB1 /* AdminView.swift */; };
@@ -89,6 +89,9 @@
 		E3BF696F28A73D56006FD5E5 /* MedicalTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */; };
 		E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */; };
 		E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */; };
+		E3F3284328BBC51A0050400F /* MatchStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3284228BBC51A0050400F /* MatchStatisticsView.swift */; };
+		E3F3284528BC07230050400F /* MatchStatisticsIIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3284428BC07230050400F /* MatchStatisticsIIView.swift */; };
+		E3F3284728BC3E270050400F /* UserManualView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3284628BC3E270050400F /* UserManualView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,7 +100,7 @@
 		E319215B28AFFE39008269D5 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		E319215D28B004D3008269D5 /* CheckToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckToggleStyle.swift; sourceTree = "<group>"; };
 		E323EB3D28B8EC630040170F /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
-		E323EB3F28B936360040170F /* StopwatchMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchMS.swift; sourceTree = "<group>"; };
+		E323EB3F28B936360040170F /* StopwatchMinSec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchMinSec.swift; sourceTree = "<group>"; };
 		E327829728B03C8600690D36 /* QuickstartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickstartView.swift; sourceTree = "<group>"; };
 		E327829928B03CA900690D36 /* ScorekeepingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorekeepingView.swift; sourceTree = "<group>"; };
 		E327829B28B03F8F00690D36 /* IntroductionOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionOverviewView.swift; sourceTree = "<group>"; };
@@ -113,7 +116,7 @@
 		E34932742893B6450087ABB1 /* RegularTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularTimeOutView.swift; sourceTree = "<group>"; };
 		E34932782893B6710087ABB1 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
 		E349327A2893B7FC0087ABB1 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
-		E349327C2893B8490087ABB1 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		E349327C2893B8490087ABB1 /* CorrectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionView.swift; sourceTree = "<group>"; };
 		E349327E2893B86F0087ABB1 /* StatisticsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAdminView.swift; sourceTree = "<group>"; };
 		E34932802893B8A70087ABB1 /* SettingsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdminView.swift; sourceTree = "<group>"; };
 		E34932822893B8CF0087ABB1 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
@@ -171,6 +174,9 @@
 		E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalTimeOutView.swift; sourceTree = "<group>"; };
 		E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutsView.swift; sourceTree = "<group>"; };
 		E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGameStartingServerView.swift; sourceTree = "<group>"; };
+		E3F3284228BBC51A0050400F /* MatchStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStatisticsView.swift; sourceTree = "<group>"; };
+		E3F3284428BC07230050400F /* MatchStatisticsIIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStatisticsIIView.swift; sourceTree = "<group>"; };
+		E3F3284628BC3E270050400F /* UserManualView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManualView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,7 +239,7 @@
 				E3632FC02893A24A00F29D83 /* BottomButtonsView.swift */,
 				E32C2EA228B9C24000BBA503 /* ChangeSidesTm1View.swift */,
 				E33D1CFF2899D9DD00B68F61 /* ChangeSidesTm2View.swift */,
-				E349327C2893B8490087ABB1 /* EditView.swift */,
+				E349327C2893B8490087ABB1 /* CorrectionView.swift */,
 				E3632FC22893A32100F29D83 /* FunctionalityButtonsView.swift */,
 				E349327A2893B7FC0087ABB1 /* HelpView.swift */,
 				E3632F9C28937EC900F29D83 /* HomeView.swift */,
@@ -242,6 +248,8 @@
 				E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */,
 				E3980F4828B59EAB00E72BD3 /* MatchOverView.swift */,
 				E3632FA028937F1E00F29D83 /* MatchSetupView.swift */,
+				E3F3284228BBC51A0050400F /* MatchStatisticsView.swift */,
+				E3F3284428BC07230050400F /* MatchStatisticsIIView.swift */,
 				E3632F9E28937EFF00F29D83 /* MatchView.swift */,
 				E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */,
 				E396156F28A0B8EC001D3596 /* PDFKitView.swift */,
@@ -276,6 +284,7 @@
 				E343CB4C28B2E0970030EC20 /* TechnicalFoulView.swift */,
 				E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */,
 				E3632FBE2893A23800F29D83 /* TopButtonsView.swift */,
+				E3F3284628BC3E270050400F /* UserManualView.swift */,
 				E343CB4828B2DE1D0030EC20 /* ViolationView.swift */,
 				E343CB4E28B2E0EF0030EC20 /* ViolationReferenceView.swift */,
 				E343CB4A28B2E0130030EC20 /* WarningView.swift */,
@@ -313,7 +322,7 @@
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
-				E323EB3F28B936360040170F /* StopwatchMS.swift */,
+				E323EB3F28B936360040170F /* StopwatchMinSec.swift */,
 				E319215728AEE277008269D5 /* StorageManger.swift */,
 				E3632FB828939E0E00F29D83 /* Styles.swift */,
 				E396157928A187C3001D3596 /* ViewExtension.swift */,
@@ -405,11 +414,13 @@
 				E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */,
 				E327829828B03C8600690D36 /* QuickstartView.swift in Sources */,
 				E343CB4D28B2E0970030EC20 /* TechnicalFoulView.swift in Sources */,
+				E3F3284328BBC51A0050400F /* MatchStatisticsView.swift in Sources */,
 				E39058D628A40B1E0067A536 /* PopupView.swift in Sources */,
+				E3F3284528BC07230050400F /* MatchStatisticsIIView.swift in Sources */,
 				E3B46A2C28B3D79D002F54FA /* SideOutExtension.swift in Sources */,
 				E3632FC12893A24A00F29D83 /* BottomButtonsView.swift in Sources */,
 				E34932792893B6710087ABB1 /* StopwatchView.swift in Sources */,
-				E323EB4028B936360040170F /* StopwatchMS.swift in Sources */,
+				E323EB4028B936360040170F /* StopwatchMinSec.swift in Sources */,
 				E3980F4D28B6CF2A00E72BD3 /* TimerWrapper.swift in Sources */,
 				E3632FA728938CDB00F29D83 /* PointsFirstRowTeam1View.swift in Sources */,
 				E343CB4F28B2E0EF0030EC20 /* ViolationReferenceView.swift in Sources */,
@@ -425,6 +436,7 @@
 				E3632FAB28938D2100F29D83 /* PointsSecondRowTeam1View.swift in Sources */,
 				E3632FA528938BF000F29D83 /* PointsScoringTitlesView.swift in Sources */,
 				E396157C28A18998001D3596 /* ExtensionUIImage.swift in Sources */,
+				E3F3284728BC3E270050400F /* UserManualView.swift in Sources */,
 				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
 				E323EB3E28B8EC630040170F /* Archive.swift in Sources */,
@@ -461,7 +473,7 @@
 				E367357628B136F600D18CCC /* PointScoredExtension.swift in Sources */,
 				E349327F2893B86F0087ABB1 /* StatisticsAdminView.swift in Sources */,
 				E396157028A0B8EC001D3596 /* PDFKitView.swift in Sources */,
-				E349327D2893B8490087ABB1 /* EditView.swift in Sources */,
+				E349327D2893B8490087ABB1 /* CorrectionView.swift in Sources */,
 				E3980F4B28B6781000E72BD3 /* ScoresheetManager.swift in Sources */,
 				E3632FAF2893915C00F29D83 /* PointsThirdRowTeam1View.swift in Sources */,
 				E3632FBD2893A1F400F29D83 /* TeamListingTeam2.swift in Sources */,

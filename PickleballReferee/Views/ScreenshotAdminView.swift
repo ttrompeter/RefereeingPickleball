@@ -91,17 +91,6 @@ struct ScreenshotAdminView: View {
                                 HStack {
                                     Button(action: {
                                         showPrintView = true
-                                        
-//                                        let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
-//                                        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
-//                                        if matchUIImage == nil {
-//                                            print("Error: the scoresheet image is missing")
-//
-//                                        } else {
-//                                            isScorsheetScreenshotUnavailable.toggle()
-//                                            $imageToUse.wrappedValue = matchUIImage!
-//                                            showPrintView.toggle()
-//                                        }
                                        
                                         }) {
                                             Image("printer")
@@ -176,11 +165,7 @@ struct ScreenshotAdminView: View {
                 $isScorsheetScreenshotUnavailable.wrappedValue = true
             } else {
                 $imageToUse.wrappedValue = matchUIImage!
-                print("imgeToUse loaded during onAppear.")
-                print("isScorsheetScreenshotUnavailable before set in else: \(isScorsheetScreenshotUnavailable)")
                 $isScorsheetScreenshotUnavailable.wrappedValue = false
-                print("isScorsheetScreenshotUnavailable after set in else: \(isScorsheetScreenshotUnavailable)")
-                
             }
         }
     }

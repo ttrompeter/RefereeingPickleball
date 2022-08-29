@@ -84,7 +84,7 @@ struct FunctionsButtonStyle: ButtonStyle {
     }
 }
 
-struct FunctionsButtonStyleMandatory: ButtonStyle {
+struct FunctionsButtonStyleGreen: ButtonStyle {
     private struct ContentView<Content: View>: View {
         @Environment(\.isEnabled) private var isEnabled
         var view: Content
@@ -93,10 +93,10 @@ struct FunctionsButtonStyleMandatory: ButtonStyle {
                 .padding()
                 .frame(width: 140, height: 40)
                 .background(Constants.MINT_LEAF)
-                .foregroundColor(Constants.WHITE)
+                .foregroundColor(isEnabled ? Constants.WHITE : Constants.SLATE_GRAY)
                 .font(.callout)
                 .clipShape(Capsule())
-                .opacity(isEnabled ? 1.0 : 0.5)
+                .opacity(isEnabled ? 1.0 : 0.6)
         }
     }
     
@@ -106,6 +106,29 @@ struct FunctionsButtonStyleMandatory: ButtonStyle {
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
+
+//struct FunctionsButtonStyleMandatory: ButtonStyle {
+//    private struct ContentView<Content: View>: View {
+//        @Environment(\.isEnabled) private var isEnabled
+//        var view: Content
+//        var body: some View {
+//            view
+//                .padding()
+//                .frame(width: 140, height: 40)
+//                .background(Constants.MINT_LEAF)
+//                .foregroundColor(Constants.WHITE)
+//                .font(.callout)
+//                .clipShape(Capsule())
+//                .opacity(isEnabled ? 1.0 : 0.5)
+//        }
+//    }
+//    
+//    func makeBody(configuration: Configuration) -> some View {
+//        ContentView(view: configuration.label)
+//            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+//            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+//    }
+//}
 
 struct MatchSetupButtonStyle: ButtonStyle {
     
@@ -205,29 +228,6 @@ struct SheetButtonStyle: ButtonStyle {
                 .frame(width: 120, height: 30)
                 .background(Constants.SILVER)
                 .foregroundColor(isEnabled ? Constants.DARK_SLATE : Constants.WHITE)
-                .font(.callout)
-                .clipShape(Capsule())
-                .opacity(isEnabled ? 1.0 : 0.6)
-        }
-    }
-    
-    func makeBody(configuration: Configuration) -> some View {
-        ContentView(view: configuration.label)
-            .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
-            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-    }
-}
-
-struct StartMatchButtonStyle: ButtonStyle {
-    private struct ContentView<Content: View>: View {
-        @Environment(\.isEnabled) private var isEnabled
-        var view: Content
-        var body: some View {
-            view
-                .padding()
-                .frame(width: 140, height: 40)
-                .background(Constants.MINT_LEAF)
-                .foregroundColor(isEnabled ? Constants.WHITE : Constants.SLATE_GRAY)
                 .font(.callout)
                 .clipShape(Capsule())
                 .opacity(isEnabled ? 1.0 : 0.6)

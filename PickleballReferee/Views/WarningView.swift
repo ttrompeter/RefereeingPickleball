@@ -22,9 +22,9 @@ struct WarningView: View {
                 Text("Warning")
                     .bold()
                     .font(.largeTitle)
-                Image("yellowcard")
+                Image("yellowcard128")
                     .resizable()
-                    .frame(width: 60, height: 80)
+                    .frame(width: 80, height: 80)
                     .clipped()
             }
             

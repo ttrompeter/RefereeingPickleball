@@ -34,6 +34,14 @@ struct HelpView: View {
                 }
             }
             
+            Spacer()
+            HStack (spacing: 40) {
+                Button("Close") {
+                    dismiss()
+                }
+                .buttonStyle(SheetButtonStyle())
+            }
+            .padding(.bottom, 20)
         }  // Top VStack
     }
 }

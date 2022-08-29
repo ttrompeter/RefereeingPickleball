@@ -9,16 +9,17 @@ import SwiftUI
 
 struct TopButtonsView: View {
     
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     
     @State private var presentCoinTossAlert = false
-    @State private var showingEdit = false
+    @State private var showingCorrection = false
     @State private var showingMatchSetup = false
     @State private var showingPreMatchBriefing = false
     @State private var showingTimeOut = false
     @State private var showingViolation = false
-   
-    let randCoinToss = Int.random(in: 1...2)
+    
+    let randomCoinToss = Int.random(in: 1...2)
     
     var body: some View {
         
@@ -39,50 +40,45 @@ struct TopButtonsView: View {
             .buttonStyle(FunctionsButtonStyle())
             .sheet(isPresented: $showingPreMatchBriefing) { PreMatchBriefingView() }
             
-            
-            
-            if !match.isMatchSetup {
-                Button {
-                    showingMatchSetup.toggle()
-                } label: {
-                    if match.isMatchSetup {
-                        Text("Edit Match")
-                    } else {
-                        Text("Match Setup")
-                    }
-                }
-                .buttonStyle(FunctionsButtonStyleMandatory())
-                .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
-            } else {
-                Button {
-                    showingMatchSetup.toggle()
-                } label: {
+            Button {
+                showingMatchSetup.toggle()
+            } label: {
+                if scoresheetManager.isMatchSetupComplete {
+                    Text("Edit Match")
+                } else {
                     Text("Match Setup")
                 }
-                .buttonStyle(FunctionsButtonStyle())
-                .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }.buttonStyle(FunctionsButtonStyle())
             }
-            
+            .buttonStyle(FunctionsButtonStyleGreen())
+            .disabled(match.isMatchCompleted)
+            .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
             
             Button {
-                showingEdit.toggle()
+                showingCorrection.toggle()
             } label: {
-                Text("Violation")
+                Text("Correction")
             }
             .buttonStyle(FunctionsButtonStyle())
-            .disabled(!match.isMatchStarted)
-            .sheet(isPresented: $showingEdit) { EditView(match: match) }
+            .disabled(!scoresheetManager.isMatchStarted)
+            .sheet(isPresented: $showingCorrection) { CorrectionView(match: match) }
             
-            if !match.isMatchStarted {
+            if match.isMatchCompleted {
+                Button {
+                    // Set up a new match
+                } label: {
+                    Text("New Match")
+                }
+                .buttonStyle(FunctionsButtonStyleGreen())
+            } else if !scoresheetManager.isMatchStartingServerSet {
                 Button {
                     presentCoinTossAlert.toggle()
                 } label: {
                     Text("Coin Toss")
                 }
-                .buttonStyle(FunctionsButtonStyle())
-                .disabled(!match.isMatchSetup)
-                .alert("\(randCoinToss)", isPresented: $presentCoinTossAlert) {
-                    Button("OK", role: .cancel) {
+                .buttonStyle(FunctionsButtonStyleGreen())
+                .disabled(!scoresheetManager.isMatchSetupComplete)
+                .alert("\(randomCoinToss)", isPresented: $presentCoinTossAlert) {
+                    Button("Done", role: .cancel) {
                     }
                 }
             } else {

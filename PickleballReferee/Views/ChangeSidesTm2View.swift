@@ -10,21 +10,28 @@ import SwiftUI
 
 struct ChangeSidesTm2View: View {
     
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     
     var body: some View {
         VStack(spacing: 0) {
             HStack (alignment: .top, spacing: 0) {
                 
-                Rectangle()
-                    .foregroundColor(.white)
-                    .frame(width: 120.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                // Servers listing display
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(width: (Constants.BOX_DIMENSION * 3), height: Constants.BOX_DIMENSION, alignment: .leading)
+                    Text(match.specialTeam2)
+                        .font(.subheadline)
+                        .foregroundColor(Constants.MINT_LEAF)
+                }
                 
                 //Empty space column
                 VStack (spacing: 0) {
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
                 }
                 
                 Group {
@@ -145,33 +152,39 @@ struct ChangeSidesTm2View: View {
                         .foregroundColor(.white)
                         .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION, alignment: .leading)
                 }
-                // Timeouts
-                ZStack {
-                    
-                    Image(Constants.BOX_BLANK)
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    Image("red_yellow_cards")
-                        .resizable()
-                        .frame(width: 15, height: 15)
+                // Timeouts Area
+                if scoresheetManager.isViolation1Tm2 {
+                    ZStack {
+                        
+                        Image(Constants.BOX_BLANK)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Image("red_yellow_cards")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
                 }
-                ZStack {
-                    
-                    Image(Constants.BOX_BLANK)
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    Image("yellowcard")
-                        .resizable()
-                        .frame(width: 15, height: 15)
+                if scoresheetManager.isViolation2Tm2 {
+                    ZStack {
+                        
+                        Image(Constants.BOX_BLANK)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Image("red_yellow_cards")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
                 }
-                ZStack {
-                    
-                    Image(Constants.BOX_BLANK)
-                        .resizable()
-                        .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
-                    Image("penaltyflag")
-                        .resizable()
-                        .frame(width: 15, height: 15)
+                if scoresheetManager.isViolation3Tm2 {
+                    ZStack {
+                        
+                        Image(Constants.BOX_BLANK)
+                            .resizable()
+                            .frame(width: Constants.BOX_DIMENSION, height: Constants.BOX_DIMENSION)
+                        Image("red_yellow_cards")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
                 }
             }
         }

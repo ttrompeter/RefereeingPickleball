@@ -16,18 +16,7 @@ struct MatchView: View {
     @ObservedRealmObject var match: Match
     
     @State private var alertItem: AlertItem?
-//    @State private var elapsedGameTimeGame1 = 0.0
-//    @State private var elapsedGameTimeGame2 = 0.0
-//    @State private var elapsedGameTimeGame3 = 0.0
-//    @State private var elapsedGameTimeGame4 = 0.0
-//    @State private var elapsedGameTimeGame5 = 0.0
-//    @State private var gameTimer1: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-//    @State private var gameTimer2: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-//    @State private var gameTimer3: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-//    @State private var gameTimer4: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-//    @State private var gameTimer5: Timer.TimerPublisher = Timer.publish(every: 30, tolerance: 0.5, on: .main, in: .common)
-//    @State private var isGameTimerRunning = false
-    @State private var isStartNewMatch = false
+    //@State private var isStartNewMatch = false
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
     @State private var presentMatchOverAlert = false
@@ -38,11 +27,9 @@ struct MatchView: View {
     @State private var presentServerSideSetAlert = false
     @State private var screenshotMaker: ScreenshotMaker?
     @State private var showingMatchOver = false
-    @State private var showingGameStartingServer = false
-    @State private var team1MatchStartingServerName = ""
-    @State private var team2MatchStartingServerName = ""
+    //@State private var team1MatchStartingServerName = ""
+    //@State private var team2MatchStartingServerName = ""
     
-    @State private var timeStartDate = Date.now
     
     var currentMatchStatusDisplay: String {
         switch match.selectedMatchFormat {
@@ -64,15 +51,17 @@ struct MatchView: View {
         VStack {
             Section {
                 Text("Pickleball Match Scorsheet")
-                    //.fixedSize(horizontal: false, vertical: true)
+                //.fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(Constants.DARK_SLATE)
                     .font(.largeTitle)
             }
             .padding(.top, 40)
             
+            Spacer()
+            
             // Heading and Setup Section
             Section  {
-                HStack (alignment: .top, spacing: 40) {
+                HStack (alignment: .top, spacing: 30) {
                     Spacer()
                     VStack (alignment: .leading) {
                         
@@ -86,6 +75,7 @@ struct MatchView: View {
                                 Text("Notes: ")
                                 Text("Match 1st Server: ")
                             }
+                            .font(.subheadline)
                             .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
@@ -97,6 +87,7 @@ struct MatchView: View {
                                 Text(match.matchNotes)
                                 Text(match.matchStartingServerName)
                             }
+                            .font(.subheadline)
                             .foregroundColor(Constants.DARK_SLATE)
                         }
                     }
@@ -113,6 +104,7 @@ struct MatchView: View {
                                 Text("Scoring Format: ")
                                 Text("Game 1st Server: ")
                             }
+                            .font(.subheadline)
                             .foregroundColor(Constants.DARK_SLATE)
                             
                             VStack (alignment: .leading) {
@@ -124,17 +116,17 @@ struct MatchView: View {
                                 Text(match.matchScoringFormatDescription)
                                 Text(match.games[match.currentGameNumber - 1].gameFirstServerName)
                             }
+                            .font(.subheadline)
                             .foregroundColor(Constants.DARK_SLATE)
                         }
                     }
                     Spacer()
                 }
             }
-            .padding(.top, 5)
             
             // Team & Scoring Information Section Top of screen
             Section {
-                if match.isTeam1Serving {
+                if scoresheetManager.isTeam1Serving {
                     TeamListingTeam1(match: match)
                     ScoringSectionTeam1View(match: match)
                 } else {
@@ -155,13 +147,7 @@ struct MatchView: View {
                             updateScore()
                             // The game is over, and the game has been closed in closeGame() called by updateScore function where there is a game winner.
                             // Now stop the game timer for the game that ended and set the elapsed time of the game in gameElapsedTime.
-                            if match.games[match.currentGameNumber - 1].isGameWinner {
-//                                print("isGameWinner is true in Point Button action in MatchView. Will present game winner alert")
-//                                $match.games[match.currentGameArrayIndex].isGameWinner.wrappedValue = true
-//                                $match.games[match.currentGameArrayIndex].isGameCompleted.wrappedValue = true
-//                                $match.games[match.currentGameArrayIndex].gameEndDateValue.wrappedValue = Date.now
-//                                $match.games[match.currentGameArrayIndex].gameDuration.wrappedValue = match.games[match.currentGameArrayIndex].gameComputedDuration
-//                                print("gameDuration after set at end of game: \($match.games[match.currentGameArrayIndex].gameDuration)")
+                            if match.games[match.currentGameNumber - 1].isGameCompleted {
                                 closeGame()
                                 // Present the gameWinnerAlert to notify the user that the game is over and to be able to set up the new game.
                                 presentGameWinnerAlert.toggle()
@@ -170,7 +156,7 @@ struct MatchView: View {
                             Text("Point")
                         }
                         .buttonStyle(PointsSideoutButtonStyle())
-                        .disabled(!match.isMatchStarted || match.isMatchCompleted)
+                        .disabled(!scoresheetManager.isMatchStarted || match.isMatchCompleted)
                         .sheet(isPresented: $showingMatchOver) { MatchOverView(match: match) }
                         .alert("Game Over", isPresented: $presentGameWinnerAlert) {
                             Button("OK", role: .cancel) {
@@ -179,7 +165,7 @@ struct MatchView: View {
                                 // If the match is not over, set up the new game by calling the setUpNewGame() function.
                                 // Present the startedNewGameAlert to notify the user that the new game is ready for play.
                                 if !isMatchWinner() {
-                                    setUpNewGame()
+                                    setupNewGame()
                                     presentStartedNewGameAlert.toggle()
                                 } else {
                                     // There is a match winner so the match is over.
@@ -188,12 +174,13 @@ struct MatchView: View {
                                     $match.matchDuration.wrappedValue = match.matchComputedDuration
                                     closeMatch()
                                     // TODO: - This should not be happening?
-                                    $isStartNewMatch.wrappedValue = true
+                                    $scoresheetManager.isStartNewMatch.wrappedValue = true
                                     // Take screenshot of scoresheet without user input
                                     if let screenshotMaker = screenshotMaker {
                                         screenshotMaker.screenshot()?.saveToDocuments()
                                     }
-                                    presentMatchOverAlert.toggle()
+                                    showingMatchOver.toggle()
+                                    //presentMatchOverAlert.toggle()
                                 }
                             }
                         } message: {
@@ -218,17 +205,10 @@ struct MatchView: View {
                         Text(currentMatchStatusDisplay)
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
-                        
-                        // TODO: - Delete - this is temporary for development testing
-                        if match.isMatchCompleted {
-                            Text("Match Duration: \(match.matchDuration)")
-                                .font(.caption)
-                                .foregroundColor(Constants.DARK_RED)
-                        }
                     }
                     
                     // Match Setup Warning
-                    if !match.isMatchSetup {
+                    if !scoresheetManager.isMatchSetupComplete {
                         
                         ZStack {
                             Rectangle()
@@ -236,7 +216,7 @@ struct MatchView: View {
                                 .foregroundColor(Constants.BRIGHT_YARROW)
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
-
+                            
                             Button {
                                 presentMatchSetupAlert.toggle()
                             } label: {
@@ -250,25 +230,25 @@ struct MatchView: View {
                                 Text("Tap Match Setup Button and Enter Match Information.")
                             }
                         }
-                    } else if match.isMatchSetup {
-                        if !match.isMatchStartingServerSet {
+                    } else if scoresheetManager.isMatchSetupComplete {
+                        if !scoresheetManager.isMatchStartingServerSet {
                             ZStack {
                                 Rectangle()
                                     .frame(width: CGFloat(150), height: CGFloat(70))
                                     .foregroundColor(Constants.BRIGHT_YARROW)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
-
+                                
                                 Button {
                                     if match.games[0].selectedFirstServerTeam1 == 1 {
-                                        team1MatchStartingServerName = match.namePlayer1Team1
+                                        scoresheetManager.team1MatchStartingServerName = match.namePlayer1Team1
                                     } else if match.games[0].selectedFirstServerTeam1 == 2 {
-                                        team1MatchStartingServerName = match.namePlayer2Team1
+                                        scoresheetManager.team1MatchStartingServerName = match.namePlayer2Team1
                                     }
                                     if match.games[0].selectedFirstServerTeam2 == 3 {
-                                        team2MatchStartingServerName = match.namePlayer1Team2
+                                        scoresheetManager.team2MatchStartingServerName = match.namePlayer1Team2
                                     } else if match.games[0].selectedFirstServerTeam2 == 4 {
-                                        team2MatchStartingServerName = match.namePlayer2Team2
+                                        scoresheetManager.team2MatchStartingServerName = match.namePlayer2Team2
                                     }
                                     presentStartingServerSetupAlert = true
                                 } label: {
@@ -278,39 +258,39 @@ struct MatchView: View {
                                 }
                                 // MARK: - Select Starting Server for the match
                                 .alert("Select the starting server", isPresented: $presentStartingServerSetupAlert) {
-                                    Button(team1MatchStartingServerName) {
+                                    Button(scoresheetManager.team1MatchStartingServerName) {
                                         if match.games[0].selectedFirstServerTeam1 == 1 {
                                             $match.servingPlayerNumber.wrappedValue = 1
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer1Team1
                                             $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer1Team1
                                             $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 1
-                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                            $scoresheetManager.isMatchStartingServerSet.wrappedValue = true
                                         } else {
                                             $match.servingPlayerNumber.wrappedValue = 2
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer2Team1
                                             $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer2Team1
                                             $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 2
-                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                            $scoresheetManager.isMatchStartingServerSet.wrappedValue = true
                                         }
                                     }
-                                    Button(team2MatchStartingServerName) {
+                                    Button(scoresheetManager.team2MatchStartingServerName) {
                                         if match.games[0].selectedFirstServerTeam2 == 3 {
                                             $match.servingPlayerNumber.wrappedValue = 3
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer1Team2
                                             $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer1Team2
                                             $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 3
-                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                            $scoresheetManager.isMatchStartingServerSet.wrappedValue = true
                                         } else {
                                             $match.servingPlayerNumber.wrappedValue = 4
                                             $match.matchStartingServerName.wrappedValue = match.namePlayer2Team2
                                             $match.games[0].gameFirstServerName.wrappedValue = match.namePlayer2Team2
                                             $match.games[0].gameFirstServerPlayerNumber.wrappedValue = 4
-                                            $match.isMatchStartingServerSet.wrappedValue = true
+                                            $scoresheetManager.isMatchStartingServerSet.wrappedValue = true
                                         }
                                     }
                                 }
                             }
-                        } else if !match.games[match.currentGameNumber - 1].isServerSideSet {
+                        } else if !scoresheetManager.isServerSideSet {
                             
                             ZStack {
                                 Rectangle()
@@ -318,8 +298,11 @@ struct MatchView: View {
                                     .foregroundColor(Constants.BRIGHT_YARROW)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
-
+                                
                                 Button {
+                                    scoresheetManager.isGameStartReady = true
+                                    // Set up the display of Server names on the scorsheet in the Scoring sections for each team.
+                                    setServersDisplayInformation()
                                     presentStartingServerSetupAlert.toggle()
                                 } label: {
                                     Text("Check Orientation\nof Scoresheet")
@@ -328,20 +311,21 @@ struct MatchView: View {
                                 }
                                 .alert("Reorient Scoresheet", isPresented: $presentStartingServerSetupAlert) {
                                     Button("Orientation is Correct", role: .cancel) {
-                                        $match.games[match.currentGameNumber - 1].isServerSideSet.wrappedValue = true
+                                        $scoresheetManager.isServerSideSet.wrappedValue = true
+                                        scoresheetManager.isScreenOrientationCorrect = true
                                     }
                                     Button("Change Serving Team") {
-                                        $match.isTeam1Serving.wrappedValue.toggle()
+                                        $scoresheetManager.isTeam1Serving.wrappedValue.toggle()
                                     }
                                     Button("Change Arrow's Side") {
-                                        $match.isServingLeftSide.wrappedValue.toggle()
+                                        $scoresheetManager.isServingLeftSide.wrappedValue.toggle()
                                     }
                                     Button("Change Both") {
-                                        $match.isTeam1Serving.wrappedValue.toggle()
-                                        $match.isServingLeftSide.wrappedValue.toggle()
+                                        $scoresheetManager.isTeam1Serving.wrappedValue.toggle()
+                                        $scoresheetManager.isServingLeftSide.wrappedValue.toggle()
                                     }
                                 } message: {
-                                    Text("Chsnge orientation of scoresheet if neeeded both for serving team and arrow direction.")
+                                    Text("Change orientation of scoresheet if neeeded both for serving team and arrow direction.")
                                 }
                             }
                             
@@ -378,22 +362,22 @@ struct MatchView: View {
                                             Text("Game 5: \(match.games[4].gameFinalScore)")
                                         }
                                     }
-                                    .font(.caption)
+                                    .font(.footnote)
                                     .foregroundColor(Constants.MINT_LEAF)
                                 }
                                 .padding(10)
                                 .background(Constants.CLOUDS)
                                 
-                                Button {
-                                    if let screenshotMaker = screenshotMaker {
-                                        screenshotMaker.screenshot()?.saveToDocuments()
-                                    }
-                                } label: {
-                                    Text("Take Screenshot")
-                                        .font(.headline)
-                                        .foregroundColor(Constants.MINT_LEAF)
-                                }
-                                .disabled(!match.isMatchStarted)
+                                //                                Button {
+                                //                                    if let screenshotMaker = screenshotMaker {
+                                //                                        screenshotMaker.screenshot()?.saveToDocuments()
+                                //                                    }
+                                //                                } label: {
+                                //                                    Text("Take Screenshot")
+                                //                                        .font(.headline)
+                                //                                        .foregroundColor(Constants.MINT_LEAF)
+                                //                                }
+                                //                                .disabled(!scoresheetManager.isMatchStarted)
                             }
                         }
                     }
@@ -403,7 +387,7 @@ struct MatchView: View {
                         // 2nd Server / Side Out Button
                         Button {
                             
-                            if match.isSecondServer {
+                            if scoresheetManager.isSecondServer {
                                 sideOut()
                                 
                             } else {
@@ -411,13 +395,13 @@ struct MatchView: View {
                                 // Button is pushed when 2nd Server label is showing
                                 // Set server to the next server
                                 setServingPlayerNumber()
-                                $match.isSecondServer.wrappedValue.toggle()
+                                $scoresheetManager.isSecondServer.wrappedValue.toggle()
                                 $match.whoIsServingText.wrappedValue = "2nd Server"
                                 updateScore()
                             }
                             
                         } label: {
-                            if match.isSecondServer {
+                            if scoresheetManager.isSecondServer {
                                 // Change button label to Side Out
                                 // It is Second Server
                                 Text("Side Out")
@@ -428,79 +412,42 @@ struct MatchView: View {
                             }
                         }
                         .buttonStyle(PointsSideoutButtonStyle())
-                        .disabled(!match.isMatchStarted || match.isMatchCompleted)
+                        .disabled(!scoresheetManager.isMatchStarted || match.isMatchCompleted)
                         
                         // Shows 2d Server is serving etc below 2nd Server / Sideout button
                         Text("\(match.whoIsServingText) is Serving")
                             .font(.headline)
                             .foregroundColor(Constants.DARK_SLATE.opacity(0.6))
-                        
-                        // TODO: - Delete - this is temporary for development testing
-                        if match.games[0].isGameCompleted {
-                            Text("Game 1 Duration: \(match.games[0].gameDuration)")
-                                .font(.caption)
-                                .foregroundColor(Constants.DARK_RED)
-                        }
-                        if match.games[1].isGameCompleted {
-                            Text("Game 2 Duration: \(match.games[1].gameDuration)")
-                                .font(.caption)
-                                .foregroundColor(Constants.DARK_RED)
-                        }
-                        if match.games[2].isGameCompleted {
-                            Text("Game 3 Duration: \(match.games[2].gameDuration)")
-                                .font(.caption)
-                                .foregroundColor(Constants.DARK_RED)
-                        }
-                        
                     }
                 }
             }
             
             
             // Initials & Score Recording Section
-            Section {
-                VStack {
-                    //Spacer()
-                    HStack {
-                        
+            if match.isMatchCompleted {
+                Section {
+                    VStack {
                         HStack {
                             HStack {
                                 Text("Winnng Team Score: ")
-                                Text("\(match.games[match.currentGameNumber - 1].finalScoreWinningTeam)")
-                                    .font(.caption2).italic()
+                                Text(match.matchFinalScore)
                             }
                             HStack {
                                 Text("Initials: ")
-                                Text("_______")
-                                //TextField("____", text: $match.initialsWinningTeam)
+                                Text(scoresheetManager.playerInitials)
                             }
                         }
-                        // Spacing between teams
-                        Text("          ||          ")
-                        HStack {
-                            HStack {
-                                Text("Losing Team Score: ")
-                                Text("\(match.games[match.currentGameNumber - 1].finalScoreLosingTeam)")
-                                    .font(.caption2).italic()
-                            }
-                            HStack {
-                                Text("Initials: ")
-                                Text("_______")
-                                //TextField("____", text: $model.initialsLosingTeam)
-                            }
-                        }
-                        .rotationEffect(.degrees(180))
+                        .padding(5)
+                        .font(.subheadline)
+                        .foregroundColor(Constants.DARK_SLATE)
+                        .background(Constants.SILVER)
                     }
-                    .font(.subheadline.italic())
-                    .foregroundColor(Constants.SLATE_GRAY)
-                    .padding()
-                    .background(Constants.CLOUDS.opacity(0.6))
                 }
             }
             
             // Team & Scoring Information Section Bottom of screen
             Section {
-                if match.isTeam1Serving {
+                if scoresheetManager.isTeam1Serving {
                     ScoringSectionTeam2View(match: match)
                     TeamListingTeam2(match: match)
                 } else {
@@ -513,7 +460,7 @@ struct MatchView: View {
             // Empty text field for spacing
             Text(" ")
                 .padding()
-
+            
         }  // Top VStack
         .navigationBarTitle("")
         .navigationBarHidden(true)

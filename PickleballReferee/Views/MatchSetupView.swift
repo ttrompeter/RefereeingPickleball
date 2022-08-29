@@ -36,6 +36,7 @@ struct MatchSetupView: View {
     
     @Environment(\.realm) var realm
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @FocusState private var matchSetupInFocus: matchSetupFocusable?
     @State private var isShowingPlayerNamesAlert = false
@@ -455,8 +456,8 @@ struct MatchSetupView: View {
                             $match.games[3].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
                             $match.games[4].selectedFirstServerTeam2.wrappedValue = match.games[0].selectedFirstServerTeam2
                             
-                            $match.isMatchSetup.wrappedValue = true
-                            print("isMatchSetup after setting in MatchSetupView save(): \(match.isMatchSetup)")
+                            $scoresheetManager.isMatchSetupComplete.wrappedValue = true
+                            print("isMatchSetup after setting in MatchSetupView save(): \(scoresheetManager.isMatchSetupComplete)")
                             dismiss()
                         }
                         .buttonStyle(SheetButtonStyle())

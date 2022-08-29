@@ -22,9 +22,9 @@ struct TechnicalFoulView: View {
                 Text("Technical Foul")
                     .bold()
                     .font(.largeTitle)
-                Image("penaltyflag")
+                Image("redcard128")
                     .resizable()
-                    .frame(width: 60, height: 80)
+                    .frame(width: 80, height: 80)
                     .clipped()
             }
             

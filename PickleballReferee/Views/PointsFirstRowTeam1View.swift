@@ -21,13 +21,13 @@ struct PointsFirstRowTeam1View: View {
                     Rectangle()
                         .foregroundColor(Constants.MINT_LEAF)
                         .opacity(0.1)
-                        .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                        .frame(width: (Constants.BOX_DIMENSION * 3), height: Constants.BOX_DIMENSION, alignment: .leading)
                         .border(.black, width: 1.0)
                         .overlay(Text(match.firstServerDesignationGame1Team1).font(.caption).italic())
                 }else {
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: 90.0, height: Constants.BOX_DIMENSION, alignment: .leading)
+                        .frame(width: (Constants.BOX_DIMENSION * 3), height: Constants.BOX_DIMENSION, alignment: .leading)
                         .border(.black, width: 1.0)
                         .overlay(Text(match.firstServerDesignationGame1Team1).font(.caption).italic())
                 }

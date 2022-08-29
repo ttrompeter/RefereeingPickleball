@@ -13,7 +13,7 @@ struct Constants {
     //********************************************************************************
     // MISCELLANEOUS
     
-    static var BOX_DIMENSION = CGFloat(30)
+    static var BOX_DIMENSION = CGFloat(28)
     
     
     //********************************************************************************
@@ -22,6 +22,8 @@ struct Constants {
     static var AMERICAN_RIVER = Color(red: 99/255, green: 110/255, blue: 116/255)
     // Dark Gray
     static var ASBESTOS = Color(red: 127/255, green: 140/255, blue: 141/255)
+    // TRT Color
+    static var BACKGROUND_COLOR = Color(red: 206/255, green: 226/255, blue: 220/255)
     // Dark Blue
     static var BELIZE_HOLE = Color(red: 41/255, green: 128/255, blue: 185/255)
     // Dark Yellow / Gold
@@ -60,6 +62,8 @@ struct Constants {
     static var PETER_RIVER = Color(red: 52/255, green: 152/255, blue: 219/255)
     // Medium Red
     static var POMAGRANATE = Color(red: 192/255, green: 57/255, blue: 43/255)
+    // TRT Reddish
+    static var REDDISH = Color(red: 168/255, green: 5/255, blue: 5/255)
     // Medium Gray
     static var SILVER = Color(red: 189/255, green: 195/255, blue: 199/255)
     // Just What It Says
@@ -86,6 +90,10 @@ struct Constants {
     static var BOX_LEFT_BACK_SLASH = "boxleftbackslash"
     static var BOX_LEFT_FORWARD_SLASH = "boxleftfwdslash"
     
+    static var BOX_LEFT_ONLY = "boxleftonly"
+    static var BOX_LEFT_ONLY_BACK_SLASH = "boxleftonlybackslash"
+    static var BOX_LEFT_ONLY_FORWARD_SLASH = "boxleftonlyfwdslash"
+    
     static var BOX_BOTTOM_LEFT = "boxbottomleft"
     static var BOX_BOTTOM_LEFT_BACK_SLASH = "boxbottomleftbackslash"
     static var BOX_BOTTOM_LEFT_FORWARD_SLASH = "boxbottomleftbackslash"
@@ -93,6 +101,10 @@ struct Constants {
     static var BOX_RIGHT_END = "boxrightend"
     static var BOX_RIGHT_END_BACK_SLASH = "boxrightendbackslash"
     static var BOX_RIGHT_END_FORWARD_SLASH = "boxrightendfwdslash"
+    
+    static var BOX_RIGHT_ONLY_END = "boxrightonlyend"
+    static var BOX_RIGHT_ONLY_END_BACK_SLASH = "boxrightonlyendbackslash"
+    static var BOX_RIGHT_ONLY_END_FORWARD_SLASH = "boxrightonlyendfwdslash"
     
     static var SIDEOUT_LEFT = "sideoutleft"
     static var SIDEOUT_RIGHT = "sideoutright"

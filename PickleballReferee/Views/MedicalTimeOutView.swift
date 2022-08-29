@@ -11,6 +11,7 @@ import SwiftUI
 struct MedicalTimeOutView: View {
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @State private var isServingTeamButtonSelected = false
     @State private var isReceivingTeamButtonSelected = false
@@ -56,7 +57,7 @@ struct MedicalTimeOutView: View {
                             Text("\u{2022}") + Text(" Warning: 15 Seconds")
                             Text("\u{2022}") + Text(" Move back to your referee position")
                             Text("\u{2022}") + Text(" Announce:")
-                            if match.isTeam1Serving {
+                            if scoresheetManager.isTeam1Serving {
                                 Text("     Serving team you have ") + Text("\(3 - match.games[match.currentGameNumber - 1].timeOutsTeam1)  timeouts remaining")
                                     .font(.title3)
                                     .foregroundColor(Constants.CRIMSON)
@@ -85,7 +86,7 @@ struct MedicalTimeOutView: View {
             VStack {
                 HStack (alignment: .center) {
                     
-                    StopwatchMS()
+                    StopwatchMinSec()
                     
                     VStack {
                         Spacer()
@@ -105,7 +106,7 @@ struct MedicalTimeOutView: View {
                         .buttonStyle(TimeoutsButtonStyle())
                         .disabled(isButtonTapped)
                         .alert("Receiving Team has no Time Outs available.", isPresented: $presentServingTeamNoTimeOutsAvailableAlert, actions: {})
-                        if match.isTeam1Serving {
+                        if scoresheetManager.isTeam1Serving {
                             Text("\(match.namePlayer1Team1) | \(match.namePlayer2Team1)")
                                 .font(.body).italic()
                                 .foregroundColor(Constants.MINT_LEAF)
@@ -130,7 +131,7 @@ struct MedicalTimeOutView: View {
                         .buttonStyle(TimeoutsButtonStyle())
                         .disabled(isButtonTapped)
                         .alert("Receiving Team has no Time Outs available.", isPresented: $presentReceivingTeamNoTimeOutsAvailableAlert, actions: {})
-                        if match.isTeam1Serving {
+                        if scoresheetManager.isTeam1Serving {
                             Text("\(match.namePlayer1Team2) | \(match.namePlayer2Team2)")
                                 .font(.body).italic()
                                 .foregroundColor(Constants.MINT_LEAF)
