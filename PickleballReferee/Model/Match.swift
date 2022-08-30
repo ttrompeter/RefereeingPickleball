@@ -101,7 +101,6 @@ class Match: Object, ObjectKeyIdentifiable {
     
     var matchComputedDuration: Double {
         if isMatchCompleted {
-            print("match start: \(matchStartDateValue),   match end: \(matchEndDateValue)")
             let matchDurationSeconds = matchStartDateValue.distance(to: matchEndDateValue)
             return (matchDurationSeconds / 60)
         } else {

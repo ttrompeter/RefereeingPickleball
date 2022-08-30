@@ -88,6 +88,7 @@
 		E3BF696D28A73D47006FD5E5 /* RefereeTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */; };
 		E3BF696F28A73D56006FD5E5 /* MedicalTimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */; };
 		E3BF697128A73D89006FD5E5 /* TimeOutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */; };
+		E3D1095128BEB0AD008E9D49 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1095028BEB0AD008E9D49 /* RealmManager.swift */; };
 		E3DBDD0D289B1CC3005059E8 /* SelectGameStartingServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */; };
 		E3F3284328BBC51A0050400F /* MatchStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3284228BBC51A0050400F /* MatchStatisticsView.swift */; };
 		E3F3284528BC07230050400F /* MatchStatisticsIIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F3284428BC07230050400F /* MatchStatisticsIIView.swift */; };
@@ -173,6 +174,7 @@
 		E3BF696C28A73D47006FD5E5 /* RefereeTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefereeTimeOutView.swift; sourceTree = "<group>"; };
 		E3BF696E28A73D56006FD5E5 /* MedicalTimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalTimeOutView.swift; sourceTree = "<group>"; };
 		E3BF697028A73D89006FD5E5 /* TimeOutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutsView.swift; sourceTree = "<group>"; };
+		E3D1095028BEB0AD008E9D49 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		E3DBDD0C289B1CC3005059E8 /* SelectGameStartingServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGameStartingServerView.swift; sourceTree = "<group>"; };
 		E3F3284228BBC51A0050400F /* MatchStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStatisticsView.swift; sourceTree = "<group>"; };
 		E3F3284428BC07230050400F /* MatchStatisticsIIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStatisticsIIView.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
 				E367357528B136F600D18CCC /* PointScoredExtension.swift */,
 				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
+				E3D1095028BEB0AD008E9D49 /* RealmManager.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,
@@ -461,6 +464,7 @@
 				E3632FAD2893913F00F29D83 /* PointsSecondRowTeam2View.swift in Sources */,
 				E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */,
 				E32C2EA328B9C24000BBA503 /* ChangeSidesTm1View.swift in Sources */,
+				E3D1095128BEB0AD008E9D49 /* RealmManager.swift in Sources */,
 				E3632FBF2893A23800F29D83 /* TopButtonsView.swift in Sources */,
 				E3632FA32893871900F29D83 /* Constants.swift in Sources */,
 				E396157628A186F6001D3596 /* ScreenshotMaker.swift in Sources */,

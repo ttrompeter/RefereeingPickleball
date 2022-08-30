@@ -11,7 +11,6 @@ import SwiftUI
 extension MatchView {
     
     func calculateMatchFinalGameScores() {
-        print("Starting calcualteMatchFinalGameScores")
         // Prepare a string of the Game scores for the Match in proper format based on winning team and set it in scoresheetManager.matchFinalGameScores
         var game1Display = "0 - 0"
         var game2Display = "0 - 0"
@@ -47,7 +46,6 @@ extension MatchView {
                 // Reverse the score
             }
             
-            
         } else {
             
         }
@@ -60,7 +58,6 @@ extension MatchView {
         
         var firstScore = ""
         var secondScore = ""
-//        let fullName = namePlayer2Team2
         var components = gameScore.components(separatedBy: " - ")
         if components.count > 0 {
             firstScore = components.removeFirst()
@@ -68,11 +65,7 @@ extension MatchView {
         } else {
             //firstName = fullName
         }
-        print("firstScore: \(firstScore)")
-        print("secondScore: \(secondScore)")
         return "\(secondScore) - \(firstScore)"
-        
-        return ""
     }
     
     func closeGame() {

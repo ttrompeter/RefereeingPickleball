@@ -97,13 +97,13 @@ struct CorrectionView: View {
     
     func undoPointScored() {
         
-        let playerScoredPoint = scoresheetManager.lastActionPlayerNumber
-        let pointNumberScored = match.games[match.currentGameArrayIndex].player1Points
-        var playerPointsArray = [Int]()
-        playerPointsArray.append(match.games[match.currentGameArrayIndex].player1Points)
-        playerPointsArray.append(match.games[match.currentGameArrayIndex].player2Points)
-        playerPointsArray.append(match.games[match.currentGameArrayIndex].player3Points)
-        playerPointsArray.append(match.games[match.currentGameArrayIndex].player4Points)
+//        let playerScoredPoint = scoresheetManager.lastActionPlayerNumber
+//        let pointNumberScored = match.games[match.currentGameArrayIndex].player1Points
+//        var playerPointsArray = [Int]()
+//        playerPointsArray.append(match.games[match.currentGameArrayIndex].player1Points)
+//        playerPointsArray.append(match.games[match.currentGameArrayIndex].player2Points)
+//        playerPointsArray.append(match.games[match.currentGameArrayIndex].player3Points)
+//        playerPointsArray.append(match.games[match.currentGameArrayIndex].player4Points)
         
     }
     
