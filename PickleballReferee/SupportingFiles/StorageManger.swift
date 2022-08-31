@@ -1,5 +1,5 @@
 //
-//  StoreManger.swift
+//  StorageManger.swift
 //  PickleballReferee
 //
 //  Created by Tom Trompeter on 8/18/22.

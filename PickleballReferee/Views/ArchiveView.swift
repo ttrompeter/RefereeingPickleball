@@ -15,6 +15,7 @@ struct ArchiveView: View {
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     //@ObservedRealmObject var match: Match
     @ObservedResults(Match.self) var matches
+    @State private var isShowArhivedMatch = false
     
     var body: some View {
         
@@ -38,28 +39,29 @@ struct ArchiveView: View {
                         .foregroundColor(Constants.DARK_SLATE)
                     List() {
                         ForEach(matches.sorted(byKeyPath: "matchDate")) { match in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("\(match.eventTitle)").font(.body)
-                                        .lineLimit(1)
-                                    Text("\(match.matchDate, style: .date)").font(.caption)
-                                }
-                                Spacer()
-                                Button(action: {
-        //                            self.actionType = .more
-        //                            self.myBooks.selectedBook = book
-        //                            self.performAction = true
-                                }) {
-                                    Text("Open").padding(.horizontal)
-                                        .padding(.vertical,5)
-                                        .background(Constants.MINT_LEAF)
-                                        .cornerRadius(5)
-                                        .foregroundColor(.white)
-                                }.buttonStyle(BorderlessButtonStyle()) // This focusses tap on the button and not the row
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("\(match.eventTitle)").font(.body)
+                                            .lineLimit(1)
+                                        Text("\(match.matchDate, style: .date)").font(.caption)
+                                        NavigationLink(destination: MatchView(match: match).environmentObject(scoresheetManager), isActive: $isShowArhivedMatch) { }
+                                    }
+                                    Spacer()
+                                    Button(action: {
+                                        isShowArhivedMatch.toggle()
+                                    }) {
+                                        Text("Open").padding(.horizontal)
+                                            .padding(.vertical,5)
+                                            .background(Constants.MINT_LEAF)
+                                            .cornerRadius(5)
+                                            .foregroundColor(.white)
+                                    }.buttonStyle(BorderlessButtonStyle()) // This focusses tap on the button and not the row
                             }
                         }
+                        //.listRowSeparator(.hidden)
                     }
                     .frame(width: 520)
+                    .listStyle(.plain)
                 }
             }
             

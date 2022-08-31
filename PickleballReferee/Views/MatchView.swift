@@ -167,15 +167,16 @@ struct MatchView: View {
                                         $match.isCompleted.wrappedValue = true
                                         $match.matchEndDateValue.wrappedValue = Date.now
                                         $match.matchDuration.wrappedValue = match.matchComputedDuration
-                                        closeMatch()
                                         // TODO: - This should not be happening?
                                         $scoresheetManager.isStartNewMatch.wrappedValue = true
                                         // Take screenshot of scoresheet without user input
                                         if let screenshotMaker = screenshotMaker {
                                             screenshotMaker.screenshot()?.saveToDocuments()
                                         }
+                                        print("Took screenshot automatically in MatchView")
                                         showingMatchOver.toggle()
                                         //presentMatchOverAlert.toggle()
+                                        closeMatch()
                                     }
                                 }
                             } message: {
@@ -190,7 +191,7 @@ struct MatchView: View {
                             .alert("Match Over", isPresented: $presentMatchOverAlert) {
                                 Button("OK", role: .cancel) {
                                     // Need to activate isStartNewMatch
-                                    //NavigationLink(destination: HomeView(match: match), isActive: $isStartNewMatch) { }
+                                   
                                 }
                             } message: {
                                 Text("Match Winner is\n \(match.matchWinner)")
@@ -421,21 +422,28 @@ struct MatchView: View {
                 // Initials & Score Recording Section
                 if match.isCompleted {
                     Section {
-                        VStack {
-                            HStack {
+                        
+                        
+                        ZStack {
+                            Rectangle()
+                                .frame(width: CGFloat(420), height: CGFloat(40))
+                                .foregroundColor(Constants.MINT_LEAF)
+                                .cornerRadius(10)
+                            VStack (alignment: .leading) {
                                 HStack {
-                                    Text("Winnng Team Score: ")
-                                    Text(match.matchFinalScore)
+                                    HStack {
+                                        Text("Winnng Team Score: ")
+                                        Text(match.matchFinalScore)
+                                    }
+                                    HStack {
+                                        Text("Initials: ")
+                                        Text(scoresheetManager.playerInitials)
+                                    }
                                 }
-                                HStack {
-                                    Text("Initials: ")
-                                    Text(scoresheetManager.playerInitials)
-                                }
+                                .padding(10)
+                                .font(.body)
+                                .foregroundColor(Constants.WHITE)
                             }
-                            .padding(5)
-                            .font(.subheadline)
-                            .foregroundColor(Constants.DARK_SLATE)
-                            .background(Constants.SILVER)
                         }
                     }
                 }

@@ -67,22 +67,14 @@ struct BottomButtonsView: View {
                 }
                 .buttonStyle(FunctionsButtonStyleGreen())
             }
-            
+
             Button {
-                showingArchive.toggle()
+                showingHelp.toggle()
             } label: {
-                Text("Archive")
+                Text("Help")
             }
             .buttonStyle(FunctionsButtonStyle())
-            .sheet(isPresented: $showingArchive) { ArchiveView() }
-            
-//            Button {
-//                showingHelp.toggle()
-//            } label: {
-//                Text("Help")
-//            }
-//            .buttonStyle(FunctionsButtonStyle())
-//            .sheet(isPresented: $showingHelp) { HelpView() }
+            .sheet(isPresented: $showingHelp) { HelpView() }
             
             Button {
                 showingAdmin.toggle()

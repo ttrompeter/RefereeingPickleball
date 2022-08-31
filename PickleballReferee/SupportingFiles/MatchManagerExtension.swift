@@ -7,6 +7,7 @@
 
 import RealmSwift
 import SwiftUI
+import UIKit
 
 extension MatchView {
     
@@ -29,28 +30,60 @@ extension MatchView {
                 game2Display = match.games[1].gameFinalScore
             } else {
                 // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[1].gameFinalScore)
             }
             if match.games[2].gameWinningTeam == 1 {
                 game3Display = match.games[2].gameFinalScore
             } else {
                 // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[2].gameFinalScore)
             }
             if match.games[3].gameWinningTeam == 1 {
                 game4Display = match.games[3].gameFinalScore
             } else {
                 // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[3].gameFinalScore)
             }
             if match.games[4].gameWinningTeam == 1 {
                 game5Display = match.games[4].gameFinalScore
             } else {
                 // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[4].gameFinalScore)
             }
-            
         } else {
-            
+            // Team 2 won the match
+            if match.games[0].gameWinningTeam == 2 {
+                game1Display = match.games[0].gameFinalScore
+            } else {
+                // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[0].gameFinalScore)
+            }
+            if match.games[1].gameWinningTeam == 2 {
+                game2Display = match.games[1].gameFinalScore
+            } else {
+                // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[1].gameFinalScore)
+            }
+            if match.games[2].gameWinningTeam == 2 {
+                game3Display = match.games[2].gameFinalScore
+            } else {
+                // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[2].gameFinalScore)
+            }
+            if match.games[3].gameWinningTeam == 2 {
+                game4Display = match.games[3].gameFinalScore
+            } else {
+                // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[3].gameFinalScore)
+            }
+            if match.games[4].gameWinningTeam == 2 {
+                game5Display = match.games[4].gameFinalScore
+            } else {
+                // Reverse the score
+                game1Display = reverseGameScore(gameScore: match.games[4].gameFinalScore)
+            }
         }
         let matchGamesDisplay = game1Display + "  " + game2Display + "  " + game3Display + "  " + game4Display + "  " + game5Display
-        print(matchGamesDisplay)
         scoresheetManager.matchFinalGameScores = matchGamesDisplay
     }
     
@@ -62,8 +95,6 @@ extension MatchView {
         if components.count > 0 {
             firstScore = components.removeFirst()
             secondScore = components.joined(separator: " ")
-        } else {
-            //firstName = fullName
         }
         return "\(secondScore) - \(firstScore)"
     }
@@ -170,6 +201,62 @@ extension MatchView {
         }
         $match.matchFinalScore.wrappedValue = matchResult
 
+        // Archive the screenshot image so it will be available to the match when using archive data
+        // Get existing screenshot image
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let imageUrl = paths[0].appendingPathComponent("scoresheet.png")
+        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+        print("matchUIImage returned: \(String(describing: matchUIImage))")
+        if matchUIImage != nil {
+            // Create unique name and then save it
+            let name = "scoresheet\(UUID().uuidString).png"
+            let fileURL = paths[0].appendingPathComponent(name)
+            guard let data = matchUIImage!.pngData() else { return }
+            do {
+                try data.write(to: fileURL)
+                print("Renamed screenshot saved at path \(fileURL.absoluteString)")
+            }
+            catch (let error) {
+                print("Error \(error.localizedDescription)")
+            }
+            $match.screenshotName.wrappedValue = name
+            print("screenshotLocation: \(match.screenshotName)")
+        } else {
+            print("Error saving screenshot for arhive")
+        }
+        
+        
+        
+        
+        
+//        //let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
+//        //let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+//        // Rename the image
+//
+//        // Save the renamed image back in documents file
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let fileURL = paths[0].appendingPathComponent("scoresheet.png")
+//        let pngRepresentation = UIImage(named: "sample_scoresheet.png")!.pngData()
+//        //guard let data = self.pngData() else { return }
+//        do {
+//            try data.write(to: fileURL)
+//            print("Renamed screenshot saved at path \(fileURL.absoluteString)")
+//        }
+//        catch (let error) {
+//            print("Error \(error.localizedDescription)")
+//        }
+//
+//        //let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let fileURL = paths[0].appendingPathComponent("sample_scoresheet.png")
+//        let pngRepresentation = UIImage(named: "sample_scoresheet.png")!.pngData()
+//        do {
+//            try pngRepresentation!.write(to: fileURL, options: .atomic)
+//        } catch {
+//            print("Error saving image to fileSystem: \(error.localizedDescription)")
+//        }
+        
+        
+        
     }
     
     func isGameWinner() -> Bool {

@@ -68,6 +68,7 @@ struct MatchOverView: View {
                             .foregroundColor(Constants.POMAGRANATE)
                             .keyboardType(.numberPad)
                             .focused($matchOverInFocus, equals: .initials)
+                            .autocapitalization(.allCharacters)
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                                     self.matchOverInFocus = .initials

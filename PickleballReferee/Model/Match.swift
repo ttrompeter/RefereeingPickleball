@@ -52,6 +52,7 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var player1Team2Identifiers = "Green Shirt"
     @Persisted var player2Team2Identifiers = "Yellow Shoes"
     @Persisted var scoreDisplay = "0 - 0 - 2"
+    @Persisted var screenshotName = ""
     @Persisted var selectedDoublesPlay = 2
     @Persisted var selectedGameFormat = 7
     @Persisted var selectedMatchFormat = 1     //Should be 2 as default
