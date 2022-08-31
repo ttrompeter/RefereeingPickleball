@@ -51,8 +51,8 @@ struct CorrectionView: View {
         VStack {
             
             Text("Correction")
-                .font(.largeTitle)
                 .bold()
+                .font(.largeTitle)
                 .foregroundColor(Constants.DARK_SLATE)
                 .padding(5)
             

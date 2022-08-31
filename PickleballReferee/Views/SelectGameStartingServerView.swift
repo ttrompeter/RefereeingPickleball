@@ -23,6 +23,7 @@ struct SelectGameStartingServerView: View {
             Text("Set First Server For This Game")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
 //            Text("Game \(match.currentGameNumber)")
 //                .font(.title)
 //            

@@ -26,7 +26,8 @@ class Match: Object, ObjectKeyIdentifiable {
     @Persisted var firstServerDesignationGame3Team2 = "?"
     @Persisted var firstServerDesignationGame4Team2 = "?"
     @Persisted var firstServerDesignationGame5Team2 = "?"
-    @Persisted var isMatchCompleted = false
+    @Persisted var isArchived = false
+    @Persisted var isCompleted = false
     @Persisted var matchDate = Date.now
     @Persisted var matchDuration = 0.0
     @Persisted var matchEndDateValue = Date.now
@@ -66,7 +67,7 @@ class Match: Object, ObjectKeyIdentifiable {
     
     var matchTotalPointsWinningTeam: Int {
         var matchTotalPoints = 0
-        if isMatchCompleted {
+        if isCompleted {
             switch matchWinningTeam {
             case 1:
                 matchTotalPoints = games[0].player1Points + games[0].player2Points + games[1].player1Points + games[1].player2Points + games[2].player1Points + games[2].player2Points + games[3].player1Points + games[3].player2Points + games[4].player1Points + games[4].player2Points
@@ -76,14 +77,14 @@ class Match: Object, ObjectKeyIdentifiable {
                 print("Error calculating matchTotalPointsWinningTeam")
             }
         } else {
-            //print("isMatchCompleted is false in computed property matchTotalPointsWinningTeam in MatchView")
+            //print("isCompleted is false in computed property matchTotalPointsWinningTeam in MatchView")
         }
         return matchTotalPoints
     }
     
     var matchTotalPointsLosingTeam: Int {
         var matchTotalPoints = 0
-        if isMatchCompleted {
+        if isCompleted {
             switch matchWinningTeam {
             case 1:
                 matchTotalPoints = games[0].player3Points + games[0].player4Points + games[1].player3Points + games[1].player4Points + games[2].player3Points + games[2].player4Points + games[3].player3Points + games[3].player4Points + games[4].player3Points + games[4].player4Points
@@ -93,18 +94,18 @@ class Match: Object, ObjectKeyIdentifiable {
                 print("Error calculating matchTotalPointsLosgTeam")
             }
         } else {
-            print("isMatchCompleted is false in matrchTotalPointsLosingTeam")
+            print("isCompleted is false in matrchTotalPointsLosingTeam")
         }
         
         return matchTotalPoints
     }
     
     var matchComputedDuration: Double {
-        if isMatchCompleted {
+        if isCompleted {
             let matchDurationSeconds = matchStartDateValue.distance(to: matchEndDateValue)
             return (matchDurationSeconds / 60)
         } else {
-            print("isMatchCompleted is false in matchComputedDuration so can't provide useful result.")
+            print("isCompleted is false in matchComputedDuration so can't provide useful result.")
             return 0.0
         }
         

@@ -20,6 +20,7 @@ struct ViolationReferenceView: View {
                 Text("Violation Reference")
                     .bold()
                     .font(.largeTitle)
+                    .foregroundColor(Constants.DARK_SLATE)
                 Image("violation")
                     .resizable()
                     .frame(width: 80, height: 60)

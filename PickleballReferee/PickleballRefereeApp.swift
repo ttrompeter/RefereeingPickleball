@@ -17,12 +17,10 @@ struct PickleballRefereeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            //WelcomeView(match: Match())
             DataLoadView()
                 .environmentObject(sheetManager)
                 .environmentObject(scoresheetManager)
                 .onAppear {
-                    setMatch()
                     // Get path to Realm database in SwiftUI
                     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
                     
@@ -41,9 +39,5 @@ struct PickleballRefereeApp: App {
                     }
                 }
         }
-    }
-    
-    func setMatch() {
-        
     }
 }

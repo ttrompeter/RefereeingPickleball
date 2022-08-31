@@ -28,6 +28,7 @@ struct MatchOverView: View {
             Text("Match is Over")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
                 .padding(.top, 30)
             
             VStack {

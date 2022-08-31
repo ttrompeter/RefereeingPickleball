@@ -22,6 +22,7 @@ struct TechnicalFoulView: View {
                 Text("Technical Foul")
                     .bold()
                     .font(.largeTitle)
+                    .foregroundColor(Constants.DARK_SLATE)
                 Image("redcard128")
                     .resizable()
                     .frame(width: 80, height: 80)

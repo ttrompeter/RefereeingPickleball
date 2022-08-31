@@ -19,6 +19,7 @@ struct HelpView: View {
             Text("Help ")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
             
             ZStack {
                 Rectangle()

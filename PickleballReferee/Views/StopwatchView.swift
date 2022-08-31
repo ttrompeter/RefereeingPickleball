@@ -16,10 +16,9 @@ struct StopwatchView: View {
         VStack {
             Text("Stopwatch")
                 .bold()
+                .padding(.vertical)
                 .font(.largeTitle)
-            // Create space between objects
-            Text(" ")
-                .font(.title)
+                .foregroundColor(Constants.DARK_SLATE)
             ZStack {
                 Rectangle()
                     .frame(width: CGFloat(500), height: CGFloat(400))

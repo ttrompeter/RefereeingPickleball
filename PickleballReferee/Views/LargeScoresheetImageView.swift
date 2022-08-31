@@ -20,6 +20,7 @@ struct LargeScoresheetImageView: View {
             Text("Enlarged Scoresheet Image")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
             
             Image(uiImage: imageToUse)
                 .resizable()

@@ -18,6 +18,7 @@ struct SettingsAdminView: View {
             Text("Settings")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
             
             ZStack {
                 Rectangle()

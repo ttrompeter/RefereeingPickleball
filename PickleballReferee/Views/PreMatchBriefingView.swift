@@ -18,6 +18,7 @@ struct PreMatchBriefingView: View {
             Text("Pre-Match Briefing")
                 .bold()
                 .font(.largeTitle)
+                .foregroundColor(Constants.DARK_SLATE)
             
             ZStack {
                 Rectangle()

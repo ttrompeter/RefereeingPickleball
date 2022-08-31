@@ -125,10 +125,10 @@ extension MatchView {
          
          - ???? Create new match
          
-         - ALREADY SET IN isMatchWinner Set matchWinner of current match [= ""]
-         - ALREADY SET IN isMatchWinner Set isMatchWinner of current match to true
-         - ALREADY SET IN isMatchWinner Set isMatchCompleted of current match to trrue
-         - ALREADY SET IN isMatchWinner Set matchWinningTeam of current match  [= 0]
+         - ALREADY SET IN isMatchWinner: matchWinner of current match [= ""]
+         - ALREADY SET IN isMatchWinner: isMatchWinner for current match to true
+         - ALREADY SET IN isMatchWinner: isCompleted for current match to true
+         - ALREADY SET IN isMatchWinner: matchWinningTeam of current match  [= 0]
          
          */
         
@@ -164,13 +164,12 @@ extension MatchView {
             team2Games += 1
         }
         if team1Games > team2Games {
-            matchResult = "\(team1Games) - \(team2Games) Games"
+            matchResult = "\(team1Games) - \(team2Games)"
         } else {
-            matchResult = "\(team2Games) - \(team1Games) Games"
+            matchResult = "\(team2Games) - \(team1Games)"
         }
         $match.matchFinalScore.wrappedValue = matchResult
-      
-        
+
     }
     
     func isGameWinner() -> Bool {
@@ -279,7 +278,7 @@ extension MatchView {
         if match.selectedMatchFormat == 1 {
             if match.games[match.currentGameNumber - 1].isGameCompleted {
                 $scoresheetManager.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
+                $match.isCompleted.wrappedValue = true
                 if match.games[match.currentGameNumber - 1].gameWinningTeam == 1 {
                     $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
                     $match.matchWinningTeam.wrappedValue = 1
@@ -317,7 +316,7 @@ extension MatchView {
             
             if gamesWonTeam1 == 2 {
                 $scoresheetManager.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
+                $match.isCompleted.wrappedValue = true
                 $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
                 $match.matchWinningTeam.wrappedValue = 1
                 $match.matchLoser.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
@@ -326,7 +325,7 @@ extension MatchView {
                 return true
             } else if gamesWonTeam2 == 2 {
                 $scoresheetManager.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
+                $match.isCompleted.wrappedValue = true
                 $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
                 $match.matchWinningTeam.wrappedValue = 2
                 $match.matchLoser.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
@@ -374,7 +373,7 @@ extension MatchView {
             
             if gamesWonTeam1 == 3 {
                 $scoresheetManager.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
+                $match.isCompleted.wrappedValue = true
                 $match.matchWinner.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"
                 $match.matchWinningTeam.wrappedValue = 1
                 $match.matchLoser.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
@@ -383,7 +382,7 @@ extension MatchView {
                 return true
             } else if gamesWonTeam2 == 3 {
                 $scoresheetManager.isMatchWinner.wrappedValue = true
-                $match.isMatchCompleted.wrappedValue = true
+                $match.isCompleted.wrappedValue = true
                 $match.matchWinner.wrappedValue = "\(match.namePlayer1Team2) | \(match.namePlayer2Team2)"
                 $match.matchWinningTeam.wrappedValue = 2
                 $match.matchLoser.wrappedValue = "\(match.namePlayer1Team1) | \(match.namePlayer2Team1)"

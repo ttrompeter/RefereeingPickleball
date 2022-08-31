@@ -51,7 +51,7 @@ struct TopButtonsView: View {
                 }
             }
             .buttonStyle(FunctionsButtonStyleGreen())
-            .disabled(match.isMatchCompleted)
+            .disabled(match.isCompleted)
             .sheet(isPresented: $showingMatchSetup) { MatchSetupView(match:match) }
             
             Button {
@@ -63,7 +63,7 @@ struct TopButtonsView: View {
             .disabled(!scoresheetManager.isMatchStarted)
             .sheet(isPresented: $showingCorrection) { CorrectionView(match: match) }
             
-            if match.isMatchCompleted {
+            if match.isCompleted {
                 Button {
                     createNewMatch()
                 } label: {

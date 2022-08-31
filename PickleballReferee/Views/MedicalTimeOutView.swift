@@ -30,6 +30,7 @@ struct MedicalTimeOutView: View {
 //            Text("Time Out")
 //                .bold()
 //                .font(.largeTitle)
+//                .foregroundColor(Constants.DARK_SLATE)
 //                .padding(.top, 5)
             
             HStack (alignment: .top) {

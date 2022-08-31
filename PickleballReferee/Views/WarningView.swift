@@ -22,6 +22,7 @@ struct WarningView: View {
                 Text("Warning")
                     .bold()
                     .font(.largeTitle)
+                    .foregroundColor(Constants.DARK_SLATE)
                 Image("yellowcard128")
                     .resizable()
                     .frame(width: 80, height: 80)

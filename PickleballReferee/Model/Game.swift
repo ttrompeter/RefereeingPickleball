@@ -54,7 +54,7 @@ class Game: Object, ObjectKeyIdentifiable {
             let gameDurationSeconds = gameStartDateValue.distance(to: gameEndDateValue)
             return (gameDurationSeconds / 60)
         } else {
-            print("isMatchCompleted is false in matchComputedDuration so can't provide useful result.")
+            print("isCompleted is false in matchComputedDuration so can't provide useful result.")
             return 0.0
         }
         

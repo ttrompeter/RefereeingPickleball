@@ -20,6 +20,7 @@ struct IntroductionOverviewView: View {
                 .padding(10)
                 .font(.largeTitle)
                 .foregroundColor(Constants.DARK_SLATE)
+                .foregroundColor(Constants.DARK_SLATE)
             
             Text("The Pinochle Referee App is designed to supplant manual scoresheets used by referees of pickleball matches. It not only provides an electronic representation of the manual scoresheet, it also includes functionality to automate the scorekeeping process and avoids many of the errors of manual scorekeeping. Most of the features are intuitive, but learning all the features and understanding how the App works will result in a much better user experience. Please consult the Help pages for detailed information about using Pickleball Referee.")
             

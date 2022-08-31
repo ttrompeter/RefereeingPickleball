@@ -14,14 +14,15 @@ struct BottomButtonsView: View {
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     
-    @State private var showingHelp = false
-    @State private var showingStopwatch = false
-    @State private var showingRules = false
-    @State private var showingAdmin = false
-    @State private var showingSetServer = false
-    @State private var presentStopMatchAlert = false
     @State private var presentServerSideSetAlert = false
+    @State private var presentStopMatchAlert = false
     @State private var screenshotMaker: ScreenshotMaker?
+    @State private var showingArchive = false
+    @State private var showingAdmin = false
+    @State private var showingHelp = false
+    @State private var showingRules = false
+    @State private var showingSetServer = false
+   
     
     var body: some View {
         
@@ -42,7 +43,7 @@ struct BottomButtonsView: View {
                 }
                 .buttonStyle(FunctionsButtonStyleGreen())
                 .disabled(!scoresheetManager.isMatchStartingServerSet || !scoresheetManager.isGameStartReady)
-            } else if !match.isMatchCompleted {
+            } else if !match.isCompleted {
                 Button {
                     presentStopMatchAlert.toggle()
                 } label: {
@@ -56,7 +57,7 @@ struct BottomButtonsView: View {
                 } message: {
                     Text("Are you sure you want to stop now? Ending Game or Match CAN'T BE UNDONE!")
                 }
-            } else if match.isMatchCompleted {
+            } else if match.isCompleted {
                 Button {
                     if let screenshotMaker = screenshotMaker {
                         screenshotMaker.screenshot()?.saveToDocuments()
@@ -68,20 +69,20 @@ struct BottomButtonsView: View {
             }
             
             Button {
-                showingHelp.toggle()
+                showingArchive.toggle()
             } label: {
-                Text("Help")
+                Text("Archive")
             }
             .buttonStyle(FunctionsButtonStyle())
-            .sheet(isPresented: $showingHelp) { HelpView() }
+            .sheet(isPresented: $showingArchive) { ArchiveView() }
             
 //            Button {
-//                showingStopwatch.toggle()
+//                showingHelp.toggle()
 //            } label: {
-//                Text("Stopwatch")
+//                Text("Help")
 //            }
 //            .buttonStyle(FunctionsButtonStyle())
-//            .sheet(isPresented: $showingStopwatch) { StopwatchView() }
+//            .sheet(isPresented: $showingHelp) { HelpView() }
             
             Button {
                 showingAdmin.toggle()

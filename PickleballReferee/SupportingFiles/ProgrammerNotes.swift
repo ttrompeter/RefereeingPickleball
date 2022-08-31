@@ -108,7 +108,7 @@
 //                        .alert("", isPresented: $presentGameWinnerAlert, actions: {
 //                            self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: {
 //
-//                                if match.isMatchCompleted {
+//                                if match.isCompleted {
 //                                    /// trigger second alert
 //                                    DispatchQueue.main.async {
 //                                        self.alertItem = AlertItem(title: Text("Match Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: self.closeMatch))
@@ -124,7 +124,7 @@
 //                            //self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), primaryButton: .default(Text("OK"), action: {
 //                            self.alertItem = AlertItem(title: Text("Game Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: {
 //
-//                                if match.isMatchCompleted {
+//                                if match.isCompleted {
 //                                    /// trigger second alert
 //                                    DispatchQueue.main.async {
 //                                        self.alertItem = AlertItem(title: Text("Match Over"), message: Text("Winner is Team 1"), dismissButton: .default(Text("OK"), action: self.closeMatch))

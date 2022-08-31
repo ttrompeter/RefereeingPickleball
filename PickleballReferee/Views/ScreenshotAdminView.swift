@@ -50,6 +50,7 @@ struct ScreenshotAdminView: View {
                 Text("Administer Screenshot Process")
                     .bold()
                     .font(.largeTitle)
+                    .foregroundColor(Constants.DARK_SLATE)
             }
             .padding(.vertical, 10)
             
