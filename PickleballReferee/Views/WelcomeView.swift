@@ -18,7 +18,6 @@ struct WelcomeView: View {
     @State private var isStartApp = false
     @State private var isShowIntroduction = false
     
-    
     var body: some View {
         
         NavigationView {
@@ -79,7 +78,7 @@ struct WelcomeView: View {
                                 
                                 Text("Can be changed in Admin : Settings page")
                                     .font(.subheadline)
-                                    .foregroundColor(Constants.DARK_GRAY)
+                                    .foregroundColor(Constants.DARK_SLATE)
                             }
                             .padding(.top, 30)
                             
@@ -89,9 +88,9 @@ struct WelcomeView: View {
                 }
             }
             .padding()
-            .onAppear {
-                addGames()
-            }
+//            .onAppear {
+//                //addGames()
+//            }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             
@@ -103,33 +102,60 @@ struct WelcomeView: View {
     func addGames() {
         
         // TODO: - Should be a better way to set up the default of a match to have 5 games
-        let game1 = Game()
-        game1.gameNumber = 1
-        $match.games.append(game1)
-        let game2 = Game()
-        game2.gameNumber = 2
-        $match.games.append(game2)
-        let game3 = Game()
-        game3.gameNumber = 3
-        $match.games.append(game3)
-        let game4 = Game()
-        game4.gameNumber = 4
-        $match.games.append(game4)
-        let game5 = Game()
-        game5.gameNumber = 5
-        $match.games.append(game5)
-        
-        saveMatch()
-    }
-    
-    func saveMatch() {
-        do {
-            try realm.write {
-                realm.add(match)
-            }
-        } catch {
-            print("Error saving games to match: \(error.localizedDescription)")
-        }
+//        let game1 = Game()
+//        game1.gameNumber = 1
+//        $match.games.append(game1)
+//        let game2 = Game()
+//        game2.gameNumber = 2
+//        $match.games.append(game2)
+//        let game3 = Game()
+//        game3.gameNumber = 3
+//        $match.games.append(game3)
+//        let game4 = Game()
+//        game4.gameNumber = 4
+//        $match.games.append(game4)
+//        let game5 = Game()
+//        game5.gameNumber = 5
+//        $match.games.append(game5)
+//
+//        saveMatch()
+//    }
+//
+//    //let dogs = realm.objects(Dog.self)
+//    func saveMatch() {
+//        do {
+//            try realm.write {
+//                realm.add(match)
+//            }
+//        } catch {
+//            print("Error saving games to match: \(error.localizedDescription)")
+//        }
+//    }
+//
+//    mutating func getAdtiveMatch() {
+////        do {
+////            let matches = realm.objects(Match.self)
+//
+//        //let activeMatch = realm.objects(Match.self).where {$0.isMatchCompleted == false}.first!
+//        let activeMatch = realm.objects(Match.self).where {$0.isMatchCompleted == false}
+//        if activeMatch.count > 0 {
+//            print("found active match: \(activeMatch)")
+//        }
+//        if activeMatch != nil {
+//            //match = activeMatch
+//        } else {
+//            match = Match()
+//        }
+//
+//
+//            ForEach (matches, id: \.self) { existingMatch in
+//                if existingMatch.isMatchCompleted == false {
+//                    match = existingMatch
+//                }
+//            }
+//        } catch {
+//            print("Error saving games to match: \(error.localizedDescription)")
+//        }
     }
 }
 

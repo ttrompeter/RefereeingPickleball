@@ -126,11 +126,11 @@ struct TopButtonsView: View {
     func saveNewMatch(matchToSave: Match) {
         print("Starting saveNewMatch() in TopButtonsView")
             if let matchToDelete = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
-                print("matchToDelete: \(matchToDelete)")
+                print("matchToDelete: \(matchToDelete.eventTitle)")
                 do {
                     try realm.write {
-//                        realm.delete(matchToDelete)
-//                        realm.add(matchToSave)
+                        //realm.delete(matchToDelete)
+                        realm.add(matchToSave)
                     }
                 } catch {
                     print("Error saving games to match: \(error.localizedDescription)")

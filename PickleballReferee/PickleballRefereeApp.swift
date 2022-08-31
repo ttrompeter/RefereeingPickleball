@@ -12,15 +12,17 @@ struct PickleballRefereeApp: App {
     
     // Environment Objects so can pass throughout project using environmentObject
     @StateObject var sheetManager = SheetManager()
+    //@StateObject var timerWrapper = TimerWrapper()
     var scoresheetManager = ScoresheetManager()
-    @StateObject var timeWrapper = TimerWrapper()
     
     var body: some Scene {
         WindowGroup {
-            WelcomeView(match: Match())
+            //WelcomeView(match: Match())
+            DataLoadView()
                 .environmentObject(sheetManager)
                 .environmentObject(scoresheetManager)
                 .onAppear {
+                    setMatch()
                     // Get path to Realm database in SwiftUI
                     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
                     
@@ -41,4 +43,7 @@ struct PickleballRefereeApp: App {
         }
     }
     
+    func setMatch() {
+        
+    }
 }

@@ -16,7 +16,6 @@ struct MatchView: View {
     @ObservedRealmObject var match: Match
     
     @State private var alertItem: AlertItem?
-    //@State private var isStartNewMatch = false
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
     @State private var presentMatchOverAlert = false
@@ -27,8 +26,6 @@ struct MatchView: View {
     @State private var presentServerSideSetAlert = false
     @State private var screenshotMaker: ScreenshotMaker?
     @State private var showingMatchOver = false
-    //@State private var team1MatchStartingServerName = ""
-    //@State private var team2MatchStartingServerName = ""
     
     
     var currentMatchStatusDisplay: String {
@@ -466,8 +463,49 @@ struct MatchView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .screenshotView { screenshotMaker in self.screenshotMaker = screenshotMaker }
+        .onAppear {
+            if match.games.count < 1 {
+                print("games.count is < 1 so is empty match")
+                // add games to match
+                addGames()
+            }
+        }
     }
     
+    func addGames() {
+        
+        print("Strting addGames() in MatchView")
+        // TODO: - Should be a better way to set up the default of a match to have 5 games
+        let game1 = Game()
+        game1.gameNumber = 1
+        $match.games.append(game1)
+        let game2 = Game()
+        game2.gameNumber = 2
+        $match.games.append(game2)
+        let game3 = Game()
+        game3.gameNumber = 3
+        $match.games.append(game3)
+        let game4 = Game()
+        game4.gameNumber = 4
+        $match.games.append(game4)
+        let game5 = Game()
+        game5.gameNumber = 5
+        $match.games.append(game5)
+
+        saveMatch()
+    }
+
+    //let dogs = realm.objects(Dog.self)
+    func saveMatch() {
+        do {
+            try realm.write {
+                realm.add(match)
+            }
+        } catch {
+            print("Error saving games to match: \(error.localizedDescription)")
+        }
+    }
+
 }
 
 
