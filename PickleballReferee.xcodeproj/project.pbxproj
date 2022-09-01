@@ -11,7 +11,6 @@
 		E319215A28AFEB64008269D5 /* LargeScoresheetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */; };
 		E319215C28AFFE39008269D5 /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215B28AFFE39008269D5 /* IntroductionView.swift */; };
 		E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E319215D28B004D3008269D5 /* CheckToggleStyle.swift */; };
-		E323EB3E28B8EC630040170F /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3D28B8EC630040170F /* Archive.swift */; };
 		E323EB4028B936360040170F /* StopwatchMinSec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E323EB3F28B936360040170F /* StopwatchMinSec.swift */; };
 		E327829828B03C8600690D36 /* QuickstartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829728B03C8600690D36 /* QuickstartView.swift */; };
 		E327829A28B03CA900690D36 /* ScorekeepingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E327829928B03CA900690D36 /* ScorekeepingView.swift */; };
@@ -102,7 +101,6 @@
 		E319215928AFEB64008269D5 /* LargeScoresheetImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeScoresheetImageView.swift; sourceTree = "<group>"; };
 		E319215B28AFFE39008269D5 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		E319215D28B004D3008269D5 /* CheckToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckToggleStyle.swift; sourceTree = "<group>"; };
-		E323EB3D28B8EC630040170F /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		E323EB3F28B936360040170F /* StopwatchMinSec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchMinSec.swift; sourceTree = "<group>"; };
 		E327829728B03C8600690D36 /* QuickstartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickstartView.swift; sourceTree = "<group>"; };
 		E327829928B03CA900690D36 /* ScorekeepingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorekeepingView.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 				E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */,
 				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */,
-				E323EB3D28B8EC630040170F /* Archive.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -450,7 +447,6 @@
 				E3F3284728BC3E270050400F /* UserManualView.swift in Sources */,
 				E3BF696B28A71E37006FD5E5 /* ProgrammerNotes.swift in Sources */,
 				E34932832893B8CF0087ABB1 /* AdminView.swift in Sources */,
-				E323EB3E28B8EC630040170F /* Archive.swift in Sources */,
 				E319215E28B004D3008269D5 /* CheckToggleStyle.swift in Sources */,
 				E343CB4928B2DE1D0030EC20 /* ViolationView.swift in Sources */,
 				E3632FC32893A32100F29D83 /* FunctionalityButtonsView.swift in Sources */,

@@ -13,7 +13,6 @@ struct ArchiveView: View {
     @Environment(\.realm) var realm
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scoresheetManager: ScoresheetManager
-    //@ObservedRealmObject var match: Match
     @ObservedResults(Match.self) var matches
     @State private var isShowArhivedMatch = false
     
@@ -39,9 +38,10 @@ struct ArchiveView: View {
                         .foregroundColor(Constants.DARK_SLATE)
                     List() {
                         ForEach(matches.sorted(byKeyPath: "matchDate")) { match in
+                            if match.isCompleted {
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text("\(match.eventTitle)").font(.body)
+                                        Text("\(match.eventTitle)").font(.callout)
                                             .lineLimit(1)
                                         Text("\(match.matchDate, style: .date)").font(.caption)
                                         NavigationLink(destination: MatchView(match: match).environmentObject(scoresheetManager), isActive: $isShowArhivedMatch) { }
@@ -55,30 +55,30 @@ struct ArchiveView: View {
                                             .background(Constants.MINT_LEAF)
                                             .cornerRadius(5)
                                             .foregroundColor(.white)
-                                    }.buttonStyle(BorderlessButtonStyle()) // This focusses tap on the button and not the row
+                                    }.buttonStyle(.plain) // This focusses tap on the button and not the row
+                                }
                             }
+                            //.listRowSeparator(.hidden)
                         }
-                        //.listRowSeparator(.hidden)
                     }
                     .frame(width: 520)
                     .listStyle(.plain)
                 }
-            }
-            
-            Spacer()
-            HStack (spacing: 40) {
-                Button("Close") {
-                    dismiss()
+                
+                Spacer()
+                HStack (spacing: 40) {
+                    Button("Close") {
+                        dismiss()
+                    }
+                    .buttonStyle(SheetButtonStyle())
                 }
-                .buttonStyle(SheetButtonStyle())
+                .padding(.bottom, 20)
             }
-            .padding(.bottom, 20)
         }
     }
 }
-
-struct ArchiveView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArchiveView()
+    struct ArchiveView_Previews: PreviewProvider {
+        static var previews: some View {
+            ArchiveView()
+        }
     }
-}

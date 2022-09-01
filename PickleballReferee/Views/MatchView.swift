@@ -14,8 +14,10 @@ struct MatchView: View {
     @Environment(\.realm) var realm
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
+    @ObservedResults(Match.self) var matches
     
     @State private var alertItem: AlertItem?
+    @FocusState private var matchViewInFocus: matchViewFocusable?
     @State private var presentFirstServerAlert = false
     @State private var presentGameWinnerAlert = false
     @State private var presentMatchOverAlert = false
@@ -40,6 +42,10 @@ struct MatchView: View {
             print("Error selecting matchFormatDescription.")
             return "Unknown Match Format"
         }
+    }
+    
+    enum matchViewFocusable: Hashable {
+        case initials
     }
     
     var body: some View {
@@ -422,29 +428,69 @@ struct MatchView: View {
                 // Initials & Score Recording Section
                 if match.isCompleted {
                     Section {
-                        
-                        
-                        ZStack {
-                            Rectangle()
-                                .frame(width: CGFloat(420), height: CGFloat(40))
-                                .foregroundColor(Constants.MINT_LEAF)
-                                .cornerRadius(10)
-                            VStack (alignment: .leading) {
-                                HStack {
+                        HStack {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: CGFloat(420), height: CGFloat(40))
+                                    .foregroundColor(Constants.MINT_LEAF)
+                                    .cornerRadius(10)
+                                VStack (alignment: .leading) {
                                     HStack {
-                                        Text("Winnng Team Score: ")
-                                        Text(match.matchFinalScore)
+                                        HStack {
+                                            Text("Winnng Team Score: ")
+                                            Text(match.matchFinalScore)
+                                        }
+                                        .foregroundColor(Constants.WHITE)
+                                        HStack {
+                                            Text("Initials: ")
+                                            Text(scoresheetManager.playerInitials)
+                                        }
                                     }
-                                    HStack {
-                                        Text("Initials: ")
-                                        Text(scoresheetManager.playerInitials)
-                                    }
+                                    .padding(10)
+                                    .font(.body)
+                                    .foregroundColor(Constants.WHITE)
                                 }
-                                .padding(10)
-                                .font(.body)
-                                .foregroundColor(Constants.WHITE)
                             }
+                            HStack {
+                                if scoresheetManager.playerInitials.isEmpty {
+                                    Text("Initials: ")
+                                    TextField("Initials", text: $scoresheetManager.playerInitials)
+                                        //.autocapitalization(.allCharacters)
+                                        .frame(width: 60)
+                                        .foregroundColor(Constants.POMAGRANATE)
+                                        .keyboardType(.numberPad)
+                                        .focused($matchViewInFocus, equals: .initials)
+                                        .onAppear {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                                                self.matchViewInFocus = .initials
+                                            }
+                                        }
+                                }
+                            }
+                            .foregroundColor(Constants.POMAGRANATE)
                         }
+                        
+                        
+//                        HStack {
+//                            HStack {
+//                                if scoresheetManager.playerInitials.isEmpty {
+//                                    Text("Initials: ")
+//                                    TextField("Initials", text: $scoresheetManager.playerInitials)
+//                                        .autocapitalization(.allCharacters)
+//                                        .frame(width: 60)
+//                                        .foregroundColor(Constants.POMAGRANATE)
+//                                        .keyboardType(.numberPad)
+//                                        .focused($matchViewInFocus, equals: .initials)
+//                                        .onAppear {
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+//                                                self.matchViewInFocus = .initials
+//                                            }
+//                                        }
+//                                }
+//                            }
+//                        }
+                        
+                        
                     }
                 }
                 

@@ -98,9 +98,6 @@ struct TopButtonsView: View {
     }
     
     func createNewMatch() {
-        
-        // First archive the current match.
-        
         // TODO: - Should be a better way to do this
         let newMatch = Match()
         newMatch.eventTitle = "Carlsbad Championships"

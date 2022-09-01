@@ -68,17 +68,22 @@ struct MatchOverView: View {
                             .foregroundColor(Constants.POMAGRANATE)
                             .keyboardType(.numberPad)
                             .focused($matchOverInFocus, equals: .initials)
-                            .autocapitalization(.allCharacters)
+                            //.autocapitalization(.allCharacters)
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                                     self.matchOverInFocus = .initials
                                 }
                             }
+                            .onSubmit {
+                                
+                                // TODO: - Take anothr screenshot with initials
+                                
+                                dismiss()
+                            }
                     }
                 }
                 .font(.headline)
-                .foregroundColor(Constants.REDDISH)
-                //.background(Constants.CLOUDS)
+                .foregroundColor(Constants.POMAGRANATE)
             }
             .padding(.horizontal, 120)
             

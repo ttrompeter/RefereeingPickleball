@@ -11,6 +11,7 @@ import UIKit
 
 extension MatchView {
     
+    
     func calculateMatchFinalGameScores() {
         // Prepare a string of the Game scores for the Match in proper format based on winning team and set it in scoresheetManager.matchFinalGameScores
         var game1Display = "0 - 0"
@@ -151,10 +152,9 @@ extension MatchView {
         print("     > > > closeMatch() function starting ...")
         
         /*
-         = Set match final score
+         - Set match final score
+         - Archive the screenshot image of the scoresheet from diretory file as 'screenshot.png' to a unique name
          - Archive match data: save scoresheet, save statistics, save Match and Game objects?, save ??
-         
-         - ???? Create new match
          
          - ALREADY SET IN isMatchWinner: matchWinner of current match [= ""]
          - ALREADY SET IN isMatchWinner: isMatchWinner for current match to true
@@ -201,14 +201,14 @@ extension MatchView {
         }
         $match.matchFinalScore.wrappedValue = matchResult
 
-        // Archive the screenshot image so it will be available to the match when using archive data
+        // Archive the screenshot image so it will be available to the match when open that match from archive
         // Get existing screenshot image
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let imageUrl = paths[0].appendingPathComponent("scoresheet.png")
         let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
         print("matchUIImage returned: \(String(describing: matchUIImage))")
         if matchUIImage != nil {
-            // Create unique name and then save it
+            // Create unique name and then save the image with the new name (and therefore location in documents)
             let name = "scoresheet\(UUID().uuidString).png"
             let fileURL = paths[0].appendingPathComponent(name)
             guard let data = matchUIImage!.pngData() else { return }
@@ -225,37 +225,33 @@ extension MatchView {
             print("Error saving screenshot for arhive")
         }
         
+        // Archive is limited to the last 10 matches (arbitrarily as a design decision based on display and memory concerens).
+        // So delete oldest math if there are already 10 matches in the realm database so there will be room within the 10 for this match
+        // let earliest = dates.min()
         
+        let matchesResults = matches.sorted(byKeyPath: "matchDate")
+        print("matches count: \(matchesResults.count)")
         
+        if matchesResults.count > 9 {
+            print("matches count: \(matchesResults.count)")
+//            while matchesResults.count > 9 {
+//                do {
+//                    try realm.write {
+//                        print("About to thaw and delete matchResults[9]: \(matchesResults[9].matchDate)")
+//                        matchesResults[9].thaw()
+//                        // TODO: - Need to make this work
+//                        // Can only delete an object from the Realm it belongs to
+//                        //realm.delete(matchesResults[9])
+//                    }
+//                } catch {
+//                    print("Error deleting archived match in MatchManagerExtension: \(error.localizedDescription)")
+//                }
+//            }
+        }
         
-        
-//        //let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
-//        //let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
-//        // Rename the image
-//
-//        // Save the renamed image back in documents file
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        let fileURL = paths[0].appendingPathComponent("scoresheet.png")
-//        let pngRepresentation = UIImage(named: "sample_scoresheet.png")!.pngData()
-//        //guard let data = self.pngData() else { return }
-//        do {
-//            try data.write(to: fileURL)
-//            print("Renamed screenshot saved at path \(fileURL.absoluteString)")
-//        }
-//        catch (let error) {
-//            print("Error \(error.localizedDescription)")
-//        }
-//
-//        //let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        let fileURL = paths[0].appendingPathComponent("sample_scoresheet.png")
-//        let pngRepresentation = UIImage(named: "sample_scoresheet.png")!.pngData()
-//        do {
-//            try pngRepresentation!.write(to: fileURL, options: .atomic)
-//        } catch {
-//            print("Error saving image to fileSystem: \(error.localizedDescription)")
-//        }
-        
-        
+        for match in matches {
+            $match.courtNumber.wrappedValue = "7"
+        }
         
     }
     
