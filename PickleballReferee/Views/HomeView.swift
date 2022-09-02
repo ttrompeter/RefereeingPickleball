@@ -18,7 +18,11 @@ struct HomeView: View {
         
         VStack (alignment: .leading) {
             HStack {
-                MatchView(match: match)
+                if !scoresheetManager.isShowArchive {
+                    MatchView(match: match)
+                } else {
+                    ArchiveView()
+                }
                 FunctionalityButtonsView(match: match)
                 VStack {
                     // Far right column for spacing

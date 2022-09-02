@@ -11,6 +11,7 @@ struct TopButtonsView: View {
     
     @Environment(\.realm) var realm
     @EnvironmentObject var scoresheetManager: ScoresheetManager
+    @EnvironmentObject var realmManager: RealmManager
     @ObservedRealmObject var match: Match
     
     @State private var presentCoinTossAlert = false
@@ -65,7 +66,8 @@ struct TopButtonsView: View {
             
             if match.isCompleted {
                 Button {
-                    createNewMatch()
+                    realmManager.createNewMatch()
+                    scoresheetManager.isNewMatchCreated = true
                 } label: {
                     Text("New Match")
                 }
@@ -96,44 +98,7 @@ struct TopButtonsView: View {
         .padding(10)
         .background(Constants.CLOUDS)
     }
-    
-    func createNewMatch() {
-        // TODO: - Should be a better way to do this
-        let newMatch = Match()
-        newMatch.eventTitle = "Carlsbad Championships"
-        let game1 = Game()
-        game1.gameNumber = 1
-        newMatch.games.append(game1)
-        let game2 = Game()
-        game2.gameNumber = 2
-        newMatch.games.append(game2)
-        let game3 = Game()
-        game3.gameNumber = 3
-        newMatch.games.append(game3)
-        let game4 = Game()
-        game4.gameNumber = 4
-        newMatch.games.append(game4)
-        let game5 = Game()
-        game5.gameNumber = 5
-        newMatch.games.append(game5)
-        
-        saveNewMatch(matchToSave: newMatch)
-    }
-    
-    func saveNewMatch(matchToSave: Match) {
-        print("Starting saveNewMatch() in TopButtonsView")
-            if let matchToDelete = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
-                print("matchToDelete: \(matchToDelete.eventTitle)")
-                do {
-                    try realm.write {
-                        //realm.delete(matchToDelete)
-                        realm.add(matchToSave)
-                    }
-                } catch {
-                    print("Error saving games to match: \(error.localizedDescription)")
-                }
-            }
-    }
+
 }
 
 struct TopButtonsView_Previews: PreviewProvider {

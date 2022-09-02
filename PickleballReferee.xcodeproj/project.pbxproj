@@ -304,6 +304,7 @@
 			children = (
 				E3632F8F289379EC00F29D83 /* Game.swift */,
 				E3632F9628937C2100F29D83 /* Match.swift */,
+				E3D1095028BEB0AD008E9D49 /* RealmManager.swift */,
 				E3980F4A28B6781000E72BD3 /* ScoresheetManager.swift */,
 				E39058D728A424440067A536 /* SheetManager.swift */,
 				E3980F4C28B6CF2A00E72BD3 /* TimerWrapper.swift */,
@@ -324,7 +325,6 @@
 				E39058F928A44D620067A536 /* PopupViewModifier.swift */,
 				E367357528B136F600D18CCC /* PointScoredExtension.swift */,
 				E3BF696A28A71E37006FD5E5 /* ProgrammerNotes.swift */,
-				E3D1095028BEB0AD008E9D49 /* RealmManager.swift */,
 				E396157528A186F6001D3596 /* ScreenshotMaker.swift */,
 				E3B46A2B28B3D79D002F54FA /* SideOutExtension.swift */,
 				E3632FB628939DD500F29D83 /* Stopwatch.swift */,

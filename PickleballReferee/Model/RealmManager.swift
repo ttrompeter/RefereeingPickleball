@@ -32,8 +32,8 @@ class RealmManager: ObservableObject {
     
     private var matchesToken: NotificationToken?
     
-    init(name: String) {
-        initializeSchema(name: name)
+    init() {
+        initializeSchema()
         setupObserver()
     }
     
@@ -45,7 +45,7 @@ class RealmManager: ObservableObject {
         })
     }
     
-    func initializeSchema(name: String) {
+    func initializeSchema() {
         let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let realmFileUrl = docDir.appendingPathComponent("pickleball.realm")
         
@@ -80,7 +80,37 @@ class RealmManager: ObservableObject {
         }
     }
     
+    func createNewMatch () {
+        if let realm = realm {
+            let newMatch = Match()
+            newMatch.eventTitle = "Realm Manager Match"
+            let game1 = Game()
+            game1.gameNumber = 1
+            newMatch.games.append(game1)
+            let game2 = Game()
+            game2.gameNumber = 2
+            newMatch.games.append(game2)
+            let game3 = Game()
+            game3.gameNumber = 3
+            newMatch.games.append(game3)
+            let game4 = Game()
+            game4.gameNumber = 4
+            newMatch.games.append(game4)
+            let game5 = Game()
+            game5.gameNumber = 5
+            newMatch.games.append(game5)
+            do {
+                try realm.write {
+                    realm.add(newMatch)
+                }
+            } catch {
+                print("Error adding Match in Realm Manager")
+            }
+        }
+    }
+    
     func removeMatch(_ match: Match) {
+        print("Starting removeMatch()")
         if let realm = realm {
             if let matchToDelete = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
                 do {
@@ -96,6 +126,7 @@ class RealmManager: ObservableObject {
     }
     
     func deleteGames(for match: Match) {
+        print("Starting deleteGames()")
         if let realm = realm {
                 do {
                     try realm.write {

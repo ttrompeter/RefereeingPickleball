@@ -12,6 +12,7 @@ struct MatchView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.realm) var realm
+    @EnvironmentObject var realmManager: RealmManager
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @ObservedResults(Match.self) var matches

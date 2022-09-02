@@ -11,6 +11,7 @@ import SwiftUI
 struct DataLoadView: View {
     
     @Environment(\.realm) var realm
+    @EnvironmentObject var realmManager: RealmManager
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     
     @State private var isIncompleteMatch = false
@@ -40,11 +41,15 @@ struct DataLoadView: View {
             .navigationBarBackButtonHidden(true)
             .onAppear {
                 if let aMatch = realm.objects(Match.self).where({$0.isCompleted == false}).first {
+                    // TODO: - Need to set status values to where they were when app closed during game
+                    
+                    
+                    
                     $openMatch.wrappedValue = aMatch
                     isIncompleteMatch.toggle()
                     isShowWelcomeOpenMatch.toggle()
                 } else {
-                    //guard let activeMatch = realm.objects(Match.self).where({$0.isCompleted == false}).first else {
+                    newMatch.eventTitle = "Data Load View Match"
                     let game1 = Game()
                     game1.gameNumber = 1
                     $newMatch.games.append(game1)
@@ -67,6 +72,8 @@ struct DataLoadView: View {
                     } catch {
                         print("Error saving new match in DataLoadView: \(error.localizedDescription)")
                     }
+                    print("     > > > > Saving newMatch in DataLoadView")
+                    realmManager.addMatch(newMatch)
                     isShowWelcomeNewMatch.toggle()
                     //return
                 }

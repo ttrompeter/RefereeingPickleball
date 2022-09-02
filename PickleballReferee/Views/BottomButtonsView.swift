@@ -12,6 +12,7 @@ import SwiftUI
 struct BottomButtonsView: View {
     
     @EnvironmentObject var scoresheetManager: ScoresheetManager
+    @EnvironmentObject var realmManager: RealmManager
     @ObservedRealmObject var match: Match
     
     @State private var presentServerSideSetAlert = false
@@ -101,6 +102,7 @@ struct BottomButtonsView: View {
     
     func endGame() {
         print("Starting endGame() in BottomButtonsView")
+        
     }
 
     func endMatch() {

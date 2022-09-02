@@ -225,33 +225,18 @@ extension MatchView {
             print("Error saving screenshot for arhive")
         }
         
-        // Archive is limited to the last 10 matches (arbitrarily as a design decision based on display and memory concerens).
-        // So delete oldest math if there are already 10 matches in the realm database so there will be room within the 10 for this match
-        // let earliest = dates.min()
+        // Archive is limited to the last 20 matches (arbitrarily as a design decision based on display and memory concerens).
+        // So delete oldest math if there are already 10 matches in the realm database so there will be room within the 10 limit for this match
         
-        let matchesResults = matches.sorted(byKeyPath: "matchDate")
-        print("matches count: \(matchesResults.count)")
-        
-        if matchesResults.count > 9 {
-            print("matches count: \(matchesResults.count)")
-//            while matchesResults.count > 9 {
-//                do {
-//                    try realm.write {
-//                        print("About to thaw and delete matchResults[9]: \(matchesResults[9].matchDate)")
-//                        matchesResults[9].thaw()
-//                        // TODO: - Need to make this work
-//                        // Can only delete an object from the Realm it belongs to
-//                        //realm.delete(matchesResults[9])
-//                    }
-//                } catch {
-//                    print("Error deleting archived match in MatchManagerExtension: \(error.localizedDescription)")
-//                }
-//            }
+        let archivedMatches = realmManager.matchesArray
+        if archivedMatches.count > 20 {
+            let matchToDelete = archivedMatches[0]
+            print("Match to delete: \(matchToDelete.eventTitle)")
+            realmManager.removeMatch(matchToDelete)
         }
         
-        for match in matches {
-            $match.courtNumber.wrappedValue = "7"
-        }
+        
+
         
     }
     

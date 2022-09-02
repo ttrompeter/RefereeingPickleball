@@ -11,6 +11,7 @@ import SwiftUI
 struct PickleballRefereeApp: App {
     
     // Environment Objects so can pass throughout project using environmentObject
+    @StateObject var realmManager = RealmManager()
     @StateObject var sheetManager = SheetManager()
     //@StateObject var timerWrapper = TimerWrapper()
     var scoresheetManager = ScoresheetManager()
@@ -20,10 +21,8 @@ struct PickleballRefereeApp: App {
             DataLoadView()
                 .environmentObject(sheetManager)
                 .environmentObject(scoresheetManager)
+                .environmentObject(realmManager)
                 .onAppear {
-                    // Get path to Realm database in SwiftUI
-                    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
-                    
                     // Stop layout conflict messages
                     UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
                     
@@ -37,6 +36,9 @@ struct PickleballRefereeApp: App {
                     } catch {
                         print("Error saving image to fileSystem: \(error.localizedDescription)")
                     }
+                    
+                    // Get path to Realm database in SwiftUI - NOW DONE in RealmManger so don't repeat it here
+                    //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
                 }
         }
     }

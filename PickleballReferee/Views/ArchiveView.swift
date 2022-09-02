@@ -27,53 +27,67 @@ struct ArchiveView: View {
             
             ZStack {
                 Rectangle()
-                    .frame(width: CGFloat(620), height: CGFloat(600))
+                    .frame(width: CGFloat(620), height: CGFloat(570))
                     .foregroundColor(Constants.CLOUDS)
-                    .cornerRadius(10)
+                    .cornerRadius(5)
                     .shadow(radius: 5)
                 VStack {
-                    Text("The following archived matches are available to review (10 Maximum):")
-                        .padding()
+                    Text("Archived Matches")
+                        .padding(10)
                         .font(.headline)
                         .foregroundColor(Constants.DARK_SLATE)
-                    List() {
-                        ForEach(matches.sorted(byKeyPath: "matchDate")) { match in
-                            if match.isCompleted {
+                    List {
+                        ForEach(matches.sorted(byKeyPath: "matchDate", ascending: false)) { match in
+                            if match.isCompleted && !match.isInvalidated {
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text("\(match.eventTitle)").font(.callout)
+                                        Text("\(match.namePlayer1Team1) | \(match.namePlayer1Team2)")
+                                            .font(.callout)
+                                            .foregroundColor(Constants.MINT_LEAF)
+                                        Text("\(match.eventTitle)")
+                                            .font(.footnote)
+                                            .foregroundColor(Constants.DARK_SLATE)
                                             .lineLimit(1)
-                                        Text("\(match.matchDate, style: .date)").font(.caption)
-                                        NavigationLink(destination: MatchView(match: match).environmentObject(scoresheetManager), isActive: $isShowArhivedMatch) { }
+                                        Text("\(match.matchDate, style: .date)")
+                                            .font(.caption2)
+                                            .foregroundColor(Constants.DARK_SLATE)
+                                        //NavigationLink(destination: DetailView(trail: trail))
+                                        //NavigationLink(destination: MatchView(match: match).environmentObject(scoresheetManager), isActive: $isShowArhivedMatch) { }
+                                        NavigationLink("", destination: MatchView(match: match).environmentObject(scoresheetManager))
+                                        
+//                                        NavigationLink {
+//                                            CitiesListView(country: country)
+//                                        } label: {
+//                                            CountryRowView(country: country, isFocused: _isFocused)
+//                                        }
                                     }
-                                    Spacer()
-                                    Button(action: {
-                                        isShowArhivedMatch.toggle()
-                                    }) {
-                                        Text("Open").padding(.horizontal)
-                                            .padding(.vertical,5)
-                                            .background(Constants.MINT_LEAF)
-                                            .cornerRadius(5)
-                                            .foregroundColor(.white)
-                                    }.buttonStyle(.plain) // This focusses tap on the button and not the row
+                                    //Spacer()
+//                                    Button(action: {
+//                                        isShowArhivedMatch.toggle()
+//                                    }) {
+//                                        Text("Open").padding(.horizontal)
+//                                            .padding(.vertical,5)
+//                                            .background(Constants.MINT_LEAF)
+//                                            .cornerRadius(5)
+//                                            .foregroundColor(.white)
+//                                    }.buttonStyle(.plain) // This focusses tap on the button and not the row
                                 }
                             }
                             //.listRowSeparator(.hidden)
                         }
                     }
-                    .frame(width: 520)
+                    .frame(width: 520, height: 460)
                     .listStyle(.plain)
                 }
-                
-                Spacer()
-                HStack (spacing: 40) {
-                    Button("Close") {
-                        dismiss()
-                    }
-                    .buttonStyle(SheetButtonStyle())
-                }
-                .padding(.bottom, 20)
             }
+            Spacer()
+            HStack (spacing: 40) {
+                Button("Close") {
+                    dismiss()
+                }
+                .buttonStyle(SheetButtonStyle())
+            }
+            .padding(.vertical, 10)
         }
     }
 }

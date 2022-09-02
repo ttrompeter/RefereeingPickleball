@@ -5,6 +5,7 @@
 //  Created by Tom Trompeter on 8/24/22.
 //
 
+import RealmSwift
 import Foundation
 
 
@@ -15,6 +16,8 @@ final class ScoresheetManager: ObservableObject {
     @Published var isGameStarted = false
     @Published var isGameStartReady = true      // Should be false for default
     @Published var isGameWinner = false
+    @Published var isNewGameCreated = false
+    @Published var isNewMatchCreated = false
     @Published var isMatchCompeted = false
     @Published var isMatchSetupComplete = true      // Should be false for default
     @Published var isMatchStarted = false
@@ -23,6 +26,7 @@ final class ScoresheetManager: ObservableObject {
     @Published var isScreenOrientationCorrect = true  // Should be false for default
     @Published var isSecondServer = true
     @Published var isServerSideSet = true     // Should be false for default
+    @Published var isShowArchive = false
     @Published var isServingLeftSide = false
     @Published var isStartNewMatch = false
     @Published var isTeam1Serving = true
@@ -44,7 +48,71 @@ final class ScoresheetManager: ObservableObject {
     @Published var team2MatchStartingServerName = ""
     
    
+    func createANewMatch() {
+        // Create a Match object with 5 Games
+        let newMatch = Match()
+        newMatch.eventTitle = "Carlsbad Championships"
+        let game1 = Game()
+        game1.gameNumber = 1
+        newMatch.games.append(game1)
+        let game2 = Game()
+        game2.gameNumber = 2
+        newMatch.games.append(game2)
+        let game3 = Game()
+        game3.gameNumber = 3
+        newMatch.games.append(game3)
+        let game4 = Game()
+        game4.gameNumber = 4
+        newMatch.games.append(game4)
+        let game5 = Game()
+        game5.gameNumber = 5
+        newMatch.games.append(game5)
+        
+        //saveNewMatch(matchToSave: newMatch)
+        // Save the new Match object
+//        if let realm = realm {
+//            if let matchToSave = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
+//                do {
+//                    try realm.write {
+//                        realm.add(matchToSave)
+//                    }
+//                } catch {
+//                    print("Error deleting Country in Realm Manager")
+//                }
+//            }
+//        }
+    }
     
+    func saveNewMatch(matchToSave: Match) {
+       
+        print("Starting saveNewMatch() in TopButtonsView")
+        
+//        if let realm = realm {
+//            if let matchToSave = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
+//                do {
+//                    try realm.write {
+//                        realm.add(matchToSave)
+//                    }
+//                } catch {
+//                    print("Error deleting Country in Realm Manager")
+//                }
+//            }
+//        }
+    }
+        
+        
+//            if let matchToDelete = realm.object(ofType: Match.self, forPrimaryKey: match.id) {
+//                print("matchToDelete: \(matchToDelete.eventTitle)")
+//                do {
+//                    try realm.write {
+//                        //realm.delete(matchToDelete)
+//                        realm.add(matchToSave)
+//                    }
+//                } catch {
+//                    print("Error saving games to match: \(error.localizedDescription)")
+//                }
+//            }
+//    }
     
     
     
