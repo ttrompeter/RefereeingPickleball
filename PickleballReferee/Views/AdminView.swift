@@ -28,7 +28,7 @@ struct AdminView: View {
                 .tabItem {
                     Label("Statistics", systemImage: "list.bullet.rectangle.fill")
                 }
-            ArchiveView()
+            ArchivedMatchesListView()
                 .tabItem {
                     Label("Archive", systemImage: "externaldrive.fill")
                 }

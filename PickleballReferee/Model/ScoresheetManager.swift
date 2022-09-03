@@ -27,6 +27,8 @@ final class ScoresheetManager: ObservableObject {
     @Published var isSecondServer = true
     @Published var isServerSideSet = true     // Should be false for default
     @Published var isShowArchive = false
+    @Published var isShowScoresheetImage = true
+    @Published var isShowWelcome = true
     @Published var isServingLeftSide = false
     @Published var isStartNewMatch = false
     @Published var isTeam1Serving = true

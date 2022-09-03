@@ -16,6 +16,7 @@ struct MatchView: View {
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @ObservedResults(Match.self) var matches
+    @ObservedResults(ArchivedMatch.self) var archives
     
     @State private var alertItem: AlertItem?
     @FocusState private var matchViewInFocus: matchViewFocusable?
@@ -178,7 +179,7 @@ struct MatchView: View {
                                         $scoresheetManager.isStartNewMatch.wrappedValue = true
                                         // Take screenshot of scoresheet without user input
                                         if let screenshotMaker = screenshotMaker {
-                                            screenshotMaker.screenshot()?.saveToDocuments()
+                                            screenshotMaker.screenshot()?.saveScoresheetToDocuments()
                                         }
                                         print("Took screenshot automatically in MatchView")
                                         showingMatchOver.toggle()

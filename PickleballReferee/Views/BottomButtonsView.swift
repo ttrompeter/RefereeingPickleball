@@ -18,7 +18,6 @@ struct BottomButtonsView: View {
     @State private var presentServerSideSetAlert = false
     @State private var presentStopMatchAlert = false
     @State private var screenshotMaker: ScreenshotMaker?
-    @State private var showingArchive = false
     @State private var showingAdmin = false
     @State private var showingHelp = false
     @State private var showingRules = false
@@ -61,7 +60,7 @@ struct BottomButtonsView: View {
             } else if match.isCompleted {
                 Button {
                     if let screenshotMaker = screenshotMaker {
-                        screenshotMaker.screenshot()?.saveToDocuments()
+                        screenshotMaker.screenshot()?.saveScoresheetToDocuments()
                     }
                 } label: {
                     Text("Screenshot")

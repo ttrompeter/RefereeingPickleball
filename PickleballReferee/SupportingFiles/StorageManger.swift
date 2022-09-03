@@ -56,20 +56,36 @@ private func filePath(forKey key: String) -> URL? {
     return documentURL.appendingPathComponent(key + ".png")
 }
 
-
-func getScoresheetImage() -> UIImage {
+func getStoredImage(imageName: String) -> UIImage {
+    //"scoresheet.png"
+    //"sample_scoresheet.png"
     var imageToReturn = UIImage()
-    let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("scoresheet.png")
+    let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(imageName)
     let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
     if matchUIImage == nil {
-        let sampleImageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sample_scoresheet.png")
-        let sampleUIImage = UIImage(contentsOfFile: sampleImageUrl.path)
-        imageToReturn = sampleUIImage!
+        imageToReturn = UIImage(named: "noimage")!
     } else {
         imageToReturn = matchUIImage!
     }
     return imageToReturn
 }
+
+
+//func getStoredImage(imageName: String, sampleImageName: String) -> UIImage {
+//    //"scoresheet.png"
+//    //"sample_scoresheet.png"
+//    var imageToReturn = UIImage()
+//    let imageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(imageName)
+//    let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+//    if matchUIImage == nil {
+//        let sampleImageUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(sampleImageName)
+//        let sampleUIImage = UIImage(contentsOfFile: sampleImageUrl.path)
+//        imageToReturn = sampleUIImage!
+//    } else {
+//        imageToReturn = matchUIImage!
+//    }
+//    return imageToReturn
+//}
 
 
 

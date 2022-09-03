@@ -20,10 +20,17 @@ extension UIImage {
         }
     }
     
-    func saveToDocuments() {
+    func saveScoresheetToDocuments() {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         //let name = "match-\(Date.now.timeIntervalSince1970).png"
         let fileURL = paths[0].appendingPathComponent("scoresheet.png")
+        saveToFile(atURL: fileURL)
+    }
+    
+    func saveStatisticsToDocuments() {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        //let name = "match-\(Date.now.timeIntervalSince1970).png"
+        let fileURL = paths[0].appendingPathComponent("statistics.png")
         saveToFile(atURL: fileURL)
     }
     

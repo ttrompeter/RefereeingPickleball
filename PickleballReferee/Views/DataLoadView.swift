@@ -73,9 +73,8 @@ struct DataLoadView: View {
                         print("Error saving new match in DataLoadView: \(error.localizedDescription)")
                     }
                     print("     > > > > Saving newMatch in DataLoadView")
-                    realmManager.addMatch(newMatch)
+                    realmManager.saveMatch(newMatch)
                     isShowWelcomeNewMatch.toggle()
-                    //return
                 }
             }
         }  // End NavigationView

@@ -67,7 +67,20 @@ class RealmManager: ObservableObject {
         }
     }
     
-    func addMatch (_ match: Match) {
+    func saveArchivedMatch (_ archivedMatch: ArchivedMatch) {
+        //Check that realm is instantiated
+        if let realm = realm {
+            do {
+                try realm.write {
+                    realm.add(archivedMatch)
+                }
+            } catch {
+                print("Error adding ArchivedMatch in Realm Manager")
+            }
+        }
+    }
+    
+    func saveMatch (_ match: Match) {
         //Check that realm is instantiated
         if let realm = realm {
             do {
@@ -105,6 +118,20 @@ class RealmManager: ObservableObject {
                 }
             } catch {
                 print("Error adding Match in Realm Manager")
+            }
+        }
+    }
+    
+    func removeArchivedMatch(_ archivedMatch: ArchivedMatch) {
+        if let realm = realm {
+            if let matchToDelete = realm.object(ofType: Match.self, forPrimaryKey: archivedMatch.id) {
+                do {
+                    try realm.write {
+                        realm.delete(matchToDelete)
+                    }
+                } catch {
+                    print("Error deleting Match in Realm Manager")
+                }
             }
         }
     }

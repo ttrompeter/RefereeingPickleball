@@ -18,8 +18,10 @@ struct UserManualView: View {
             
             Text("User Manual")
                 .bold()
+                .padding()
                 .font(.largeTitle)
                 .foregroundColor(Constants.DARK_SLATE)
+            
             ZStack {
                 Rectangle()
                     .frame(width: CGFloat(660), height: CGFloat(410))

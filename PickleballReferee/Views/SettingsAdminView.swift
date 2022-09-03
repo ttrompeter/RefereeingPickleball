@@ -17,6 +17,7 @@ struct SettingsAdminView: View {
             
             Text("Settings")
                 .bold()
+                .padding()
                 .font(.largeTitle)
                 .foregroundColor(Constants.DARK_SLATE)
             
@@ -39,14 +40,14 @@ struct SettingsAdminView: View {
             }
             
           
-            
-            VStack {
+            Spacer()
+            HStack (spacing: 40) {
                 Button("Close") {
                     dismiss()
                 }
                 .buttonStyle(SheetButtonStyle())
             }
-            
+            .padding(.bottom, 20)
         }  // Top VStack
     }
 }

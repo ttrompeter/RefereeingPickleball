@@ -13,7 +13,16 @@ struct StatisticAdminView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedRealmObject var match: Match
     @State var screenshotMaker: ScreenshotMaker?
-
+    @State private var showMailView = false
+    @State private var showPrintView = false
+    @State private var imageToUse = UIImage()
+    
+    // // TODO: - Fix recipients for email instead of hardcoded value
+    @State private var mailData = ComposeMailData(subject: "Pickleball Match Report",
+                                                  recipients: ["ttrompeter@zoho.com"],
+                                                  message: "Match report sent from Pickleball Referee. Completed score sheet is attached.",
+                                                  attachments:  [])
+    
     private var totalMatchTimeoutsTeam1: String {
         let totalTimeouts = match.games[0].timeOutsTeam1 + match.games[1].timeOutsTeam1 + match.games[2].timeOutsTeam1 + match.games[3].timeOutsTeam1 + match.games[4].timeOutsTeam1
         return String(totalTimeouts)
@@ -42,30 +51,86 @@ struct StatisticAdminView: View {
             
             Text("Match Statistics ")
                 .bold()
+                .padding()
                 .font(.largeTitle)
                 .foregroundColor(Constants.DARK_SLATE)
             
             MatchStatisticsView(match: match)
             MatchStatisticsIIView(match: match)
-            
+           
             VStack {
                 HStack {
-                    Button("Snapshot") {
-                        if let screenshotMaker = screenshotMaker {
-                            screenshotMaker.screenshot()?.saveToDocuments()
+                    Group {
+                        Spacer()
+                        Button(action: {
+                            showPrintView = true
+                            
+                        }) {
+                            Image(systemName: "printer")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .clipped()
                         }
+                        .sheet(isPresented: $showPrintView) {
+                            ActivityViewController(activityItems: [imageToUse])
+                        }
+                        Text("Print")
+                        Spacer()
+                        
+                        Button(action: {
+                            showMailView = true
+                        }) {
+                            Image(systemName: "envelope")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .clipped()
+                        }
+                        .disabled(!MailView.canSendMail)
+                        .sheet(isPresented: $showMailView) {
+                            MailView(data: $mailData) { result in
+                                print(result)
+                            }
+                        }
+                        Text("Email")
+                        Spacer()
                     }
-                    .buttonStyle(SheetButtonStyle())
                     
-                    Button("Close") {
-                        dismiss()
+                    Button(action: {
+                        if let screenshotMaker = screenshotMaker {
+                            screenshotMaker.screenshot()?.saveStatisticsToDocuments()
+                        }
+                    }) {
+                        Image(systemName: "camera")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .clipped()
                     }
-                    .buttonStyle(SheetButtonStyle())
+                    Text("Screenshot")
+                    Spacer()
                 }
+                .padding(6)
+                .font(.footnote)
+                .background(Constants.BACKGROUND_COLOR)
+                .cornerRadius(8)
             }
+            .padding(.horizontal, 40)
+           
+            HStack (spacing: 40) {
+                Button("Close") {
+                    dismiss()
+                }
+                .buttonStyle(SheetButtonStyle())
+            }
+            .padding(.bottom, 20)
+            
         }  // Top VStack
         .screenshotView { screenshotMaker in
             self.screenshotMaker = screenshotMaker
+        }
+        .onAppear {
+            if let screenshotMaker = screenshotMaker {
+                screenshotMaker.screenshot()?.saveStatisticsToDocuments()
+            }
         }
     }
     
@@ -74,7 +139,7 @@ struct StatisticAdminView: View {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 0
-
+        
         let number = NSNumber(value: value)
         let formattedValue = formatter.string(from: number)!
         return formattedValue

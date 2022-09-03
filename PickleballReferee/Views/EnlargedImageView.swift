@@ -7,20 +7,17 @@
 
 import SwiftUI
 
-struct LargeScoresheetImageView: View {
+struct EnlargedImageView: View {
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var scoresheetManager: ScoresheetManager
     @EnvironmentObject var sheetManager: SheetManager
     @State private var imageToUse = UIImage()
+    //@State private var isUseScoresheetImage = true
     
     var body: some View {
         
         VStack (spacing: 30) {
-            
-            Text("Enlarged Scoresheet Image")
-                .bold()
-                .font(.largeTitle)
-                .foregroundColor(Constants.DARK_SLATE)
             
             Image(uiImage: imageToUse)
                 .resizable()
@@ -38,13 +35,20 @@ struct LargeScoresheetImageView: View {
             
         }  // Top VStack
         .onAppear {
-            $imageToUse.wrappedValue = getScoresheetImage()
+            print("Show scoresheet image value in EnlargedImageView: \(scoresheetManager.isShowScoresheetImage)")
+            if scoresheetManager.isShowScoresheetImage {
+                print("Use scoresheet.png")
+                $imageToUse.wrappedValue = getStoredImage(imageName: "scoresheet.png")
+            } else {
+                print("Use statistics.png")
+                $imageToUse.wrappedValue = getStoredImage(imageName: "statistics.png")
+            }
         }
     }
 }
 
 struct LargeScoresheetImageView_Previews: PreviewProvider {
     static var previews: some View {
-        LargeScoresheetImageView()
+        EnlargedImageView()
     }
 }

@@ -14,9 +14,10 @@ struct WelcomeView: View {
     @EnvironmentObject var scoresheetManager: ScoresheetManager
     @ObservedRealmObject var match: Match
     @AppStorage("stop_showing_welcome", store: .standard) var stopShowingWelcome: Bool = false
-    
+   
     @State private var isStartApp = false
     @State private var isShowIntroduction = false
+    @State private var showWelcomeOff = false
     
     var body: some View {
         
@@ -69,7 +70,7 @@ struct WelcomeView: View {
                             
                             VStack (spacing: 0) {
                                 HStack {
-                                    Toggle("Don't Show This Screen Again", isOn: $stopShowingWelcome)
+                                    Toggle("Don't Show This Screen Again", isOn: $showWelcomeOff)
                                         .toggleStyle(CheckToggleStyle())
                                 }
                                 .frame(width: 400.0, height: 60.0)
@@ -89,6 +90,11 @@ struct WelcomeView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
+            .onDisappear {
+                if showWelcomeOff {
+                    $stopShowingWelcome.wrappedValue = true
+                }
+            }
     }
 
 }

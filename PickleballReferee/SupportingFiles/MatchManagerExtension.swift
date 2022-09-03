@@ -225,18 +225,36 @@ extension MatchView {
             print("Error saving screenshot for arhive")
         }
         
-        // Archive is limited to the last 20 matches (arbitrarily as a design decision based on display and memory concerens).
-        // So delete oldest math if there are already 10 matches in the realm database so there will be room within the 10 limit for this match
         
-        let archivedMatches = realmManager.matchesArray
-        if archivedMatches.count > 20 {
-            let matchToDelete = archivedMatches[0]
-            print("Match to delete: \(matchToDelete.eventTitle)")
-            realmManager.removeMatch(matchToDelete)
+        // Create an save ArchivedMatch object
+        let archivedMatch = ArchivedMatch()
+        archivedMatch.eventTitle = match.eventTitle
+        archivedMatch.archiveDate = Date.now
+        archivedMatch.matchDate = match.matchDate
+        archivedMatch.matchFinalScore = match.matchFinalScore
+        archivedMatch.matchNumber = match.matchNumber
+        archivedMatch.namePlayer1Team1 = match.namePlayer1Team1
+        archivedMatch.namePlayer2Team1 = match.namePlayer2Team1
+        archivedMatch.namePlayer1Team2 = match.namePlayer1Team2
+        archivedMatch.namePlayer2Team2 = match.namePlayer2Team2
+        let docPaths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let scoresheetImageUrl = docPaths[0].appendingPathComponent("scoresheet.png")
+        let scorsheetUIImage = UIImage(contentsOfFile: scoresheetImageUrl.path)
+        guard let scoresheetImageData = scorsheetUIImage!.pngData() else { return }
+        let statisticsImageUrl = docPaths[0].appendingPathComponent("statistics.png")
+        let statisticsUIImage = UIImage(contentsOfFile: statisticsImageUrl.path)
+        guard let statisticsImageData = statisticsUIImage!.pngData() else { return }
+        archivedMatch.matchStatisticsImage = scoresheetImageData
+        archivedMatch.scoresheetImage = statisticsImageData
+        realmManager.saveArchivedMatch(archivedMatch)
+        
+        // Archived matches are limited to the last 20 matches (arbitrarily as a design decision based on display and memory concerens).
+        // So delete oldest match if there are already 20 matches in the realm database so there will be room within the 20 limit for this match
+        if archives.count > 20 {
+            print("Archived match to delete: \(archives[0])")
+            realmManager.removeArchivedMatch(archives[0])
         }
         
-        
-
         
     }
     
