@@ -171,7 +171,7 @@ struct MatchStatisticsView: View {
                         }
                         VStack {
                             Text(winningTeamPlayer2FirstName)
-                            Text(matchPointsWinningTeamPlayer1)
+                            Text(matchPointsWinningTeamPlayer2)
                             Divider()
                             Text(losingTeamPlayer2FirstName)
                             Text(matchPointsLosingTeamPlayer2)

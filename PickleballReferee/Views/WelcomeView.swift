@@ -46,8 +46,7 @@ struct WelcomeView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    NavigationLink (destination: HomeView(match: match).environmentObject(scoresheetManager), isActive: $isStartApp) {
-                                    }
+                                    NavigationLink (destination: HomeView(match: match).environmentObject(scoresheetManager), isActive: $isStartApp) { }
                                     Button("Start  App") {
                                         isStartApp = true
                                     }
@@ -56,8 +55,7 @@ struct WelcomeView: View {
                                 
                                 Spacer()
                                 VStack {
-                                    NavigationLink (destination: IntroductionView(match: match), isActive: $isShowIntroduction) {
-                                    }
+                                    NavigationLink (destination: IntroductionView(match: match), isActive: $isShowIntroduction) { }
                                     Button("Introduction") {
                                         isShowIntroduction = true
                                     }

@@ -34,12 +34,6 @@ struct ScreenshotAdminView: View {
     @State private var imageToUse = UIImage()
     @State private var presentEnlargedImage = false
     
-    
-//    private var url: URL {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        return paths[0].appendingPathComponent("scoresheet.png")
-//    }
-    
     var body: some View {
         
         VStack {
@@ -57,7 +51,7 @@ struct ScreenshotAdminView: View {
                 
                 ZStack {
                     Rectangle()
-                        .frame(width: CGFloat(620), height: CGFloat(550))
+                        .frame(width: CGFloat(640), height: CGFloat(570))
                         .foregroundColor(Constants.CLOUDS)
                         .cornerRadius(10)
                         .shadow(radius: 5)
@@ -67,7 +61,7 @@ struct ScreenshotAdminView: View {
                         Image(uiImage: imageToUse)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 500.0, height: 380.0, alignment: .center)
+                            .frame(width: 550.0, height: 430.0, alignment: .center)
                             .border(Color.gray, width: 3.0)
                             .clipped()
                         

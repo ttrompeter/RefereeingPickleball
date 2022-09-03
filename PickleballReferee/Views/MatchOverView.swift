@@ -76,7 +76,7 @@ struct MatchOverView: View {
                             }
                             .onSubmit {
                                 
-                                // TODO: - Take anothr screenshot with initials
+                                // TODO: - Take another screenshot with initials
                                 
                                 dismiss()
                             }

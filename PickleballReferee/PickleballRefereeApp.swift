@@ -17,6 +17,7 @@ struct PickleballRefereeApp: App {
     var scoresheetManager = ScoresheetManager()
     
     var body: some Scene {
+        
         WindowGroup {
             DataLoadView()
                 .environmentObject(sheetManager)

@@ -18,9 +18,9 @@ struct StatisticAdminView: View {
     @State private var imageToUse = UIImage()
     
     // // TODO: - Fix recipients for email instead of hardcoded value
-    @State private var mailData = ComposeMailData(subject: "Pickleball Match Report",
+    @State private var mailData = ComposeMailData(subject: "Pickleball Statistics Report",
                                                   recipients: ["ttrompeter@zoho.com"],
-                                                  message: "Match report sent from Pickleball Referee. Completed score sheet is attached.",
+                                                  message: "Statistics report sent from Pickleball Referee. Document is attached.",
                                                   attachments:  [])
     
     private var totalMatchTimeoutsTeam1: String {
@@ -108,10 +108,6 @@ struct StatisticAdminView: View {
                     Text("Screenshot")
                     Spacer()
                 }
-                .padding(6)
-                .font(.footnote)
-                .background(Constants.BACKGROUND_COLOR)
-                .cornerRadius(8)
             }
             .padding(.horizontal, 40)
            

@@ -27,6 +27,9 @@ struct BottomButtonsView: View {
     var body: some View {
         
         VStack (spacing: 20) {
+            VStack {
+                
+            }
             if !scoresheetManager.isMatchStarted {
                 Button {
                     $scoresheetManager.isMatchStarted.wrappedValue = true
@@ -42,7 +45,7 @@ struct BottomButtonsView: View {
                     Text("Start Match")
                 }
                 .buttonStyle(FunctionsButtonStyleGreen())
-                .disabled(!scoresheetManager.isMatchStartingServerSet || !scoresheetManager.isGameStartReady)
+                .disabled(!scoresheetManager.isMatchStartingServerSet || !scoresheetManager.isGameStartReady || match.isCompleted)
             } else if !match.isCompleted {
                 Button {
                     presentStopMatchAlert.toggle()
@@ -57,17 +60,34 @@ struct BottomButtonsView: View {
                 } message: {
                     Text("Are you sure you want to stop now? Ending Game or Match CAN'T BE UNDONE!")
                 }
-            } else if match.isCompleted {
+            } else {
                 Button {
-                    if let screenshotMaker = screenshotMaker {
-                        screenshotMaker.screenshot()?.saveScoresheetToDocuments()
-                    }
+                    
                 } label: {
-                    Text("Screenshot")
+                    Text("Start Match2")
                 }
                 .buttonStyle(FunctionsButtonStyleGreen())
+                .disabled(match.isCompleted)
             }
-
+            
+//            else if match.isCompleted {
+//                Button {
+//
+//                } label: {
+//                    Text("New Match")
+//                }
+//                .buttonStyle(FunctionsButtonStyleGreen())
+//            }
+            
+//                Button {
+//                    if let screenshotMaker = screenshotMaker {
+//                        screenshotMaker.screenshot()?.saveScoresheetToDocuments()
+//                    }
+//                } label: {
+//                    Text("Screenshot")
+//                }
+//                .buttonStyle(FunctionsButtonStyleGreen())
+            
             Button {
                 showingHelp.toggle()
             } label: {

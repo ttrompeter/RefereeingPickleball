@@ -20,6 +20,8 @@ struct DataLoadView: View {
     @State private var openMatch = Match()
     @State private var newMatch = Match()
     
+    let EventNamesArray = ["Solana Beach Summer Games", "Jamul Pickleball Jamboree", "Monterey Seniors Tournament", "Pickleball In Pasadena", "San Jose Regionals", "Mountain View Invitational", "San Francisco By The Bay Open Championship", "Vancouver Friendly Round Robin", "Victorville Regional Fun Games", "Yuma Winter Festival GAmes", "Las Vegas Seniors Open Championship", "Portland Western Open Games", "Salt Lake City Tournament", "Reno City Championship", "Huntington Beach Regional Tournament"]
+    
     var body: some View {
         
         NavigationView {
@@ -49,7 +51,8 @@ struct DataLoadView: View {
                     isIncompleteMatch.toggle()
                     isShowWelcomeOpenMatch.toggle()
                 } else {
-                    newMatch.eventTitle = "Data Load View Match"
+                    //let newEventName = EventNamesArray[Int.random(in: 1..<EventNamesArray.count)]
+                    newMatch.eventTitle = EventNamesArray[Int.random(in: 1..<EventNamesArray.count)]
                     let game1 = Game()
                     game1.gameNumber = 1
                     $newMatch.games.append(game1)

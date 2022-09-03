@@ -61,18 +61,10 @@ struct TopButtonsView: View {
                 Text("Correction")
             }
             .buttonStyle(FunctionsButtonStyle())
-            .disabled(!scoresheetManager.isMatchStarted)
+            .disabled(!scoresheetManager.isMatchStarted || match.isCompleted)
             .sheet(isPresented: $showingCorrection) { CorrectionView(match: match) }
-            
-            if match.isCompleted {
-                Button {
-                    realmManager.createNewMatch()
-                    scoresheetManager.isNewMatchCreated = true
-                } label: {
-                    Text("New Match")
-                }
-                .buttonStyle(FunctionsButtonStyleGreen())
-            } else if !scoresheetManager.isMatchStartingServerSet {
+    
+            if !scoresheetManager.isMatchStartingServerSet {
                 Button {
                     presentCoinTossAlert.toggle()
                 } label: {

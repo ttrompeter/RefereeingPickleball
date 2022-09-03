@@ -153,7 +153,8 @@ extension MatchView {
         
         /*
          - Set match final score
-         - Archive the screenshot image of the scoresheet from diretory file as 'screenshot.png' to a unique name
+         - Set value of isMatchStarted in scoresheetManager to false so Start Match button will show
+         - NO      Archive the screenshot image of the scoresheet from diretory file as 'screenshot.png' to a unique name
          - Archive match data: save scoresheet, save statistics, save Match and Game objects?, save ??
          
          - ALREADY SET IN isMatchWinner: matchWinner of current match [= ""]
@@ -163,6 +164,7 @@ extension MatchView {
          
          */
         
+        // This is for display of game score in the Scoring section of MatchView underneath the score.
         calculateMatchFinalGameScores()
         
         // Calcualte match final score and save it in the Match
@@ -201,29 +203,32 @@ extension MatchView {
         }
         $match.matchFinalScore.wrappedValue = matchResult
 
-        // Archive the screenshot image so it will be available to the match when open that match from archive
-        // Get existing screenshot image
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let imageUrl = paths[0].appendingPathComponent("scoresheet.png")
-        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
-        print("matchUIImage returned: \(String(describing: matchUIImage))")
-        if matchUIImage != nil {
-            // Create unique name and then save the image with the new name (and therefore location in documents)
-            let name = "scoresheet\(UUID().uuidString).png"
-            let fileURL = paths[0].appendingPathComponent(name)
-            guard let data = matchUIImage!.pngData() else { return }
-            do {
-                try data.write(to: fileURL)
-                print("Renamed screenshot saved at path \(fileURL.absoluteString)")
-            }
-            catch (let error) {
-                print("Error \(error.localizedDescription)")
-            }
-            $match.screenshotName.wrappedValue = name
-            print("screenshotLocation: \(match.screenshotName)")
-        } else {
-            print("Error saving screenshot for arhive")
-        }
+        // Set isMatchStarted to false so Start Match button will show
+        $scoresheetManager.isMatchStarted.wrappedValue = false
+        
+//        // Archive the screenshot image so it will be available to the match when open that match from archive
+//        // Get existing screenshot image
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let imageUrl = paths[0].appendingPathComponent("scoresheet.png")
+//        let matchUIImage = UIImage(contentsOfFile: imageUrl.path)
+//        print("matchUIImage returned: \(String(describing: matchUIImage))")
+//        if matchUIImage != nil {
+//            // Create unique name and then save the image with the new name (and therefore location in documents)
+//            let name = "scoresheet\(UUID().uuidString).png"
+//            let fileURL = paths[0].appendingPathComponent(name)
+//            guard let data = matchUIImage!.pngData() else { return }
+//            do {
+//                try data.write(to: fileURL)
+//                print("Renamed screenshot saved at path \(fileURL.absoluteString)")
+//            }
+//            catch (let error) {
+//                print("Error \(error.localizedDescription)")
+//            }
+//            $match.screenshotName.wrappedValue = name
+//            print("screenshotLocation: \(match.screenshotName)")
+//        } else {
+//            print("Error saving screenshot for arhive")
+//        }
         
         
         // Create an save ArchivedMatch object
